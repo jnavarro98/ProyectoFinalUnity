@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3523758273763011196
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3523758273763011198}
+  - component: {fileID: 3523758273763011197}
+  m_Layer: 0
+  m_Name: LevelGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3523758273763011198
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3523758273763011196}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3523758273763011197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3523758273763011196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7d42ae64fb9694d816e1dc5aec6152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstBlock: {fileID: 2453733238955766051, guid: f394749592cb3f946b04f33a9e4f5281,
+    type: 3}
+  LevelStartPoint: {fileID: 0}
+  easyLevelBlocks:
+  - {fileID: 1931997282978595193, guid: 1e1c4a58e0b75d147a5a78c5ae0a974b, type: 3}
+  - {fileID: 2821779925584000348, guid: be751a64256c07145a2bebdc5a5aa9eb, type: 3}
+  - {fileID: 4361640239006512544, guid: b95fe76d6106c894ba7af467790af282, type: 3}
+  transitionBlocks:
+  - {fileID: 1148177612981382519, guid: f23cda9a1d575194ba8c4634f85805da, type: 3}
+  - {fileID: 6006878255665328702, guid: 0a0abfbb22d7ca1428af1fdc42d3a998, type: 3}
+  - {fileID: 760702302, guid: 8da09e07477fc374ca63b0c486480d1f, type: 3}
+  - {fileID: 5235964134491165033, guid: 19a207a3b1c8fa94a80fd36022ca4a8f, type: 3}
+  numInitialBlocks: 3
+  currentBlocks: []
