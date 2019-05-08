@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     private float initialXPosition;
 
     public Sprite spritePowerUp;
-    public Sprite spriteCheese;
+    Sprite spriteCheese;
     private bool onGround;
     float radius;
     bool ascending;
@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour
         ScreenWidth = Screen.width;
         radius = GetComponent<SpriteRenderer>().bounds.size.y;
         initialXPosition = transform.position.x;
+        spriteCheese = (GetComponent<SpriteRenderer>()).sprite;
     }
 
     void Awake()
@@ -158,7 +159,8 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        if (GameManager.sharedInstance.timeSinceLastPowerUP > buffDuration)
+        if (GameManager.sharedInstance.timeSinceLastPowerUP > buffDuration &&
+            (GetComponent<SpriteRenderer>()).sprite == spritePowerUp)
         {
             EndRedBuff();
         }
