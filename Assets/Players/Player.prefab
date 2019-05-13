@@ -141,21 +141,21 @@ MonoBehaviour:
   maxVelocity: 95
   maxXAceleration: 52.5
   maxYAceleration: 75
-  xAcceleration: 65
-  yAcceleration: 75
+  xAcceleration: 75
+  yAcceleration: 30
   descendingForce: 200
   jumpForce: 20
   minVelocity: 25
-  minFOV: 30
+  minFOV: 35
   maxFOV: 50
   maxYOffset: -20
   minYOffset: 20
   camSensivity: 0.3
   offsetYSensivity: 0.5
   cameraDelay: 0.5
-  buffYForce: 2.25
+  buffYForce: 15
   spritePowerUp: {fileID: 21300000, guid: 7a2ddfa99b97bfb45bfe81f8dce6e9e6, type: 3}
-  buffDuration: 5
+  buffDuration: 999
   deathParticle: {fileID: 2030658974}
   redPowerUpTrail: {fileID: 2030658972}
   grassEffect: {fileID: 1946052756}
@@ -556,7 +556,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.9803922, g: 0.77647066, b: 0.3803922, a: 1}
+      maxColor: {r: 0.5411765, g: 0.33333334, b: 0.17254902, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4988,8 +4988,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

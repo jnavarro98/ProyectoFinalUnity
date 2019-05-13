@@ -38,7 +38,7 @@ public class LevelGenerator : MonoBehaviour
     {
 
         LevelBlock newBlock;
-        Vector3 spawnPosition = Vector3.zero; //inicializo la posicion a (0,0,0)
+        Vector3 spawnPosition = new Vector3(0,0,20); //inicializo la posicion a (0,0,10)
         if (currentBlocks.Count == 0)
         {
             newBlock = Instantiate(firstBlock); //en versiones anteriores es necesairo el cast (LevelBlock)Instantiate(firstBlock)
@@ -64,7 +64,7 @@ public class LevelGenerator : MonoBehaviour
         Vector3 correction = new Vector3(
             spawnPosition.x - newBlock.startPoint.position.x,
             spawnPosition.y - newBlock.startPoint.position.y,
-            spawnPosition.z - newBlock.startPoint.position.z
+            20
             );
         //corrige de la posicion donde le has dado hasta la posicion donde debe de estar
         newBlock.transform.position = correction;

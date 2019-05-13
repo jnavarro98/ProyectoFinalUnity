@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
 
     float lastYPosition;
     float yMovement;
-    float originalYForce;
     public float buffYForce = 1.5f;
 
     bool jump = false;
@@ -40,7 +39,7 @@ public class PlayerController : MonoBehaviour
     private float initialXPosition;
 
     public Sprite spritePowerUp;
-    Sprite spriteCheese;
+    //Sprite spriteCheese;
     private bool onGround;
     float radius;
     bool ascending;
@@ -69,7 +68,7 @@ public class PlayerController : MonoBehaviour
         ScreenWidth = Screen.width;
         radius = GetComponent<SpriteRenderer>().bounds.size.y;
         initialXPosition = transform.position.x;
-        spriteCheese = (GetComponent<SpriteRenderer>()).sprite;
+        //spriteCheese = (GetComponent<SpriteRenderer>()).sprite;
     }
 
     void Awake()
@@ -152,15 +151,15 @@ public class PlayerController : MonoBehaviour
                 if (GameManager.sharedInstance.timeSinceLastPowerUP > 1f)
                 {
                     //Buff
-                    (GetComponent<SpriteRenderer>()).sprite = spritePowerUp;
-                    yAcceleration = buffYForce;
+                    //(GetComponent<SpriteRenderer>()).sprite = spritePowerUp;
+                    yAcceleration += buffYForce;
                     GameManager.sharedInstance.timeSinceLastPowerUP = 0;
                     redPowerUpTrail.enabled = true;
                 }
             }
         }
         if (GameManager.sharedInstance.timeSinceLastPowerUP > buffDuration &&
-            (GetComponent<SpriteRenderer>()).sprite == spritePowerUp)
+            (GetComponent<TrailRenderer>()).isVisible)
         {
             EndRedBuff();
         }
@@ -168,9 +167,9 @@ public class PlayerController : MonoBehaviour
 
     private void EndRedBuff()
     {
-        (GetComponent<SpriteRenderer>()).sprite = spriteCheese;
+        //(GetComponent<SpriteRenderer>()).sprite = spriteCheese;
         redPowerUpTrail.enabled = false;
-        originalYForce = yAcceleration;
+        yAcceleration -= buffYForce;
     }
 
     void FixedUpdate()
@@ -222,10 +221,10 @@ public class PlayerController : MonoBehaviour
         var colliders = Physics2D.OverlapCircleAll(transform.position, radius, whatIsEnemies);
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].gameObject != gameObject && (GetComponent<SpriteRenderer>()).sprite == spriteCheese)
+            if (colliders[i].gameObject != gameObject && !GetComponent<TrailRenderer>().isVisible)//(GetComponent<SpriteRenderer>()).sprite == spriteCheese)
             {
                 GameOver();
-            } else if ((GetComponent<SpriteRenderer>()).sprite == spritePowerUp)
+            } else if (GetComponent<TrailRenderer>().isVisible)//(GetComponent<SpriteRenderer>()).sprite == spritePowerUp)
             {
                 MiniBoost();
             }
