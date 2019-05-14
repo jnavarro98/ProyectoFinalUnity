@@ -90,12 +90,12 @@ public class LevelGenerator : MonoBehaviour
             foreach (MouseMovement enemy in currentBlocks[currentLevelBlockIndex].GetComponentsInChildren<MouseMovement>())
             {
                 enemy.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-                Debug.Log("I'm in index " + currentLevelBlockIndex + " levelblock unfreezing");
+                //Debug.Log("I'm in index " + currentLevelBlockIndex + " levelblock unfreezing");
             }
             foreach (BirdMovement enemy in currentBlocks[currentLevelBlockIndex].GetComponentsInChildren<BirdMovement>())
             {
                 enemy.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-                Debug.Log("I'm in index " + currentLevelBlockIndex + " levelblock unfreezing");
+                //Debug.Log("I'm in index " + currentLevelBlockIndex + " levelblock unfreezing");
             }
         } else
         {
@@ -111,12 +111,12 @@ public class LevelGenerator : MonoBehaviour
             foreach (MouseMovement enemy in currentBlocks[index].GetComponentsInChildren<MouseMovement>())
             {
                 enemy.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                Debug.Log("I'm in " + index + " index levelblock freezing");
+                //Debug.Log("I'm in " + index + " index levelblock freezing");
             }
             foreach (BirdMovement enemy in currentBlocks[index].GetComponentsInChildren<BirdMovement>())
             {
                 enemy.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                Debug.Log("I'm in " + index + " index levelblock freezing");
+                //Debug.Log("I'm in " + index + " index levelblock freezing");
             }
         } else
         {

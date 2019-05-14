@@ -6,6 +6,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public enum GameState
 {
@@ -16,7 +17,7 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
 
-    const float TRANSITION_TIME = 60;
+    const float TRANSITION_TIME = 30;
 
     public GameState currentGameState = GameState.paused;
     //Singleton
@@ -32,7 +33,9 @@ public class GameManager : MonoBehaviour
     public float timeSinceLastPowerUP;
     float transitionTimeElapsed = TRANSITION_TIME;
 
-    public Color morningColor;
+    public Color[] backgroundColors;
+    int colorIndex;
+    int lastColorIndex;
 
     public int target = 60;
 
@@ -41,15 +44,35 @@ public class GameManager : MonoBehaviour
         timeSinceLastPowerUP = 0;
         sharedInstance = this;
         QualitySettings.vSyncCount = 0;
-
-        //morningColor = new Color(0.9f, 0.8f, 0.55f);
-        morningColor = Color.blue;
+        PrepareBackgroundColors();
+        InitMusic();
     }
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = target;
         StartGame();
+    }
+
+    public void InitMusic()
+    {
+
+        Debug.Log(colorIndex);
+        switch (lastColorIndex)
+        {
+            case 1: //Morning
+                backgroundMusic.time = 15;
+                break;
+            case 2://MidDay
+                backgroundMusic.time = 31;
+                break;
+            case 3://Afternoon
+                backgroundMusic.time = 64;
+                break;
+        }
+        
+        backgroundMusic.Play();
+
     }
 
     private void LoadPreferences()
@@ -86,6 +109,24 @@ public class GameManager : MonoBehaviour
     public void FreezeGame()
     {
         Time.timeScale = 0f;
+    }
+
+    public void PrepareBackgroundColors()
+    {
+
+        backgroundColors = new Color[4];
+
+        backgroundColors[0] = Color.black;
+        backgroundColors[1] = new Color(1, 0.85f, 0.62f); //Naranja
+        backgroundColors[2] = new Color(0.6f, 0.8f, 1); //Azul
+        backgroundColors[3] = new Color(1, 0.72f, 0.29f); //Naranja
+        colorIndex = Random.Range(0, 3);
+
+        if (colorIndex == 0)
+            lastColorIndex = 3;
+        else
+            lastColorIndex = colorIndex - 1;
+
     }
 
     public void UnfreezePlayer()
@@ -154,24 +195,25 @@ public class GameManager : MonoBehaviour
 
     private void UpdateBackground()
     {
-       /* Camera.main.backgroundColor = Color.Lerp(morningColor,
-            Color.black, Mathf.PingPong(Time.time, 0.9f));*/
 
         if (transitionTimeElapsed <= Time.deltaTime)
         {
-            // transition complete
-            // assign the target color
-            
-
-
             // start a new transition
             transitionTimeElapsed = TRANSITION_TIME;
+            lastColorIndex = colorIndex;
+            colorIndex++;
+            
+            if (colorIndex > backgroundColors.Length - 1)
+            {
+                colorIndex = 0;
+            }
+            Debug.Log(colorIndex + " - " + lastColorIndex);
         }
         else
         {
             // transition in progress
             // calculate interpolated color
-            Camera.main.backgroundColor = Color.Lerp(morningColor, Color.black,
+            Camera.main.backgroundColor = Color.Lerp(backgroundColors[colorIndex], backgroundColors[lastColorIndex],
                 transitionTimeElapsed / TRANSITION_TIME);
 
             // update the timer

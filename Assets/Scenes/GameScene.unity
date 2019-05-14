@@ -597,6 +597,11 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 4aae9a1febae54c4a90f8ef5009a2a16, type: 3}
+    - target: {fileID: 3956668496958196456, guid: 3c08373b206f96e4e852ee9ec22a8031,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3956668496958196461, guid: 3c08373b206f96e4e852ee9ec22a8031,
         type: 3}
       propertyPath: playerSoundGrass
