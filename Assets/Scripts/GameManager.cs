@@ -17,7 +17,7 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
 
-    const float TRANSITION_TIME = 30;
+    public const float TRANSITION_TIME = 30;
 
     public GameState currentGameState = GameState.paused;
     //Singleton
@@ -31,11 +31,11 @@ public class GameManager : MonoBehaviour
     public AudioSource gameOverEffect;
     public AudioSource backgroundMusic;
     public float timeSinceLastPowerUP;
-    float transitionTimeElapsed = TRANSITION_TIME;
+    public float transitionTimeElapsed = TRANSITION_TIME;
 
     public Color[] backgroundColors;
-    int colorIndex;
-    int lastColorIndex;
+    public int colorIndex;
+    public int lastColorIndex;
 
     public int target = 60;
 
@@ -70,8 +70,7 @@ public class GameManager : MonoBehaviour
                 backgroundMusic.time = 64;
                 break;
         }
-        
-        backgroundMusic.Play();
+        //backgroundMusic.Play();
 
     }
 
@@ -165,9 +164,8 @@ public class GameManager : MonoBehaviour
         }
         if (newGameState == GameState.inGame)
         {
-            LoadPreferences();
             UnfreezePlayer();
-            LoadPreferences();
+            //LoadPreferences();
             GetComponent<AudioSource>().Play();
         }
         if (newGameState == GameState.gameOver)

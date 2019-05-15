@@ -6,10 +6,8 @@ using UnityEngine.Events;
 
 public class MouseMovement : MonoBehaviour
 {
-    public Rigidbody2D rigidbody;
     private bool onGround;
     [SerializeField] private LayerMask whatIsGround;
-    public UnityEvent OnLandEvent;
     public float jumpingForce = 10f;
     float radius;
     public BoxCollider2D baseColider;
@@ -73,14 +71,12 @@ public class MouseMovement : MonoBehaviour
             if (colliders[i].gameObject != gameObject)
             {
                 onGround = true;
-                if (!wasGrounded)
-                    OnLandEvent.Invoke();
             }
         }
         //Jump
         if (onGround)
         {
-            rigidbody.AddForce(new Vector2(0, jumpingForce));
+            GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpingForce));
         }
     }
 }

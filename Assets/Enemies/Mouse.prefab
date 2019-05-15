@@ -74,11 +74,11 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1307387765
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 540f4c789a376aa44a2f9420351f5774, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b903492db4e935f42b0048b5be61efca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 3.2, y: 2.1}
@@ -95,7 +95,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2337673678744041996}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: eb7369af7a33cc14196045263fae15e4, type: 2}
   m_CullingMode: 0
@@ -123,7 +123,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 6.4, y: 4.2}
+    oldSize: {x: 12.86, y: 9.52}
     newSize: {x: 3.2, y: 2.1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -439,7 +439,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 1}
+      maxColor: {r: 0.95294124, g: 0.011764707, b: 0.019607844, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4865,15 +4865,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d35c781e8d3e4264baa315c5225114c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 2337673678744041993}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
-  OnLandEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   jumpingForce: 80
   baseColider: {fileID: 2337673678744041995}
   deathSound: {fileID: 2732644779030066725}
@@ -4900,7 +4894,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0

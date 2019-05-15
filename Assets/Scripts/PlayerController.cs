@@ -211,6 +211,7 @@ public class PlayerController : MonoBehaviour
         //rigidbody.freezeRotation = true;
         deathParticle.Play();
         GetComponent<SpriteRenderer>().enabled = false;
+        rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         redPowerUpTrail.enabled = false;
         GameManager.sharedInstance.SetGameState(GameState.gameOver);
     }
