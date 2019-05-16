@@ -316,6 +316,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 913953061, guid: 19cf1e2c171f1944a8eed7ee76de81ed, type: 3}
+      propertyPath: m_Constraints
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 913953064, guid: 19cf1e2c171f1944a8eed7ee76de81ed, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.67
@@ -367,6 +371,10 @@ PrefabInstance:
     - target: {fileID: 2109614393, guid: 19cf1e2c171f1944a8eed7ee76de81ed, type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109614393, guid: 19cf1e2c171f1944a8eed7ee76de81ed, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.28504565
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19cf1e2c171f1944a8eed7ee76de81ed, type: 3}

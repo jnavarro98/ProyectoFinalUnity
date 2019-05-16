@@ -110,7 +110,7 @@ public class LevelGenerator : MonoBehaviour
         {
             foreach (MouseMovement enemy in currentBlocks[index].GetComponentsInChildren<MouseMovement>())
             {
-                enemy.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                enemy.ySpeed = 0;
                 //Debug.Log("I'm in " + index + " index levelblock freezing");
             }
             foreach (BirdMovement enemy in currentBlocks[index].GetComponentsInChildren<BirdMovement>())

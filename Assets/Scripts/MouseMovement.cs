@@ -8,7 +8,7 @@ public class MouseMovement : MonoBehaviour
 {
     private bool onGround;
     [SerializeField] private LayerMask whatIsGround;
-    public float jumpingForce = 10f;
+    
     float radius;
     public BoxCollider2D baseColider;
     public AudioSource deathSound;
@@ -16,11 +16,19 @@ public class MouseMovement : MonoBehaviour
     public ParticleSystem explosion;
     bool isDead;
     public bool canJump;
+    public float maxY = 100;
+    public float ySpeed = 15;
+    float distanceToTarget;
+    float yStep;
+
+    Vector3 target;
+    Vector3 origin;
+    Vector3 nextPosition;
 
     // Start is called before the first frame update
     void Start()
     {
-        radius = baseColider.bounds.size.y;
+         
     }
 
     // Update is called once per frame
@@ -28,14 +36,16 @@ public class MouseMovement : MonoBehaviour
     {
         if(GameManager.sharedInstance.currentGameState == GameState.inGame)
         {
-            if(canJump)
-                Jump();
-            CheckDeath();
+            Move();
+            CheckDeath();  
         }
     }
 
     void Awake()
     {
+        target = new Vector3(transform.localPosition.x, transform.localPosition.y + maxY, transform.localPosition.z);
+        origin = transform.localPosition;
+        nextPosition = target;
         isDead = false;
     }
 
@@ -60,23 +70,23 @@ public class MouseMovement : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void Jump()
+    private void Move()
     {
-        //Checking wether the enemy is on ground or not
-        bool wasGrounded = onGround;
-        onGround = false;
-        var colliders = Physics2D.OverlapCircleAll(transform.position, radius, whatIsGround);
-        for (int i = 0; i < colliders.Length; i++)
+        distanceToTarget = (transform.localPosition.y - target.y) * Time.deltaTime;
+
+        yStep = ySpeed * Time.deltaTime * Math.Abs(distanceToTarget);
+        transform.localPosition = Vector3.MoveTowards(transform.localPosition, nextPosition, yStep + Time.deltaTime * 2);
+
+        if(Vector3.Distance(transform.localPosition,nextPosition) < yStep)
         {
-            if (colliders[i].gameObject != gameObject)
-            {
-                onGround = true;
-            }
+            ChangePosition();
         }
-        //Jump
-        if (onGround)
-        {
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpingForce));
-        }
+    }
+
+    private void ChangePosition()
+    {
+        nextPosition = nextPosition == target ? origin : target;
+        GetComponent<SpriteRenderer>().flipX = GetComponent<SpriteRenderer>().flipX != true ?
+            true : false;
     }
 }
