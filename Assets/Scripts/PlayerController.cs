@@ -39,14 +39,13 @@ public class PlayerController : MonoBehaviour
     private float initialXPosition;
 
     public Sprite spritePowerUp;
-    //Sprite spriteCheese;
+    Sprite originalSprite;
     private bool onGround;
     float radius;
     bool ascending;
     public int buffDuration;
     float ScreenWidth;
 
-    public ParticleSystem deathParticle;
     public TrailRenderer redPowerUpTrail;
 
     public AudioSource grassEffect;
@@ -68,7 +67,7 @@ public class PlayerController : MonoBehaviour
         ScreenWidth = Screen.width;
         radius = GetComponent<SpriteRenderer>().bounds.size.y;
         initialXPosition = transform.position.x;
-        //spriteCheese = (GetComponent<SpriteRenderer>()).sprite;
+        originalSprite = (GetComponent<SpriteRenderer>()).sprite;
     }
 
     void Awake()
@@ -88,7 +87,7 @@ public class PlayerController : MonoBehaviour
             AcceleratePlayer();
             UpdateAscension();
             GroundCheck();
-            MouseHitCheck();
+            FireballCheck();
             BoundsCheck();
             CheckRedPowerUp();
             ManageSound();
@@ -154,6 +153,7 @@ public class PlayerController : MonoBehaviour
                     //(GetComponent<SpriteRenderer>()).sprite = spritePowerUp;
                     yAcceleration += buffYForce;
                     GameManager.sharedInstance.timeSinceLastPowerUP = 0;
+                    GetComponent<SpriteRenderer>().sprite = spritePowerUp;
                     redPowerUpTrail.enabled = true;
                 }
             }
@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviour
 
     private void EndRedBuff()
     {
-        //(GetComponent<SpriteRenderer>()).sprite = spriteCheese;
+        (GetComponent<SpriteRenderer>()).sprite = originalSprite;
         redPowerUpTrail.enabled = false;
         yAcceleration -= buffYForce;
     }
@@ -209,23 +209,24 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody.drag = 3;
         //rigidbody.freezeRotation = true;
-        deathParticle.Play();
+        GetComponent<ParticleSystem>().Play();
         GetComponent<SpriteRenderer>().enabled = false;
         rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         redPowerUpTrail.enabled = false;
         GameManager.sharedInstance.SetGameState(GameState.gameOver);
     }
 
-    void MouseHitCheck()
+    void FireballCheck()
     {
         //Checking wether the player is hit or not
         var colliders = Physics2D.OverlapCircleAll(transform.position, radius, whatIsEnemies);
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].gameObject != gameObject && !GetComponent<TrailRenderer>().isVisible)//(GetComponent<SpriteRenderer>()).sprite == spriteCheese)
+            if (!GetComponent<TrailRenderer>().isVisible)
             {
                 GameOver();
-            } else if (GetComponent<TrailRenderer>().isVisible)//(GetComponent<SpriteRenderer>()).sprite == spritePowerUp)
+            }
+            else if (GetComponent<TrailRenderer>().isVisible)
             {
                 MiniBoost();
             }

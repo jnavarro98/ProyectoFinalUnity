@@ -87,10 +87,9 @@ public class LevelGenerator : MonoBehaviour
         if(currentBlocks.Count == 3 && freezeEnemiesOutOfCurrentBlock)
         {
             int currentLevelBlockIndex = ((currentBlocks.Count - 1) / 2);
-            foreach (MouseMovement enemy in currentBlocks[currentLevelBlockIndex].GetComponentsInChildren<MouseMovement>())
+            foreach (FireballBehaviour enemy in currentBlocks[currentLevelBlockIndex].GetComponentsInChildren<FireballBehaviour>())
             {
-                enemy.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-                //Debug.Log("I'm in index " + currentLevelBlockIndex + " levelblock unfreezing");
+                enemy.ySpeed = FireballBehaviour.BASE_SPEED;
             }
             foreach (BirdMovement enemy in currentBlocks[currentLevelBlockIndex].GetComponentsInChildren<BirdMovement>())
             {
@@ -108,10 +107,9 @@ public class LevelGenerator : MonoBehaviour
     {
         if (currentBlocks.Count == 3 && freezeEnemiesOutOfCurrentBlock)
         {
-            foreach (MouseMovement enemy in currentBlocks[index].GetComponentsInChildren<MouseMovement>())
+            foreach (FireballBehaviour enemy in currentBlocks[index].GetComponentsInChildren<FireballBehaviour>())
             {
                 enemy.ySpeed = 0;
-                //Debug.Log("I'm in " + index + " index levelblock freezing");
             }
             foreach (BirdMovement enemy in currentBlocks[index].GetComponentsInChildren<BirdMovement>())
             {

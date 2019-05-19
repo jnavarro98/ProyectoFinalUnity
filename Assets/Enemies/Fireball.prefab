@@ -14,12 +14,11 @@ GameObject:
   - component: {fileID: 2337673678744041995}
   - component: {fileID: 2732644779030066725}
   - component: {fileID: 4281080971144774773}
-  - component: {fileID: 3815501536341780828}
   - component: {fileID: 4503197210180362772}
-  - component: {fileID: 5637529583136798903}
+  - component: {fileID: 8268874956342573521}
   - component: {fileID: 6680834703263697402}
   m_Layer: 10
-  m_Name: Mouse
+  m_Name: Fireball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,10 +115,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.9745967, y: 0.67088354}
+  m_Offset: {x: 0.5130359, y: 0.67088354}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -130,7 +129,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 6.179746, y: 3.185559}
+  m_Size: {x: 8.887365, y: 3.185559}
   m_EdgeRadius: 0
 --- !u!82 &2732644779030066725
 AudioSource:
@@ -142,7 +141,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 33b7ef270e9187d4f846bbdaabd51cbc, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 9cb5fc31a21a0d8479be68d605b706c2, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -4832,34 +4831,10 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!114 &3815501536341780828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2337673678744041996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d35c781e8d3e4264baa315c5225114c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 256
-  baseColider: {fileID: 2337673678744041995}
-  deathSound: {fileID: 2732644779030066725}
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 32768
-  explosion: {fileID: 4281080971144774773}
-  canJump: 1
-  maxY: 50
-  ySpeed: 250
 --- !u!199 &4503197210180362772
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -4918,22 +4893,23 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!58 &5637529583136798903
-CircleCollider2D:
+--- !u!114 &8268874956342573521
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2337673678744041996}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.22199358, y: 0}
-  serializedVersion: 2
-  m_Radius: 1.2865993
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d35c781e8d3e4264baa315c5225114c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  maxY: 108
+  ySpeed: 50
 --- !u!50 &6680834703263697402
 Rigidbody2D:
   serializedVersion: 4

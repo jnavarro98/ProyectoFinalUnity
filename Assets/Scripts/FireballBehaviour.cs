@@ -4,22 +4,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class MouseMovement : MonoBehaviour
+public class FireballBehaviour : MonoBehaviour
 {
     private bool onGround;
-    [SerializeField] private LayerMask whatIsGround;
     
     float radius;
-    public BoxCollider2D baseColider;
-    public AudioSource deathSound;
-    [SerializeField] private LayerMask whatIsPlayer;
-    public ParticleSystem explosion;
+    public LayerMask whatIsPlayer;
     bool isDead;
-    public bool canJump;
     public float maxY = 100;
     public float ySpeed = 15;
+    public const float BASE_SPEED = 200;
     float distanceToTarget;
     float yStep;
+    public float delay = 0;
+    float timeActive = 0;
+
+    ContactFilter2D playerFilter;
 
     Vector3 target;
     Vector3 origin;
@@ -36,38 +36,39 @@ public class MouseMovement : MonoBehaviour
     {
         if(GameManager.sharedInstance.currentGameState == GameState.inGame)
         {
-            Move();
-            CheckDeath();  
+            if(IsReady())
+                Move();
         }
+    }
+
+    bool IsReady()
+    {
+        
+        timeActive += Time.deltaTime;
+        return timeActive >= delay;
     }
 
     void Awake()
     {
+        playerFilter = new ContactFilter2D();
+        playerFilter.SetLayerMask(whatIsPlayer);
         target = new Vector3(transform.localPosition.x, transform.localPosition.y + maxY, transform.localPosition.z);
         origin = transform.localPosition;
         nextPosition = target;
         isDead = false;
     }
 
-    private void CheckDeath()
+    void OnTriggerEnter2D(Collider2D col)
     {
-        
-        var colliders = Physics2D.OverlapCircleAll(transform.position, radius, whatIsPlayer);
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (colliders[i].gameObject != gameObject && !isDead)
-            {
-                explosion.Play();
-                deathSound.Play();
-                Invoke("Despawn", 0.5f);
-                isDead = true;
-            }
-        }
+        GetComponent<ParticleSystem>().Play();
+        GetComponent<AudioSource>().Play();
+        Despawn();
+        isDead = true;
     }
 
     private void Despawn()
     {
-        gameObject.SetActive(false);
+        GetComponent<SpriteRenderer>().enabled = false;
     }
 
     private void Move()
