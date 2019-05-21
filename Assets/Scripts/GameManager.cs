@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour
     public void InitMusic()
     {
 
-        Debug.Log(colorIndex);
         switch (lastColorIndex)
         {
             case 1: //Morning
@@ -166,7 +165,7 @@ public class GameManager : MonoBehaviour
         {
             UnfreezePlayer();
             //LoadPreferences();
-            GetComponent<AudioSource>().Play();
+            backgroundMusic.Play();
         }
         if (newGameState == GameState.gameOver)
         {
@@ -205,7 +204,6 @@ public class GameManager : MonoBehaviour
             {
                 colorIndex = 0;
             }
-            Debug.Log(colorIndex + " - " + lastColorIndex);
         }
         else
         {

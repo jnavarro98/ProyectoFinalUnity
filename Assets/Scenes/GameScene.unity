@@ -416,6 +416,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
         type: 3}
+      propertyPath: easyLevelBlocks.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: transitionBlocks.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: rockLevelBlocks.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: lavaLevelBlocks.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: iceLevelBlocks.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
       propertyPath: LevelStartPoint
       value: 
       objectReference: {fileID: 1645307854}
@@ -423,13 +448,91 @@ PrefabInstance:
         type: 3}
       propertyPath: firstBlock
       value: 
-      objectReference: {fileID: 6006878255665328702, guid: 0a0abfbb22d7ca1428af1fdc42d3a998,
+      objectReference: {fileID: 5557865984128798631, guid: e633911d7d88fae4383297802b8a07d8,
         type: 3}
     - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
         type: 3}
       propertyPath: freezeEnemiesOutOfCurrentBlock
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: transitionBlocks.Array.data[1]
+      value: 
+      objectReference: {fileID: 2453733238955766051, guid: f394749592cb3f946b04f33a9e4f5281,
+        type: 3}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: easyLevelBlocks.Array.data[1]
+      value: 
+      objectReference: {fileID: 2453733238955766051, guid: f394749592cb3f946b04f33a9e4f5281,
+        type: 3}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: easyLevelBlocks.Array.data[0]
+      value: 
+      objectReference: {fileID: 6006878255665328702, guid: 0a0abfbb22d7ca1428af1fdc42d3a998,
+        type: 3}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: transitionBlocks.Array.data[0]
+      value: 
+      objectReference: {fileID: 6006878255665328702, guid: 0a0abfbb22d7ca1428af1fdc42d3a998,
+        type: 3}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: iceLevelBlocks.Array.data[0]
+      value: 
+      objectReference: {fileID: 8130171364652683974, guid: 9034bed80272be64d929b61f04e873f9,
+        type: 3}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: iceLevelBlocks.Array.data[1]
+      value: 
+      objectReference: {fileID: 8130171364652683974, guid: 9034bed80272be64d929b61f04e873f9,
+        type: 3}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: lavaLevelBlocks.Array.data[0]
+      value: 
+      objectReference: {fileID: 2453733238955766051, guid: f394749592cb3f946b04f33a9e4f5281,
+        type: 3}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: lavaLevelBlocks.Array.data[1]
+      value: 
+      objectReference: {fileID: 2453733238955766051, guid: f394749592cb3f946b04f33a9e4f5281,
+        type: 3}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: rockLevelBlocks.Array.data[0]
+      value: 
+      objectReference: {fileID: 6006878255665328702, guid: 0a0abfbb22d7ca1428af1fdc42d3a998,
+        type: 3}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: rockLevelBlocks.Array.data[1]
+      value: 
+      objectReference: {fileID: 6006878255665328702, guid: 0a0abfbb22d7ca1428af1fdc42d3a998,
+        type: 3}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: firstBlockIce
+      value: 
+      objectReference: {fileID: 8130171364652683974, guid: 9034bed80272be64d929b61f04e873f9,
+        type: 3}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: firstBlockRock
+      value: 
+      objectReference: {fileID: 5557865984128798631, guid: e633911d7d88fae4383297802b8a07d8,
+        type: 3}
+    - target: {fileID: 3523758273763011197, guid: ef7a95bc99dd5984aaaca86b6063c874,
+        type: 3}
+      propertyPath: firstBlockLava
+      value: 
+      objectReference: {fileID: 2453733238955766051, guid: f394749592cb3f946b04f33a9e4f5281,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef7a95bc99dd5984aaaca86b6063c874, type: 3}
 --- !u!1001 &3956668497474513166

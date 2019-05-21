@@ -14,11 +14,13 @@ public class BirdMovement : MonoBehaviour
     bool isDead;
     float timeSinceLastJump;
     public bool canJump;
+    Rigidbody2D rigidbody;
     
     // Start is called before the first frame update
     void Start()
     {
         radius = GetComponent<CircleCollider2D>().bounds.size.y;
+        rigidbody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -62,11 +64,11 @@ public class BirdMovement : MonoBehaviour
     {
         if(timeSinceLastJump >= 0.2f)
         {
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(-10, jumpingForce));
+            rigidbody.AddForce(new Vector2(-10, jumpingForce));
             timeSinceLastJump = 0;
         }
-        if (GetComponent<Rigidbody2D>().velocity.x > maxXVelocity)
-            GetComponent<Rigidbody2D>().velocity = new Vector2(maxXVelocity, GetComponent<Rigidbody2D>().velocity.y);
+        if (rigidbody.velocity.x > maxXVelocity)
+            rigidbody.velocity = new Vector2(maxXVelocity, rigidbody.velocity.y);
         timeSinceLastJump += Time.deltaTime;
     }
 }

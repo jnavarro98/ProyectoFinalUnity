@@ -4972,7 +4972,7 @@ ParticleSystem:
 --- !u!199 &6408282733197936732
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -5100,7 +5100,7 @@ TrailRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 0.058823526, g: 1, b: 0.8852788, a: 1}
-      key1: {r: 1, g: 0.988338, b: 0, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 1, g: 1, b: 1, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}

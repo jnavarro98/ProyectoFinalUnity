@@ -38,8 +38,10 @@ public class PlayerController : MonoBehaviour
     bool descend = false;
     private float initialXPosition;
 
+    TrailRenderer trailRenderer;
     public Sprite spritePowerUp;
     Sprite originalSprite;
+    SpriteRenderer spriteRenderer;
     private bool onGround;
     float radius;
     bool ascending;
@@ -51,10 +53,10 @@ public class PlayerController : MonoBehaviour
     public AudioSource grassEffect;
     public AudioSource landOnGrass;
 
-    [SerializeField] private LayerMask whatIsOutOfBounds;
-    [SerializeField] private LayerMask whatIsRedPowerUp;
-    [SerializeField] private LayerMask whatIsGround;
-    [SerializeField] private LayerMask whatIsEnemies;
+    public LayerMask whatIsOutOfBounds;
+    public LayerMask whatIsRedPowerUp;
+    public LayerMask whatIsGround;
+    public LayerMask whatIsEnemies;
 
     public CinemachineVirtualCamera vcam;
     public float velocityBoost = 20;
@@ -64,6 +66,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         timeSinceLastJump = 0;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>();
         ScreenWidth = Screen.width;
         radius = GetComponent<SpriteRenderer>().bounds.size.y;
         initialXPosition = transform.position.x;
@@ -153,7 +157,7 @@ public class PlayerController : MonoBehaviour
                     //(GetComponent<SpriteRenderer>()).sprite = spritePowerUp;
                     yAcceleration += buffYForce;
                     GameManager.sharedInstance.timeSinceLastPowerUP = 0;
-                    GetComponent<SpriteRenderer>().sprite = spritePowerUp;
+                    spriteRenderer.sprite = spritePowerUp;
                     redPowerUpTrail.enabled = true;
                 }
             }
@@ -167,7 +171,7 @@ public class PlayerController : MonoBehaviour
 
     private void EndRedBuff()
     {
-        (GetComponent<SpriteRenderer>()).sprite = originalSprite;
+        spriteRenderer.sprite = originalSprite;
         redPowerUpTrail.enabled = false;
         yAcceleration -= buffYForce;
     }
