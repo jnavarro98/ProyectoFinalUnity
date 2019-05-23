@@ -11,13 +11,14 @@ public class FireballBehaviour : MonoBehaviour
     float radius;
     public LayerMask whatIsPlayer;
     bool isDead;
-    public float maxY = 100;
+    public float yDistance = 100;
     public float ySpeed = 15;
     public const float BASE_SPEED = 200;
     float distanceToTarget;
     float yStep;
     public float delay = 0;
     float timeActive = 0;
+    SpriteRenderer sprite;
 
     ContactFilter2D playerFilter;
 
@@ -50,9 +51,16 @@ public class FireballBehaviour : MonoBehaviour
 
     void Awake()
     {
+        sprite = GetComponent<SpriteRenderer>();
+
+        if (ySpeed < 0)
+        {
+            sprite.flipX = true;
+            yDistance *= -1;
+        }
         playerFilter = new ContactFilter2D();
         playerFilter.SetLayerMask(whatIsPlayer);
-        target = new Vector3(transform.localPosition.x, transform.localPosition.y + maxY, transform.localPosition.z);
+        target = new Vector3(transform.localPosition.x, transform.localPosition.y + yDistance, transform.localPosition.z);
         origin = transform.localPosition;
         nextPosition = target;
         isDead = false;
@@ -78,7 +86,7 @@ public class FireballBehaviour : MonoBehaviour
         yStep = ySpeed * Time.deltaTime * Math.Abs(distanceToTarget);
         transform.localPosition = Vector3.MoveTowards(transform.localPosition, nextPosition, yStep + Time.deltaTime * 2);
 
-        if(Vector3.Distance(transform.localPosition,nextPosition) < yStep)
+        if(Vector3.Distance(transform.localPosition,nextPosition) < Math.Abs(yStep))
         {
             ChangePosition();
         }
@@ -87,7 +95,7 @@ public class FireballBehaviour : MonoBehaviour
     private void ChangePosition()
     {
         nextPosition = nextPosition == target ? origin : target;
-        GetComponent<SpriteRenderer>().flipX = GetComponent<SpriteRenderer>().flipX != true ?
+        sprite.flipX = sprite.flipX != true ?
             true : false;
     }
 }

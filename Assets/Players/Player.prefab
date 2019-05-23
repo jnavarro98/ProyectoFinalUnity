@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 1307387765
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3aa738252fff5874cb436540d761b9c8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a90ec039599113e4bb69ad1c57c43107, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,9 +100,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.00037193298, y: -0.0084991455}
+  m_Offset: {x: 0.018376827, y: 0.0027370453}
   serializedVersion: 2
-  m_Radius: 3.1901116
+  m_Radius: 5.0138736
 --- !u!50 &6408282732036599873
 Rigidbody2D:
   serializedVersion: 4
@@ -118,7 +118,7 @@ Rigidbody2D:
   m_Mass: 5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 4
+  m_GravityScale: 8
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -146,8 +146,8 @@ MonoBehaviour:
   descendingForce: 200
   jumpForce: 30
   minVelocity: 25
-  minFOV: 45
-  maxFOV: 60
+  minFOV: 60
+  maxFOV: 75
   maxYOffset: -20
   minYOffset: 30
   camSensivity: 0.3
