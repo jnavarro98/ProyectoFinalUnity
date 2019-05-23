@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 0
-  m_FollowOffset: {x: 35, y: 20, z: -10}
+  m_FollowOffset: {x: 57, y: 20, z: -10}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 1
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 40
-    OrthographicSize: 30
+    OrthographicSize: 50
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0

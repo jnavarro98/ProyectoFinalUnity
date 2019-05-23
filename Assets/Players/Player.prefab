@@ -100,9 +100,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.00037193298, y: 0.0052137375}
+  m_Offset: {x: 0.00037193298, y: -0.0084991455}
   serializedVersion: 2
-  m_Radius: 2.0793567
+  m_Radius: 3.1901116
 --- !u!50 &6408282732036599873
 Rigidbody2D:
   serializedVersion: 4
@@ -140,16 +140,16 @@ MonoBehaviour:
   forceMultiplier: 3.5
   maxVelocity: 95
   maxXAceleration: 52.5
-  maxYAceleration: 75
-  xAcceleration: 75
+  maxYAceleration: 100
+  xAcceleration: 100
   yAcceleration: 5
   descendingForce: 200
   jumpForce: 30
   minVelocity: 25
-  minFOV: 35
-  maxFOV: 50
+  minFOV: 45
+  maxFOV: 60
   maxYOffset: -20
-  minYOffset: 20
+  minYOffset: 30
   camSensivity: 0.3
   offsetYSensivity: 0.5
   cameraDelay: 0.5

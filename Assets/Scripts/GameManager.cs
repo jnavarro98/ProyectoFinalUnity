@@ -19,6 +19,12 @@ public class GameManager : MonoBehaviour
 
     public const float TRANSITION_TIME = 30;
 
+    public MeshRenderer skyBox;
+    public Color colorNight;
+    public Color colorMorning;
+    public Color colorMidDay;
+    public Color colorEvening;
+
     public GameState currentGameState = GameState.paused;
     //Singleton
     public AudioSource playerSoundGrass;
@@ -114,10 +120,10 @@ public class GameManager : MonoBehaviour
 
         backgroundColors = new Color[4];
 
-        backgroundColors[0] = Color.black;
-        backgroundColors[1] = new Color(1, 0.85f, 0.62f); //Naranja
-        backgroundColors[2] = new Color(0.6f, 0.8f, 1); //Azul
-        backgroundColors[3] = new Color(1, 0.72f, 0.29f); //Naranja
+        backgroundColors[0] = colorNight;
+        backgroundColors[1] = colorMorning;
+        backgroundColors[2] = colorMidDay;
+        backgroundColors[3] = colorEvening;
         colorIndex = Random.Range(0, 3);
 
         if (colorIndex == 0)
@@ -204,13 +210,17 @@ public class GameManager : MonoBehaviour
             {
                 colorIndex = 0;
             }
+
         }
         else
         {
+
             // transition in progress
             // calculate interpolated color
-            Camera.main.backgroundColor = Color.Lerp(backgroundColors[colorIndex], backgroundColors[lastColorIndex],
-                transitionTimeElapsed / TRANSITION_TIME);
+
+            skyBox.material.SetColor("_SkyTint",
+                Color.Lerp(backgroundColors[colorIndex], backgroundColors[lastColorIndex],
+                transitionTimeElapsed / TRANSITION_TIME));
 
             // update the timer
             transitionTimeElapsed -= Time.deltaTime;
