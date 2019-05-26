@@ -12,6 +12,9 @@ public class LevelGenerator : MonoBehaviour
 
     const int PHASE_SWITCH_AMOUNT = 2;
 
+    public bool testBlockEnabled;
+    public LevelBlock testBlock;
+
     public static LevelGenerator sharedInstance;
     public LevelBlock firstBlockRock;
     public LevelBlock firstBlockIce;
@@ -31,6 +34,8 @@ public class LevelGenerator : MonoBehaviour
     int lastLavaBlockIndex;
 
     LevelBlock newBlock;
+
+    
 
     private void Awake()
     {
@@ -68,18 +73,26 @@ public class LevelGenerator : MonoBehaviour
 
         if (currentBlocks.Count == 0)
         {
-            switch (currentPhase)
+            if (!testBlockEnabled)
             {
-                case Phase.Rock:
-                    newBlock = Instantiate(firstBlockRock);
-                    break;
-                case Phase.Ice:
-                    newBlock = Instantiate(firstBlockIce);
-                    break;
-                case Phase.Lava:
-                    newBlock = Instantiate(firstBlockLava);
-                    break;
+                switch (currentPhase)
+                {
+                    case Phase.Rock:
+                        newBlock = Instantiate(firstBlockRock);
+                        break;
+                    case Phase.Ice:
+                        newBlock = Instantiate(firstBlockIce);
+                        break;
+                    case Phase.Lava:
+                        newBlock = Instantiate(firstBlockLava);
+                        break;
+                }
             }
+            else
+            {
+                newBlock = Instantiate(testBlock);
+            }
+            
             newBlock.transform.SetParent(transform, false); //soy hijo del levelGenerator
             spawnPosition = LevelStartPoint.position; //donde hago el spawn, en la posicion inicial
             phaseTracker--;

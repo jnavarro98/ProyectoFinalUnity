@@ -52,12 +52,8 @@ public class FireballBehaviour : MonoBehaviour
     void Awake()
     {
         sprite = GetComponent<SpriteRenderer>();
+        sprite.flipX = yDistance < 0;
 
-        if (ySpeed < 0)
-        {
-            sprite.flipX = true;
-            yDistance *= -1;
-        }
         playerFilter = new ContactFilter2D();
         playerFilter.SetLayerMask(whatIsPlayer);
         target = new Vector3(transform.localPosition.x, transform.localPosition.y + yDistance, transform.localPosition.z);
@@ -86,7 +82,7 @@ public class FireballBehaviour : MonoBehaviour
         yStep = ySpeed * Time.deltaTime * Math.Abs(distanceToTarget);
         transform.localPosition = Vector3.MoveTowards(transform.localPosition, nextPosition, yStep + Time.deltaTime * 2);
 
-        if(Vector3.Distance(transform.localPosition,nextPosition) < Math.Abs(yStep))
+        if(Vector3.Distance(transform.localPosition,nextPosition) < yStep)
         {
             ChangePosition();
         }

@@ -217,8 +217,7 @@ public class GameManager : MonoBehaviour
 
             // transition in progress
             // calculate interpolated color
-
-            skyBox.material.SetColor("_SkyTint",
+            RenderSettings.skybox.SetColor("_SkyTint",
                 Color.Lerp(backgroundColors[colorIndex], backgroundColors[lastColorIndex],
                 transitionTimeElapsed / TRANSITION_TIME));
 

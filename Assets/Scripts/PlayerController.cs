@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        
+        this.rigidbody.velocity = new Vector2(5, 0);
     }
 
     // Update is called once per frame
@@ -261,7 +261,7 @@ public class PlayerController : MonoBehaviour
         if (jump && onGround && rigidbody.velocity.x > 0 && timeSinceLastJump > 1)
         {
             
-            rigidbody.AddForce(new Vector2(0, jumpForce * forceMultiplier * rigidbody.velocity.magnitude));
+            rigidbody.AddForce(new Vector2(0, jumpForce * forceMultiplier * rigidbody.velocity.magnitude), ForceMode2D.Impulse);
             jump = false;
             timeSinceLastJump = 0;
         }

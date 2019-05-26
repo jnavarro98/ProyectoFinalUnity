@@ -442,7 +442,7 @@ PrefabInstance:
     - target: {fileID: 786612570599464672, guid: 67f95061bf138b6478dca83f150492d5,
         type: 3}
       propertyPath: m_SelectedEditorRenderState
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67f95061bf138b6478dca83f150492d5, type: 3}
@@ -467,12 +467,12 @@ PrefabInstance:
     - target: {fileID: 2337673678744041999, guid: 61d33a428d48d4f4dba1282031abf9cc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 88.9
+      value: 84.4
       objectReference: {fileID: 0}
     - target: {fileID: 2337673678744041999, guid: 61d33a428d48d4f4dba1282031abf9cc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -131.9
+      value: -175.2
       objectReference: {fileID: 0}
     - target: {fileID: 2337673678744041999, guid: 61d33a428d48d4f4dba1282031abf9cc,
         type: 3}
@@ -543,6 +543,11 @@ PrefabInstance:
         type: 3}
       propertyPath: delay
       value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268874956342573521, guid: 61d33a428d48d4f4dba1282031abf9cc,
+        type: 3}
+      propertyPath: yDistance
+      value: 230
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61d33a428d48d4f4dba1282031abf9cc, type: 3}
@@ -1382,12 +1387,12 @@ PrefabInstance:
     - target: {fileID: 2337673678744041999, guid: 61d33a428d48d4f4dba1282031abf9cc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 82.4
+      value: 77.9
       objectReference: {fileID: 0}
     - target: {fileID: 2337673678744041999, guid: 61d33a428d48d4f4dba1282031abf9cc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -144.2
+      value: -187.5
       objectReference: {fileID: 0}
     - target: {fileID: 2337673678744041999, guid: 61d33a428d48d4f4dba1282031abf9cc,
         type: 3}
@@ -1459,6 +1464,11 @@ PrefabInstance:
       propertyPath: delay
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 8268874956342573521, guid: 61d33a428d48d4f4dba1282031abf9cc,
+        type: 3}
+      propertyPath: yDistance
+      value: 230
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61d33a428d48d4f4dba1282031abf9cc, type: 3}
 --- !u!4 &7829038890811432054 stripped
@@ -1482,12 +1492,12 @@ PrefabInstance:
     - target: {fileID: 2337673678744041999, guid: 61d33a428d48d4f4dba1282031abf9cc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 73.3
+      value: 68.8
       objectReference: {fileID: 0}
     - target: {fileID: 2337673678744041999, guid: 61d33a428d48d4f4dba1282031abf9cc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -156.2
+      value: -199.5
       objectReference: {fileID: 0}
     - target: {fileID: 2337673678744041999, guid: 61d33a428d48d4f4dba1282031abf9cc,
         type: 3}
@@ -1559,6 +1569,11 @@ PrefabInstance:
       propertyPath: delay
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 8268874956342573521, guid: 61d33a428d48d4f4dba1282031abf9cc,
+        type: 3}
+      propertyPath: yDistance
+      value: 230
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61d33a428d48d4f4dba1282031abf9cc, type: 3}
 --- !u!4 &5356244728450427226 stripped
@@ -1582,12 +1597,12 @@ PrefabInstance:
     - target: {fileID: 2337673678744041999, guid: 61d33a428d48d4f4dba1282031abf9cc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 97
+      value: 92.5
       objectReference: {fileID: 0}
     - target: {fileID: 2337673678744041999, guid: 61d33a428d48d4f4dba1282031abf9cc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -122.3
+      value: -165.6
       objectReference: {fileID: 0}
     - target: {fileID: 2337673678744041999, guid: 61d33a428d48d4f4dba1282031abf9cc,
         type: 3}
@@ -1658,6 +1673,11 @@ PrefabInstance:
         type: 3}
       propertyPath: delay
       value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268874956342573521, guid: 61d33a428d48d4f4dba1282031abf9cc,
+        type: 3}
+      propertyPath: yDistance
+      value: 230
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61d33a428d48d4f4dba1282031abf9cc, type: 3}
