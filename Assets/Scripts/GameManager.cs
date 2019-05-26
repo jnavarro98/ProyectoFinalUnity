@@ -45,8 +45,11 @@ public class GameManager : MonoBehaviour
 
     public int target = 60;
 
+    public float timeScale;
+
     void Awake()
     {
+        
         timeSinceLastPowerUP = 0;
         sharedInstance = this;
         QualitySettings.vSyncCount = 0;
@@ -57,6 +60,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = target;
+        Time.timeScale = timeScale;
         StartGame();
     }
 

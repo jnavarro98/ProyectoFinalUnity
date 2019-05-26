@@ -261,7 +261,7 @@ public class PlayerController : MonoBehaviour
         if (jump && onGround && rigidbody.velocity.x > 0 && timeSinceLastJump > 1)
         {
             
-            rigidbody.AddForce(new Vector2(0, jumpForce * forceMultiplier * rigidbody.velocity.magnitude), ForceMode2D.Impulse);
+            rigidbody.AddForce(new Vector2(0, jumpForce * forceMultiplier * rigidbody.velocity.x), ForceMode2D.Impulse);
             jump = false;
             timeSinceLastJump = 0;
         }
@@ -273,17 +273,19 @@ public class PlayerController : MonoBehaviour
         if (onGround && rigidbody.velocity.x < maxXAceleration)
         {
             rigidbody.AddForce(new Vector2(xAcceleration * forceMultiplier * Math.Abs(rigidbody.velocity.normalized.x),
-                0));
+                0), ForceMode2D.Impulse);
         }
-        if (onGround && rigidbody.velocity.y < maxYAceleration)
+        if (onGround && rigidbody.velocity.y < maxYAceleration && rigidbody.velocity.x > 0.4f)
         {
             rigidbody.AddForce(new Vector2(0,
-                yAcceleration * forceMultiplier * rigidbody.velocity.normalized.y));
+                yAcceleration * forceMultiplier * rigidbody.velocity.normalized.y)
+                , ForceMode2D.Impulse);
         }
         if (onGround && rigidbody.velocity.magnitude < minVelocity)
         {
             rigidbody.AddForce(new Vector2(xAcceleration * forceMultiplier * Math.Abs(rigidbody.velocity.normalized.x),
-                yAcceleration * forceMultiplier * Math.Abs(rigidbody.velocity.normalized.y)));
+                yAcceleration * forceMultiplier * Math.Abs(rigidbody.velocity.normalized.y))
+                , ForceMode2D.Impulse);
         }
         rigidbody.velocity = Vector2.ClampMagnitude(rigidbody.velocity, maxVelocity);
     }
@@ -309,7 +311,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             if (vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y <= minYOffset)
-                vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y += offsetYSensivity;
+                vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y += offsetYSensivity * 2.5f;
             if (vcam.m_Lens.OrthographicSize > minFOV)
                 vcam.m_Lens.OrthographicSize -= camSensivity;
         }
