@@ -74,11 +74,12 @@ public class PlayerController : MonoBehaviour
         radius = GetComponent<SpriteRenderer>().bounds.size.y;
         initialXPosition = transform.position.x;
         originalSprite = (GetComponent<SpriteRenderer>()).sprite;
+        
     }
 
     void Awake()
     {
-        this.rigidbody.velocity = new Vector2(5, 0);
+        rigidbody.velocity = new Vector2(120, 120);
     }
 
     // Update is called once per frame
@@ -140,6 +141,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.D))
         {
+            Debug.Log("D");
             GameOver();
         }
 
@@ -205,6 +207,7 @@ public class PlayerController : MonoBehaviour
                 onGround = true;
                 if (!wasGrounded)
                 {
+                    Debug.Log(colliders[i].gameObject);
                     landOnGrass.Play();
                 }
             }
@@ -228,20 +231,26 @@ public class PlayerController : MonoBehaviour
         var colliders = Physics2D.OverlapCircleAll(transform.position, radius, whatIsEnemies);
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (!GetComponent<TrailRenderer>().isVisible)
+            if (colliders[i].gameObject != gameObject)
             {
-                GameOver();
-            }
-            else if (GetComponent<TrailRenderer>().isVisible)
-            {
-                MiniBoost();
+                if (!GetComponent<TrailRenderer>().isVisible)
+                {
+
+                    Debug.Log("Bola de fuego");
+                    GameOver();
+                }
+                else if (GetComponent<TrailRenderer>().isVisible)
+                {
+                    MiniBoost();
+                }
             }
         }
     }
 
     public void MiniBoost()
     {
-        rigidbody.AddForce(new Vector2(velocityBoost * forceMultiplier, velocityBoost * forceMultiplier));
+        rigidbody.AddForce(new Vector2((forceMultiplier * rigidbody.velocity.x) / 2,
+            (forceMultiplier * rigidbody.velocity.x) + baseForceJump), ForceMode2D.Impulse);
     }
 
     void BoundsCheck()
@@ -252,6 +261,8 @@ public class PlayerController : MonoBehaviour
         {
             if (colliders[i].gameObject != gameObject)
             {
+                Debug.Log(colliders[i].gameObject.name);
+                Debug.Log("Me sali del mapa");
                 GameOver();
             }
         }
@@ -296,7 +307,7 @@ public class PlayerController : MonoBehaviour
         
         if(descend)
         {
-            rigidbody.AddForce(new Vector2(0, -descendingForce));
+            rigidbody.AddForce(new Vector2(0, -descendingForce), ForceMode2D.Impulse);
         }
         descend = false;
     }

@@ -45,13 +45,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe8a54c1a447108409d5207831da72e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skyBox: {fileID: 0}
+  colorNight: {r: 0, g: 0, b: 0, a: 0}
+  colorMorning: {r: 0, g: 0, b: 0, a: 0}
+  colorMidDay: {r: 0, g: 0, b: 0, a: 0}
+  colorEvening: {r: 0, g: 0, b: 0, a: 0}
   currentGameState: 1
   playerSoundGrass: {fileID: 0}
   textMetersTraveled: {fileID: 0}
   metersTraveled: 0
-  playerRigidbody: {fileID: 0}
+  gameOverEffect: {fileID: 0}
+  backgroundMusic: {fileID: 0}
   timeSinceLastPowerUP: 0
+  transitionTimeElapsed: 60
+  backgroundColors: []
+  colorIndex: 0
+  lastColorIndex: 0
   target: 60
+  timeScale: 0
 --- !u!114 &3956668496958196459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,7 +148,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: bebba056252ee32439b573f15f11ddad, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.33333334
   m_Pitch: 1
   Loop: 1
   Mute: 0
