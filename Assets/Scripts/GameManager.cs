@@ -17,7 +17,7 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
 
-    public const float TRANSITION_TIME = 30;
+    public const float TRANSITION_TIME = 60;
 
     public MeshRenderer skyBox;
     public Color colorNight;
@@ -79,22 +79,12 @@ public class GameManager : MonoBehaviour
                 backgroundMusic.time = 64;
                 break;
         }
-        //backgroundMusic.Play();
 
     }
 
     private void LoadPreferences()
     {
-        if (Directory.Exists(settingsDir))
-        {
-            string preferences = File.ReadAllText(Path.Combine(settingsDir, settings));
-            volumeMultiplicator = float.Parse(preferences.TrimEnd('\n').Split('\n')[0].
-                Split('=')[1], CultureInfo.InvariantCulture.NumberFormat);
-        }
-        else
-        {
-            volumeMultiplicator = 100;
-        }
+        volumeMultiplicator = PlayerPrefs.GetFloat("volume", 100);
         ApplySettings();
     }
     public void PauseGame()
@@ -146,7 +136,10 @@ public class GameManager : MonoBehaviour
     {
         foreach(AudioSource a in Resources.FindObjectsOfTypeAll(typeof(AudioSource)))
         {
-            a.volume = volumeMultiplicator;
+            if (a.gameObject.tag == "Player")
+                a.volume = volumeMultiplicator / 3;
+            else
+                a.volume = volumeMultiplicator;
         }
     }
 
@@ -174,7 +167,7 @@ public class GameManager : MonoBehaviour
         if (newGameState == GameState.inGame)
         {
             UnfreezePlayer();
-            //LoadPreferences();
+            LoadPreferences();
             backgroundMusic.Play();
         }
         if (newGameState == GameState.gameOver)
@@ -221,7 +214,7 @@ public class GameManager : MonoBehaviour
 
             // transition in progress
             // calculate interpolated color
-            RenderSettings.skybox.SetColor("_SkyTint",
+            RenderSettings.skybox.SetColor("_Tint",
                 Color.Lerp(backgroundColors[colorIndex], backgroundColors[lastColorIndex],
                 transitionTimeElapsed / TRANSITION_TIME));
 

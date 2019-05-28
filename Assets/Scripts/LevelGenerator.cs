@@ -150,10 +150,6 @@ public class LevelGenerator : MonoBehaviour
             {
                 enemy.ySpeed = FireballBehaviour.BASE_SPEED;
             }
-            foreach (BirdMovement enemy in currentBlocks[currentLevelBlockIndex].GetComponentsInChildren<BirdMovement>())
-            {
-                enemy.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-            }
         } else
         {
             Debug.LogWarning("Freeze is disabled");
@@ -168,11 +164,6 @@ public class LevelGenerator : MonoBehaviour
             foreach (FireballBehaviour enemy in currentBlocks[index].GetComponentsInChildren<FireballBehaviour>())
             {
                 enemy.ySpeed = 0;
-            }
-            foreach (BirdMovement enemy in currentBlocks[index].GetComponentsInChildren<BirdMovement>())
-            {
-                enemy.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                //Debug.Log("I'm in " + index + " index levelblock freezing");
             }
         } else
         {

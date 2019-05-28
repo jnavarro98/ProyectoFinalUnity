@@ -9,8 +9,6 @@ using UnityEngine.UI;
 public class PauseMenu : MonoBehaviour
 {
     public Slider volumeSlider;
-    const string settingsDir = @".\preferences";
-    const string settings = "preferences.txt";
     float volumeLevel;
 
     void Awake()
@@ -32,23 +30,14 @@ public class PauseMenu : MonoBehaviour
 
     private void LoadPreferences()
     {
-        if (Directory.Exists(settingsDir))
-        {
-            string preferences = File.ReadAllText(Path.Combine(settingsDir, settings));
-            Debug.Log(preferences.TrimEnd('\n').Split('\n')[0].Split('=')[1]);
-            volumeLevel = float.Parse(preferences.TrimEnd('\n').Split('\n')[0].
-                Split('=')[1], CultureInfo.InvariantCulture.NumberFormat);
-            volumeSlider.value = volumeLevel;
-        }
+        volumeSlider.value = PlayerPrefs.GetFloat("volume",100);
     }
 
     public void SaveSettings()
     {
-        if (!Directory.Exists(settingsDir))  // if it doesn't exist, create
-            Directory.CreateDirectory(settingsDir);
+        PlayerPrefs.SetFloat("volume", volumeSlider.value);
 
-        // use Path.Combine to combine 2 strings to a path
-        File.WriteAllText(Path.Combine(settingsDir, settings), "volume=" + volumeSlider.value + "\n");
     }
+
 
 }

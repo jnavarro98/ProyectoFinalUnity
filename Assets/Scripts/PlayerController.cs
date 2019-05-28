@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public float xAcceleration = 4.6f;
     public float yAcceleration = 1f;
     public float descendingForce = 1f;
+    public float baseForceJump = 10;
     public float jumpForce = 100f;
     public float minVelocity = 5;
 
@@ -60,6 +61,7 @@ public class PlayerController : MonoBehaviour
 
     public CinemachineVirtualCamera vcam;
     public float velocityBoost = 20;
+    
 
 
     // Start is called before the first frame update
@@ -261,7 +263,7 @@ public class PlayerController : MonoBehaviour
         if (jump && onGround && rigidbody.velocity.x > 0 && timeSinceLastJump > 1)
         {
             
-            rigidbody.AddForce(new Vector2(0, jumpForce * forceMultiplier * rigidbody.velocity.x), ForceMode2D.Impulse);
+            rigidbody.AddForce(new Vector2(0, (jumpForce * forceMultiplier * rigidbody.velocity.x) + baseForceJump), ForceMode2D.Impulse);
             jump = false;
             timeSinceLastJump = 0;
         }

@@ -10,7 +10,6 @@ public class FireballBehaviour : MonoBehaviour
     
     float radius;
     public LayerMask whatIsPlayer;
-    bool isDead;
     public float yDistance = 100;
     public float ySpeed = 15;
     public const float BASE_SPEED = 200;
@@ -59,7 +58,6 @@ public class FireballBehaviour : MonoBehaviour
         target = new Vector3(transform.localPosition.x, transform.localPosition.y + yDistance, transform.localPosition.z);
         origin = transform.localPosition;
         nextPosition = target;
-        isDead = false;
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -67,7 +65,6 @@ public class FireballBehaviour : MonoBehaviour
         GetComponent<ParticleSystem>().Play();
         GetComponent<AudioSource>().Play();
         Despawn();
-        isDead = true;
     }
 
     private void Despawn()
