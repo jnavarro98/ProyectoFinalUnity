@@ -60,7 +60,6 @@ public class PlayerController : MonoBehaviour
     public LayerMask whatIsEnemies;
 
     public CinemachineVirtualCamera vcam;
-    public float velocityBoost = 20;
     
 
 
@@ -75,6 +74,24 @@ public class PlayerController : MonoBehaviour
         initialXPosition = transform.position.x;
         originalSprite = (GetComponent<SpriteRenderer>()).sprite;
         
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        Debug.Log(collider.gameObject.layer + " " + LayerMask.NameToLayer("Enemies"));
+        if (collider.gameObject.layer == LayerMask.NameToLayer("Enemies"))
+        {
+            if (!GetComponent<TrailRenderer>().isVisible)
+            {
+                Debug.Log("Bola de fuego");
+                GameOver();
+            }
+            else
+            {
+                Debug.Log("Bola de fuego");
+                MiniBoost();
+            }
+        }
     }
 
     void Awake()
@@ -94,7 +111,7 @@ public class PlayerController : MonoBehaviour
             AcceleratePlayer();
             UpdateAscension();
             GroundCheck();
-            FireballCheck();
+            //FireballCheck();
             BoundsCheck();
             CheckRedPowerUp();
             ManageSound();
@@ -249,8 +266,8 @@ public class PlayerController : MonoBehaviour
 
     public void MiniBoost()
     {
-        rigidbody.AddForce(new Vector2((forceMultiplier * rigidbody.velocity.x) / 2,
-            (forceMultiplier * rigidbody.velocity.x) + baseForceJump), ForceMode2D.Impulse);
+        float newXVelocity = Vector2.Reflect(rigidbody.velocity, Vector2.up).x;
+        rigidbody.velocity = new Vector2(newXVelocity, baseForceJump);
     }
 
     void BoundsCheck()

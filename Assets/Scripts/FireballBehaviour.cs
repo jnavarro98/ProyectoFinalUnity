@@ -69,6 +69,7 @@ public class FireballBehaviour : MonoBehaviour
 
     private void Despawn()
     {
+        GetComponent<BoxCollider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;
     }
 
