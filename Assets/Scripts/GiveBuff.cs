@@ -11,7 +11,7 @@ public class GiveBuff : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        radius = GetComponent<CircleCollider2D>().bounds.size.y;
+        radius = GetComponent<CircleCollider2D>().radius;
     }
 
     void Awake()

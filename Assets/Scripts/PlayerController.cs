@@ -48,6 +48,21 @@ public class PlayerController : MonoBehaviour
     bool ascending;
     public int buffDuration;
     float ScreenWidth;
+    List<TrailRenderer> trails;
+
+    bool TrailState {
+        get
+        {
+            return trails[0].enabled;
+        }
+        set
+        {
+            foreach(TrailRenderer t in trails)
+            {
+                t.enabled = value;
+            }
+        }
+    }
 
     public TrailRenderer redPowerUpTrail;
 
@@ -68,12 +83,18 @@ public class PlayerController : MonoBehaviour
     {
         timeSinceLastJump = 0;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        trailRenderer = GetComponent<TrailRenderer>();
         ScreenWidth = Screen.width;
-        radius = GetComponent<SpriteRenderer>().bounds.size.y;
+        radius = GetComponent<CircleCollider2D>().radius + 0.04f;
         initialXPosition = transform.position.x;
         originalSprite = (GetComponent<SpriteRenderer>()).sprite;
-        
+
+        trails = new List<TrailRenderer>();
+        trails.Add(GetComponent<TrailRenderer>());
+        foreach(TrailRenderer t in GetComponentsInChildren<TrailRenderer>())
+        {
+            trails.Add(t);
+        }
+
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -81,7 +102,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log(collider.gameObject.layer + " " + LayerMask.NameToLayer("Enemies"));
         if (collider.gameObject.layer == LayerMask.NameToLayer("Enemies"))
         {
-            if (!GetComponent<TrailRenderer>().isVisible)
+            if (!TrailState)
             {
                 Debug.Log("Bola de fuego");
                 GameOver();
@@ -179,12 +200,12 @@ public class PlayerController : MonoBehaviour
                     yAcceleration += buffYForce;
                     GameManager.sharedInstance.timeSinceLastPowerUP = 0;
                     spriteRenderer.sprite = spritePowerUp;
-                    redPowerUpTrail.enabled = true;
+                    TrailState = true;
                 }
             }
         }
         if (GameManager.sharedInstance.timeSinceLastPowerUP > buffDuration &&
-            (GetComponent<TrailRenderer>()).isVisible)
+            TrailState)
         {
             EndRedBuff();
         }
@@ -193,7 +214,7 @@ public class PlayerController : MonoBehaviour
     private void EndRedBuff()
     {
         spriteRenderer.sprite = originalSprite;
-        redPowerUpTrail.enabled = false;
+        TrailState = false;
         yAcceleration -= buffYForce;
     }
 
@@ -238,7 +259,7 @@ public class PlayerController : MonoBehaviour
         GetComponent<ParticleSystem>().Play();
         GetComponent<SpriteRenderer>().enabled = false;
         rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        redPowerUpTrail.enabled = false;
+        TrailState = false;
         GameManager.sharedInstance.SetGameState(GameState.gameOver);
     }
 
@@ -250,13 +271,13 @@ public class PlayerController : MonoBehaviour
         {
             if (colliders[i].gameObject != gameObject)
             {
-                if (!GetComponent<TrailRenderer>().isVisible)
+                if (!TrailState)
                 {
 
                     Debug.Log("Bola de fuego");
                     GameOver();
                 }
-                else if (GetComponent<TrailRenderer>().isVisible)
+                else if (TrailState)
                 {
                     MiniBoost();
                 }
