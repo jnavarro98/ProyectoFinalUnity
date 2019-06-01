@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
 
     bool jump = false;
     bool descend = false;
+    bool isDead = false;
     private float initialXPosition;
 
     TrailRenderer trailRenderer;
@@ -67,12 +68,9 @@ public class PlayerController : MonoBehaviour
     public TrailRenderer redPowerUpTrail;
 
     public AudioSource grassEffect;
-    public AudioSource landOnGrass;
+    public AudioSource hitGroundSound;
 
-    public LayerMask whatIsOutOfBounds;
-    public LayerMask whatIsRedPowerUp;
     public LayerMask whatIsGround;
-    public LayerMask whatIsEnemies;
 
     public CinemachineVirtualCamera vcam;
     
@@ -81,37 +79,84 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeSinceLastJump = 0;
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        ScreenWidth = Screen.width;
-        radius = GetComponent<CircleCollider2D>().radius + 0.04f;
-        initialXPosition = transform.position.x;
-        originalSprite = (GetComponent<SpriteRenderer>()).sprite;
+        GetComponents();
+        InitValues();
+        InitTrails();
+    }
 
+    void GetComponents()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originalSprite = GetComponent<SpriteRenderer>().sprite;
+    }
+
+    void InitValues()
+    {
+        timeSinceLastJump = 0;
+        ScreenWidth = Screen.width;
+        radius = GetComponent<CircleCollider2D>().radius + 0.1f;
+        initialXPosition = transform.position.x;
+    }
+
+    void InitTrails()
+    {
         trails = new List<TrailRenderer>();
         trails.Add(GetComponent<TrailRenderer>());
-        foreach(TrailRenderer t in GetComponentsInChildren<TrailRenderer>())
+        foreach (TrailRenderer t in GetComponentsInChildren<TrailRenderer>())
         {
             trails.Add(t);
         }
-
     }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        Debug.Log(collider.gameObject.layer + " " + LayerMask.NameToLayer("Enemies"));
-        if (collider.gameObject.layer == LayerMask.NameToLayer("Enemies"))
+        if (collider.gameObject.layer == LayerMask.NameToLayer("FireEnemy"))
         {
             if (!TrailState)
             {
-                Debug.Log("Bola de fuego");
-                GameOver();
+                Color fireColor = Color.white;
+
+                if(collider.gameObject.tag == "Red")
+                {
+                    fireColor = Color.red;
+                }
+
+                if (collider.gameObject.tag == "Blue")
+                {
+                    fireColor = new Color(0.2235294f, 0.9333334f, 1f);
+                }
+
+                GameOverFire(fireColor);
             }
             else
             {
                 Debug.Log("Bola de fuego");
                 MiniBoost();
             }
+        }
+
+        if (collider.gameObject.layer == LayerMask.NameToLayer("PowerUPs"))
+        {
+            if (GameManager.sharedInstance.timeSinceLastPowerUP > 1f)
+            {
+                yAcceleration += buffYForce;
+                GameManager.sharedInstance.timeSinceLastPowerUP = 0;
+                spriteRenderer.sprite = spritePowerUp;
+                TrailState = true;
+            }
+        }
+
+        if (collider.gameObject.layer == LayerMask.NameToLayer("OutOfBounds"))
+        {
+            GameOverOut();
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Spikes"))
+        {
+            GameOverSpikes();
         }
     }
 
@@ -132,8 +177,6 @@ public class PlayerController : MonoBehaviour
             AcceleratePlayer();
             UpdateAscension();
             GroundCheck();
-            //FireballCheck();
-            BoundsCheck();
             CheckRedPowerUp();
             ManageSound();
             UpdateMeters();
@@ -177,10 +220,9 @@ public class PlayerController : MonoBehaviour
         {
             descend = true;
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.R))
         {
-            Debug.Log("D");
-            GameOver();
+            SceneManager.LoadScene("GameScene");
         }
 
 
@@ -188,22 +230,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckRedPowerUp()
     {
-        var colliders = Physics2D.OverlapCircleAll(transform.position, radius, whatIsRedPowerUp);
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (colliders[i].gameObject != gameObject)
-            {
-                if (GameManager.sharedInstance.timeSinceLastPowerUP > 1f)
-                {
-                    //Buff
-                    //(GetComponent<SpriteRenderer>()).sprite = spritePowerUp;
-                    yAcceleration += buffYForce;
-                    GameManager.sharedInstance.timeSinceLastPowerUP = 0;
-                    spriteRenderer.sprite = spritePowerUp;
-                    TrailState = true;
-                }
-            }
-        }
+
         if (GameManager.sharedInstance.timeSinceLastPowerUP > buffDuration &&
             TrailState)
         {
@@ -245,44 +272,55 @@ public class PlayerController : MonoBehaviour
                 onGround = true;
                 if (!wasGrounded)
                 {
-                    Debug.Log(colliders[i].gameObject);
-                    landOnGrass.Play();
+                    hitGroundSound.Play();
                 }
             }
         }
     }
 
-    private void GameOver()
+    private void GameOverFire(Color fireColor)
     {
-        rigidbody.drag = 3;
-        //rigidbody.freezeRotation = true;
-        GetComponent<ParticleSystem>().Play();
-        GetComponent<SpriteRenderer>().enabled = false;
-        rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        TrailState = false;
-        GameManager.sharedInstance.SetGameState(GameState.gameOver);
-    }
-
-    void FireballCheck()
-    {
-        //Checking wether the player is hit or not
-        var colliders = Physics2D.OverlapCircleAll(transform.position, radius, whatIsEnemies);
-        for (int i = 0; i < colliders.Length; i++)
+        if (!isDead)
         {
-            if (colliders[i].gameObject != gameObject)
-            {
-                if (!TrailState)
-                {
-
-                    Debug.Log("Bola de fuego");
-                    GameOver();
-                }
-                else if (TrailState)
-                {
-                    MiniBoost();
-                }
-            }
+            vcam.Follow = null;
+            rigidbody.drag = 3;
+            ParticleSystem.MainModule ma = GetComponent<ParticleSystem>().main;
+            ma.startColor = fireColor;
+            GetComponent<ParticleSystem>().Play();
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<CircleCollider2D>().enabled = false;
+            rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            TrailState = false;
+            GameManager.sharedInstance.SetGameState(GameState.gameOver);
+            isDead = true;
         }
+    }
+
+    private void GameOverOut()
+    {
+        if (!isDead)
+        {
+            vcam.Follow = null;
+            GameManager.sharedInstance.SetGameState(GameState.gameOver);
+            isDead = true;
+        }
+    }
+
+    private void GameOverSpikes()
+    {
+        if (!isDead)
+        {
+            vcam.Follow = null;
+            rigidbody.drag = 3;
+            GetComponent<ParticleSystem>().startColor = Color.white;
+            GetComponent<ParticleSystem>().Play();
+            GetComponent<SpriteRenderer>().enabled = false;
+            rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            TrailState = false;
+            GameManager.sharedInstance.SetGameState(GameState.gameOver);
+            isDead = true;
+        }
+        
     }
 
     public void MiniBoost()
@@ -294,21 +332,21 @@ public class PlayerController : MonoBehaviour
     void BoundsCheck()
     {
         //Checking wether the player is hit or not
-        var colliders = Physics2D.OverlapCircleAll(transform.position, radius, whatIsOutOfBounds);
+        /*var colliders = Physics2D.OverlapCircleAll(transform.position, radius, whatIsOutOfBounds);
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].gameObject != gameObject)
             {
                 Debug.Log(colliders[i].gameObject.name);
                 Debug.Log("Me sali del mapa");
-                GameOver();
+                
             }
-        }
+        }*/
     }
 
     void Jump()
     {
-        
+
         if (jump && onGround && rigidbody.velocity.x > 0 && timeSinceLastJump > 1)
         {
             
@@ -317,6 +355,7 @@ public class PlayerController : MonoBehaviour
             timeSinceLastJump = 0;
         }
         timeSinceLastJump += Time.deltaTime;
+
     }
     void AcceleratePlayer()
     {

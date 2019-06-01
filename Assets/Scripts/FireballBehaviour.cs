@@ -43,7 +43,6 @@ public class FireballBehaviour : MonoBehaviour
 
     bool IsReady()
     {
-        
         timeActive += Time.deltaTime;
         return timeActive >= delay;
     }
@@ -62,15 +61,16 @@ public class FireballBehaviour : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        GetComponent<ParticleSystem>().Play();
-        GetComponent<AudioSource>().Play();
         Despawn();
     }
 
     private void Despawn()
     {
+        GetComponent<ParticleSystem>().Play();
+        GetComponent<AudioSource>().Play();
         GetComponent<BoxCollider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<TrailRenderer>().enabled = false;
     }
 
     private void Move()
@@ -89,7 +89,6 @@ public class FireballBehaviour : MonoBehaviour
     private void ChangePosition()
     {
         nextPosition = nextPosition == target ? origin : target;
-        sprite.flipX = sprite.flipX != true ?
-            true : false;
+        sprite.flipX = sprite.flipX != true ? true : false;
     }
 }

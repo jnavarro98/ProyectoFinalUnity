@@ -302,19 +302,10 @@ MonoBehaviour:
   buffDuration: 10
   redPowerUpTrail: {fileID: 1388020918878784280}
   grassEffect: {fileID: 1388020919050734267}
-  landOnGrass: {fileID: 1388020918878784277}
-  whatIsOutOfBounds:
-    serializedVersion: 2
-    m_Bits: 4096
-  whatIsRedPowerUp:
-    serializedVersion: 2
-    m_Bits: 2048
+  hitGroundSound: {fileID: 1388020918878784277}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1280
-  whatIsEnemies:
-    serializedVersion: 2
-    m_Bits: 1024
   vcam: {fileID: 0}
 --- !u!82 &1388020919050734267
 AudioSource:
@@ -328,7 +319,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ad24f93e751a0cc448cdd39e279c2ae1, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.33333334
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -424,7 +415,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ec8af27d57b6c82449ce5e96f7857eec, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.33333334
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0

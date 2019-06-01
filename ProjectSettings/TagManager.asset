@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - VolumeSlider
+  - Blue
+  - Red
   - RedPowerUp
   layers:
   - Default
@@ -17,10 +19,10 @@ TagManager:
   - 
   - Ground
   - 
-  - Enemies
+  - FireEnemy
   - PowerUPs
   - OutOfBounds
-  - 
+  - Spikes
   - Background
   - Player
   - 

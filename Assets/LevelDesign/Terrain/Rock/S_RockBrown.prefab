@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7600906163542169701}
   - component: {fileID: 1587891029926505634}
   - component: {fileID: 1344615456712490269}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: S_RockBrown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,8 +76,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: 194bfdb3e720e574dbe990fc746c68ff, type: 3}
   m_LocalAABB:
-    m_Center: {x: -54.006706, y: -0.8376789, z: -0.0005}
-    m_Extent: {x: 23.69072, y: 4.8596334, z: 0.0005}
+    m_Center: {x: 0.29050732, y: -0.30637074, z: -0.0005}
+    m_Extent: {x: 30.697155, y: 4.921231, z: 0.0005}
 --- !u!114 &1587891029926505634
 MonoBehaviour:
   m_ObjectHideFlags: 0

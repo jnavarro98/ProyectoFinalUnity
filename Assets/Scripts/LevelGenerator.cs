@@ -7,10 +7,10 @@ using Random = UnityEngine.Random;
 public class LevelGenerator : MonoBehaviour
 {
 
-    private enum Phase { Rock, Lava, Ice }
+    private enum Phase { Rock = 0, Lava = 1, Ice = 2 }
     private Phase currentPhase;
 
-    const int PHASE_SWITCH_AMOUNT = 2;
+    const int PHASE_SWITCH_AMOUNT = 3;
 
     public bool testBlockEnabled;
     public LevelBlock testBlock;
@@ -26,33 +26,22 @@ public class LevelGenerator : MonoBehaviour
     public List<LevelBlock> lavaLevelBlocks = new List<LevelBlock>();
     public List<LevelBlock> iceLevelBlocks = new List<LevelBlock>();
     public int numInitialBlocks = 3;
-    private int phaseTracker;
-    private int blockCounter;
+    private int phaseTracker = 0;
+    private int blockCounter = 0;
     public List<LevelBlock> currentBlocks = new List<LevelBlock>();
-    int lastRockBlockIndex;
-    int lastIceBlockIndex;
-    int lastLavaBlockIndex;
+    int rockBlockIndex = -1;
+    int iceBlockIndex = -1;
+    int lavaBlockIndex = -1;
 
     LevelBlock newBlock;
-
-    
-
-    private void Awake()
-    {
-        sharedInstance = this;
-        currentPhase = (Phase)Random.Range(0, 3);
-    }
 
     // Start is called before the first frame update
     void Start()
     {
-        lastRockBlockIndex = -1;
-        lastIceBlockIndex = -1;
-        lastLavaBlockIndex = -1;
+        sharedInstance = this;
+        currentPhase = Phase.Ice;
         GenerateInitialBlocks();
         FreezeInitialEnemies();
-        blockCounter = 1;
-        phaseTracker = 0;
     }
 
     private void CheckPhase()
@@ -95,7 +84,6 @@ public class LevelGenerator : MonoBehaviour
             
             newBlock.transform.SetParent(transform, false); //soy hijo del levelGenerator
             spawnPosition = LevelStartPoint.position; //donde hago el spawn, en la posicion inicial
-            phaseTracker--;
         }
         else
         {
@@ -103,16 +91,16 @@ public class LevelGenerator : MonoBehaviour
             switch (currentPhase)
             {
                 case Phase.Rock:
-                    while (lastRockBlockIndex == (lastRockBlockIndex = Random.Range(0, rockLevelBlocks.Count))) ;
-                    newBlock = Instantiate(rockLevelBlocks[lastRockBlockIndex]);
+                    while (rockBlockIndex == (rockBlockIndex = Random.Range(0, rockLevelBlocks.Count))) ;
+                    newBlock = Instantiate(rockLevelBlocks[rockBlockIndex]);
                     break;
                 case Phase.Ice:
-                    while (lastIceBlockIndex == (lastIceBlockIndex = Random.Range(0, iceLevelBlocks.Count))) ;
-                    newBlock = Instantiate(iceLevelBlocks[lastIceBlockIndex]);
+                    while (iceBlockIndex == (iceBlockIndex = Random.Range(0, iceLevelBlocks.Count))) ;
+                    newBlock = Instantiate(iceLevelBlocks[iceBlockIndex]);
                     break;
                 case Phase.Lava:
-                    while (lastLavaBlockIndex == (lastLavaBlockIndex = Random.Range(0, lavaLevelBlocks.Count))) ;
-                    newBlock = Instantiate(lavaLevelBlocks[lastLavaBlockIndex]);
+                    while (lavaBlockIndex == (lavaBlockIndex = Random.Range(0, lavaLevelBlocks.Count))) ;
+                    newBlock = Instantiate(lavaLevelBlocks[lavaBlockIndex]);
                     break;
             }
 

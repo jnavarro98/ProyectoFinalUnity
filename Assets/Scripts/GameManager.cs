@@ -17,7 +17,6 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
 
-    public const float TRANSITION_TIME = 60;
 
     public MeshRenderer skyBox;
     public Color colorNight;
@@ -37,11 +36,6 @@ public class GameManager : MonoBehaviour
     public AudioSource gameOverEffect;
     public AudioSource backgroundMusic;
     public float timeSinceLastPowerUP;
-    public float transitionTimeElapsed = TRANSITION_TIME;
-
-    public Color[] backgroundColors;
-    public int colorIndex;
-    public int lastColorIndex;
 
     public int target = 60;
 
@@ -53,7 +47,7 @@ public class GameManager : MonoBehaviour
         timeSinceLastPowerUP = 0;
         sharedInstance = this;
         QualitySettings.vSyncCount = 0;
-        PrepareBackgroundColors();
+        //PrepareBackgroundColors();
         InitMusic();
     }
     // Start is called before the first frame update
@@ -67,15 +61,15 @@ public class GameManager : MonoBehaviour
     public void InitMusic()
     {
 
-        switch (lastColorIndex)
+        switch (BackgroundManagement.sharedInstance.currentBackgroundPhase)
         {
-            case 1: //Morning
+            case BackgroundManagement.BackgroundPhase.MidDay:
                 backgroundMusic.time = 15;
                 break;
-            case 2://MidDay
+            case BackgroundManagement.BackgroundPhase.Evening:
                 backgroundMusic.time = 31;
                 break;
-            case 3://Afternoon
+            case BackgroundManagement.BackgroundPhase.Night:
                 backgroundMusic.time = 64;
                 break;
         }
@@ -100,31 +94,13 @@ public class GameManager : MonoBehaviour
         {
             textMetersTraveled.text = metersTraveled + " m";
             timeSinceLastPowerUP += Time.deltaTime;
-            UpdateBackground();
+            //UpdateBackground();
         }
     }
 
     public void FreezeGame()
     {
         Time.timeScale = 0f;
-    }
-
-    public void PrepareBackgroundColors()
-    {
-
-        backgroundColors = new Color[4];
-
-        backgroundColors[0] = colorNight;
-        backgroundColors[1] = colorMorning;
-        backgroundColors[2] = colorMidDay;
-        backgroundColors[3] = colorEvening;
-        colorIndex = Random.Range(0, 3);
-
-        if (colorIndex == 0)
-            lastColorIndex = 3;
-        else
-            lastColorIndex = colorIndex - 1;
-
     }
 
     public void UnfreezePlayer()
@@ -136,10 +112,7 @@ public class GameManager : MonoBehaviour
     {
         foreach(AudioSource a in Resources.FindObjectsOfTypeAll(typeof(AudioSource)))
         {
-            if (a.gameObject.tag == "Player")
-                a.volume = volumeMultiplicator / 3;
-            else
-                a.volume = volumeMultiplicator;
+             a.volume = volumeMultiplicator;
         }
     }
 
@@ -184,43 +157,5 @@ public class GameManager : MonoBehaviour
     private void EndGame()
     {
         SceneManager.LoadScene("GameOverScene");
-    }
-
-    void InitColorPalette()
-    {
-
-
-
-    }
-
-    private void UpdateBackground()
-    {
-
-        if (transitionTimeElapsed <= Time.deltaTime)
-        {
-            // start a new transition
-            transitionTimeElapsed = TRANSITION_TIME;
-            lastColorIndex = colorIndex;
-            colorIndex++;
-            
-            if (colorIndex > backgroundColors.Length - 1)
-            {
-                colorIndex = 0;
-            }
-
-        }
-        else
-        {
-
-            // transition in progress
-            // calculate interpolated color
-            RenderSettings.skybox.SetColor("_Tint",
-                Color.Lerp(backgroundColors[colorIndex], backgroundColors[lastColorIndex],
-                transitionTimeElapsed / TRANSITION_TIME));
-
-            // update the timer
-            transitionTimeElapsed -= Time.deltaTime;
-        }
-
     }
 }

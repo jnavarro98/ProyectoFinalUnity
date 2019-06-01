@@ -24,6 +24,7 @@ public class GiveBuff : MonoBehaviour
     {
         Disappear();
     }
+    
 
     private void Disappear()
     {
