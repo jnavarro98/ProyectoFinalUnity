@@ -47,14 +47,14 @@ public class GameManager : MonoBehaviour
         timeSinceLastPowerUP = 0;
         sharedInstance = this;
         QualitySettings.vSyncCount = 0;
-        //PrepareBackgroundColors();
-        InitMusic();
+        
     }
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = target;
         Time.timeScale = timeScale;
+        InitMusic();
         StartGame();
     }
 
@@ -92,9 +92,8 @@ public class GameManager : MonoBehaviour
     {
         if (currentGameState == GameState.inGame)
         {
-            textMetersTraveled.text = metersTraveled + " m";
+            textMetersTraveled.text = metersTraveled / 2 + " m";
             timeSinceLastPowerUP += Time.deltaTime;
-            //UpdateBackground();
         }
     }
 
@@ -103,7 +102,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    public void UnfreezePlayer()
+    public void UnfreezeGame()
     {
         Time.timeScale = 1f;
     }
@@ -139,7 +138,7 @@ public class GameManager : MonoBehaviour
         }
         if (newGameState == GameState.inGame)
         {
-            UnfreezePlayer();
+            UnfreezeGame();
             LoadPreferences();
             backgroundMusic.Play();
         }
