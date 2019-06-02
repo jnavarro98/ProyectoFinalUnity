@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GiveBuff : MonoBehaviour
+public class StarBehaviour : MonoBehaviour
 {
-    public AudioSource powerUpSound;
+    public AudioSource starEffect;
+
     // Start is called before the first frame update
     void Start()
     {
-
-    }
-
-    void Awake()
-    {
-
+        
     }
 
     // Update is called once per frame
@@ -21,10 +17,12 @@ public class GiveBuff : MonoBehaviour
     {
         
     }
-    
+
     void OnTriggerEnter2D(Collider2D collision)
     {
-        powerUpSound.Play();
-        GetComponent<SpriteRenderer>().enabled = false;
+        GameManager.sharedInstance.starsAmount++;
+        starEffect.Play();
+        GetComponent<ParticleSystem>().enableEmission = false;
+        GetComponent<SpriteRenderer>().enabled = false; 
     }
 }

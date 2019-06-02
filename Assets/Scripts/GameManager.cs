@@ -29,33 +29,44 @@ public class GameManager : MonoBehaviour
     public AudioSource playerSoundGrass;
     public static GameManager sharedInstance;
     public Text textMetersTraveled;
+    public Text starsCollected;
+    public Image starIcon;
     public int metersTraveled;
     float volumeMultiplicator;
     const string settingsDir = @".\preferences";
     const string settings = "preferences.txt";
     public AudioSource gameOverEffect;
     public AudioSource backgroundMusic;
-    public float timeSinceLastPowerUP;
+    public float timeSinceLastPowerUP = 0;
 
     public int target = 60;
+    public int starsAmount = 0;
+    public int starsOldAmount = 0;
+
+    public float fadeUISensitvity = 0.05f;
 
     public float timeScale;
+    private float timeSinceStarPickup;
 
     void Awake()
     {
-        
-        timeSinceLastPowerUP = 0;
         sharedInstance = this;
-        QualitySettings.vSyncCount = 0;
+        
         
     }
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = target;
-        Time.timeScale = timeScale;
+        ApplyGraphicsSettings();
         InitMusic();
         StartGame();
+    }
+
+    void ApplyGraphicsSettings()
+    {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = target;
+        Time.timeScale = timeScale;
     }
 
     public void InitMusic()
@@ -92,9 +103,47 @@ public class GameManager : MonoBehaviour
     {
         if (currentGameState == GameState.inGame)
         {
+            ManageStarsCounter();
             textMetersTraveled.text = metersTraveled / 2 + " m";
             timeSinceLastPowerUP += Time.deltaTime;
         }
+    }
+
+    void ManageStarsCounter()
+    {
+        if(starsAmount > starsOldAmount)
+        {
+            EnableStarsCounter();
+            starsCollected.text = starsAmount.ToString();
+            timeSinceStarPickup = 0;
+            starsOldAmount = starsAmount;
+        }
+
+        if (timeSinceStarPickup >= 3)
+        {
+            DisableStarsCounter();
+        }
+
+        if(timeSinceStarPickup <= 3)
+            timeSinceStarPickup += Time.deltaTime;
+
+        Debug.Log(timeSinceStarPickup);
+    }
+
+    void DisableStarsCounter()
+    {
+        starsCollected.color = new Color(starsCollected.color.r, starsCollected.color.g,
+                starsCollected.color.b, 0);
+        starIcon.color = new Color(starIcon.color.r, starIcon.color.g,
+            starIcon.color.b, 0);
+    }
+
+    void EnableStarsCounter()
+    {
+        starsCollected.color = new Color(starsCollected.color.r, starsCollected.color.g,
+                starsCollected.color.b, 1);
+        starIcon.color = new Color(starIcon.color.r, starIcon.color.g,
+            starIcon.color.b, 1);
     }
 
     public void FreezeGame()

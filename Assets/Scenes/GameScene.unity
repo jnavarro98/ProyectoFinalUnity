@@ -124,6 +124,18 @@ Rigidbody2D:
     type: 3}
   m_PrefabInstance: {fileID: 1388020917799831415}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &393932710 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4669679709965774192, guid: b01a3a8e748de3b49828e1e812356c41,
+    type: 3}
+  m_PrefabInstance: {fileID: 4894269873290760142}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!20 &519420031 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 4894269873260197809, guid: b01a3a8e748de3b49828e1e812356c41,
@@ -178,6 +190,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6445759669510253763}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2124956527 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3429662324239811945, guid: b01a3a8e748de3b49828e1e812356c41,
+    type: 3}
+  m_PrefabInstance: {fileID: 4894269873290760142}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &621963999414338894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -190,6 +214,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 621963999997732525, guid: 7f587d34f519b354da4dedebcd9d5dbe,
+        type: 3}
+      propertyPath: playerSoundGrass
+      value: 
+      objectReference: {fileID: 1318178252}
+    - target: {fileID: 621963999997732525, guid: 7f587d34f519b354da4dedebcd9d5dbe,
+        type: 3}
+      propertyPath: textMetersTraveled
+      value: 
+      objectReference: {fileID: 1093702894}
+    - target: {fileID: 621963999997732525, guid: 7f587d34f519b354da4dedebcd9d5dbe,
+        type: 3}
+      propertyPath: starsCollected
+      value: 
+      objectReference: {fileID: 393932710}
+    - target: {fileID: 621963999997732525, guid: 7f587d34f519b354da4dedebcd9d5dbe,
+        type: 3}
+      propertyPath: fadeUISensitvity
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 621963999997732525, guid: 7f587d34f519b354da4dedebcd9d5dbe,
+        type: 3}
+      propertyPath: starIcon
+      value: 
+      objectReference: {fileID: 2124956527}
     - target: {fileID: 621963999997732522, guid: 7f587d34f519b354da4dedebcd9d5dbe,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -245,16 +294,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 621963999997732525, guid: 7f587d34f519b354da4dedebcd9d5dbe,
-        type: 3}
-      propertyPath: playerSoundGrass
-      value: 
-      objectReference: {fileID: 1318178252}
-    - target: {fileID: 621963999997732525, guid: 7f587d34f519b354da4dedebcd9d5dbe,
-        type: 3}
-      propertyPath: textMetersTraveled
-      value: 
-      objectReference: {fileID: 1093702894}
     - target: {fileID: 621963999997732523, guid: 7f587d34f519b354da4dedebcd9d5dbe,
         type: 3}
       propertyPath: playerRigidbody
@@ -443,6 +482,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 4894269872232782624, guid: b01a3a8e748de3b49828e1e812356c41,
+        type: 3}
+      propertyPath: m_FontData.m_FontStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4894269872232782624, guid: b01a3a8e748de3b49828e1e812356c41,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 0d33e09f37c6bfc40b6461adb296ce83,
+        type: 3}
     - target: {fileID: 4894269873260197710, guid: b01a3a8e748de3b49828e1e812356c41,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -521,7 +571,23 @@ PrefabInstance:
     - target: {fileID: 8779332511598621297, guid: b01a3a8e748de3b49828e1e812356c41,
         type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4669679709965774192, guid: b01a3a8e748de3b49828e1e812356c41,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 0d33e09f37c6bfc40b6461adb296ce83,
+        type: 3}
+    - target: {fileID: 4669679709965774192, guid: b01a3a8e748de3b49828e1e812356c41,
+        type: 3}
+      propertyPath: m_FontData.m_FontStyle
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6050587426983198376, guid: b01a3a8e748de3b49828e1e812356c41,
+        type: 3}
+      propertyPath: m_Name
+      value: StarIcon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b01a3a8e748de3b49828e1e812356c41, type: 3}
@@ -624,6 +690,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraDirector
       objectReference: {fileID: 0}
+    - target: {fileID: 6053386057796343160, guid: b38b5c6dd5a9f8442b4215bd93249ab3,
+        type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 186020976}
     - target: {fileID: 6053386057796343167, guid: b38b5c6dd5a9f8442b4215bd93249ab3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -679,11 +750,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6053386057796343160, guid: b38b5c6dd5a9f8442b4215bd93249ab3,
-        type: 3}
-      propertyPath: m_Follow
-      value: 
-      objectReference: {fileID: 186020976}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b38b5c6dd5a9f8442b4215bd93249ab3, type: 3}
 --- !u!1001 &6445759669510253763

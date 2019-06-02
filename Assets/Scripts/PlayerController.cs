@@ -326,7 +326,7 @@ public class PlayerController : MonoBehaviour
     public void MiniBoost()
     {
         float newXVelocity = Vector2.Reflect(rigidbody.velocity, Vector2.up).x;
-        rigidbody.velocity = new Vector2(newXVelocity, baseForceJump);
+        rigidbody.velocity = new Vector2(newXVelocity + 10, baseForceJump);
     }
 
     void BoundsCheck()
