@@ -423,6 +423,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1388020919050734267, guid: ccb17657af47721459131ec82cdd07fc,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388020919050734267, guid: ccb17657af47721459131ec82cdd07fc,
+        type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1388020918878784276, guid: ccb17657af47721459131ec82cdd07fc,
         type: 3}
       propertyPath: vcam
@@ -451,7 +461,17 @@ PrefabInstance:
     - target: {fileID: 1388020918878784276, guid: ccb17657af47721459131ec82cdd07fc,
         type: 3}
       propertyPath: buffDuration
-      value: 11
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388020918878784276, guid: ccb17657af47721459131ec82cdd07fc,
+        type: 3}
+      propertyPath: minYOffset
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388020918878784276, guid: ccb17657af47721459131ec82cdd07fc,
+        type: 3}
+      propertyPath: descensionThreshold
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 1388020918878784280, guid: ccb17657af47721459131ec82cdd07fc,
         type: 3}
@@ -463,6 +483,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 1388020918878784277, guid: ccb17657af47721459131ec82cdd07fc,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccb17657af47721459131ec82cdd07fc, type: 3}
 --- !u!1 &1419455984872204376 stripped

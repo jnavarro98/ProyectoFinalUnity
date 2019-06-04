@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 100f;
     public float minVelocity = 5;
     public float xBonus = 30;
+    public float descensionThreshold;
 
     public float minFOV = 10f;
     public float maxFOV = 40f;
@@ -395,10 +396,21 @@ public class PlayerController : MonoBehaviour
         //Camera Direction
         if (!onGround && timeSinceLastJump > cameraDelay)
         {
-            if (vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y >= maxYOffset)
-                vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y -= offsetYSensivity;
+
             if (vcam.m_Lens.OrthographicSize < maxFOV)
                 vcam.m_Lens.OrthographicSize += camSensivity;
+
+            if (rigidbody.velocity.y < - descensionThreshold)
+            {
+                if (vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y >= maxYOffset)
+                    vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y -= offsetYSensivity;
+            }
+            else
+            {
+                if (vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y <= minYOffset)
+                    vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y += offsetYSensivity;
+            }
+            
         }
         else
         {
@@ -409,7 +421,7 @@ public class PlayerController : MonoBehaviour
                 vcam.m_Lens.OrthographicSize -= camSensivity;
         }
 
-        if(rigidbody.velocity.y < -2 && timeSinceLastJump > cameraDelay)
+        if(rigidbody.velocity.y < -descensionThreshold && timeSinceLastJump > cameraDelay)
         {
             if (vcam.GetCinemachineComponent<
                 CinemachineTransposer>().m_FollowOffset.y >= maxYOffset)
