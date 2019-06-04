@@ -280,7 +280,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 1388020917918184202}
+  groundThreshold: 0.5
   forceMultiplier: 1
+  speedBonusMultiplier: 1000
   maxVelocity: 350
   maxXAceleration: 85
   maxYAceleration: 0
@@ -297,7 +299,7 @@ MonoBehaviour:
   camSensivity: 1
   offsetYSensivity: 0.5
   cameraDelay: 0.3
-  buffYForce: 15
+  timeSinceLastFirePowerUp: 0
   spritePowerUp: {fileID: 21300000, guid: c49e94c9bdc7a4d44ae23dc415d2243c, type: 3}
   buffDuration: 10
   redPowerUpTrail: {fileID: 1388020918878784280}

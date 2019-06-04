@@ -36,7 +36,6 @@ public class PauseMenu : MonoBehaviour
     public void SaveSettings()
     {
         PlayerPrefs.SetFloat("volume", volumeSlider.value);
-
     }
 
 

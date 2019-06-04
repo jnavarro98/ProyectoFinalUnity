@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StarBehaviour : MonoBehaviour
+public class SpeedBonusBehaviour : MonoBehaviour
 {
-    public AudioSource starEffect;
-
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -20,9 +18,8 @@ public class StarBehaviour : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        GameManager.sharedInstance.starsAmount++;
-        starEffect.Play();
-        GetComponent<ParticleSystem>().enableEmission = false;
-        GetComponent<SpriteRenderer>().enabled = false; 
+        GetComponent<AudioSource>().Play();
+        GetComponent<BoxCollider2D>().enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
     }
 }

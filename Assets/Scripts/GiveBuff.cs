@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GiveBuff : MonoBehaviour
 {
-    public AudioSource powerUpSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +23,8 @@ public class GiveBuff : MonoBehaviour
     
     void OnTriggerEnter2D(Collider2D collision)
     {
-        powerUpSound.Play();
+        GetComponent<AudioSource>().Play();
+        GetComponent<CircleCollider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;
     }
 }

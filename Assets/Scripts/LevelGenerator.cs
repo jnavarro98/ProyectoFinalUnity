@@ -39,7 +39,7 @@ public class LevelGenerator : MonoBehaviour
     void Start()
     {
         sharedInstance = this;
-        currentPhase = Phase.Ice;
+        currentPhase = (Phase)Random.Range(0, 3);
         GenerateInitialBlocks();
         FreezeInitialEnemies();
     }

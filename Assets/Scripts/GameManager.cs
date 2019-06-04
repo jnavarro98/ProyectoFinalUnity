@@ -37,7 +37,6 @@ public class GameManager : MonoBehaviour
     const string settings = "preferences.txt";
     public AudioSource gameOverEffect;
     public AudioSource backgroundMusic;
-    public float timeSinceLastPowerUP = 0;
 
     public int target = 60;
     public int starsAmount = 0;
@@ -103,10 +102,15 @@ public class GameManager : MonoBehaviour
     {
         if (currentGameState == GameState.inGame)
         {
-            ManageStarsCounter();
-            textMetersTraveled.text = metersTraveled / 2 + " m";
-            timeSinceLastPowerUP += Time.deltaTime;
+            
         }
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        ManageStarsCounter();
+        textMetersTraveled.text = metersTraveled / 2 + " m";
     }
 
     void ManageStarsCounter()

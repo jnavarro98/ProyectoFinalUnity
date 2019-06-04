@@ -152,11 +152,15 @@ public class Parallax : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float t = Time.deltaTime * Speed * playerRigidbody.velocity.x;
-        foreach (FreeParallaxElement e in Elements)
+        if(GameManager.sharedInstance.currentGameState == GameState.inGame)
         {
-            e.Update(this, t, parallaxCamera);
+            float t = Time.deltaTime * Speed * playerRigidbody.velocity.x;
+            foreach (FreeParallaxElement e in Elements)
+            {
+                e.Update(this, t, parallaxCamera);
+            }
         }
+        
     }
 }
 

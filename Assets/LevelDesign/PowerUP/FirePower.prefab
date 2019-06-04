@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 498562977294151884}
   - component: {fileID: 4156122245858284459}
   m_Layer: 11
-  m_Name: PowerUP
-  m_TagString: RedPowerUp
+  m_Name: FirePower
+  m_TagString: FirePowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,10 +110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93137187b7ee67d408ebe72e8d06092d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 32768
-  powerUpSound: {fileID: 4156122245858284459}
 --- !u!82 &4156122245858284459
 AudioSource:
   m_ObjectHideFlags: 0

@@ -428,6 +428,31 @@ PrefabInstance:
       propertyPath: vcam
       value: 
       objectReference: {fileID: 844952651}
+    - target: {fileID: 1388020918878784276, guid: ccb17657af47721459131ec82cdd07fc,
+        type: 3}
+      propertyPath: groundThreshold
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388020918878784276, guid: ccb17657af47721459131ec82cdd07fc,
+        type: 3}
+      propertyPath: speedBonusMultiplier
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388020918878784276, guid: ccb17657af47721459131ec82cdd07fc,
+        type: 3}
+      propertyPath: xBonus
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388020918878784276, guid: ccb17657af47721459131ec82cdd07fc,
+        type: 3}
+      propertyPath: minFOV
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388020918878784276, guid: ccb17657af47721459131ec82cdd07fc,
+        type: 3}
+      propertyPath: buffDuration
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 1388020918878784280, guid: ccb17657af47721459131ec82cdd07fc,
         type: 3}
       propertyPath: m_Materials.Array.size
@@ -481,6 +506,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 4669679709965774192, guid: b01a3a8e748de3b49828e1e812356c41,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 0d33e09f37c6bfc40b6461adb296ce83,
+        type: 3}
+    - target: {fileID: 4669679709965774192, guid: b01a3a8e748de3b49828e1e812356c41,
+        type: 3}
+      propertyPath: m_FontData.m_FontStyle
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4894269872232782624, guid: b01a3a8e748de3b49828e1e812356c41,
         type: 3}
@@ -573,21 +609,15 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4669679709965774192, guid: b01a3a8e748de3b49828e1e812356c41,
-        type: 3}
-      propertyPath: m_FontData.m_Font
-      value: 
-      objectReference: {fileID: 12800000, guid: 0d33e09f37c6bfc40b6461adb296ce83,
-        type: 3}
-    - target: {fileID: 4669679709965774192, guid: b01a3a8e748de3b49828e1e812356c41,
-        type: 3}
-      propertyPath: m_FontData.m_FontStyle
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6050587426983198376, guid: b01a3a8e748de3b49828e1e812356c41,
         type: 3}
       propertyPath: m_Name
       value: StarIcon
+      objectReference: {fileID: 0}
+    - target: {fileID: 1475523328613397769, guid: b01a3a8e748de3b49828e1e812356c41,
+        type: 3}
+      propertyPath: m_inputSource
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b01a3a8e748de3b49828e1e812356c41, type: 3}
@@ -899,5 +929,28 @@ PrefabInstance:
       propertyPath: LevelStartPoint
       value: 
       objectReference: {fileID: 1645307854}
+    - target: {fileID: 8750579468032175524, guid: c9334f0077bb8824385d236ba93b987a,
+        type: 3}
+      propertyPath: testBlockEnabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8750579468032175524, guid: c9334f0077bb8824385d236ba93b987a,
+        type: 3}
+      propertyPath: testBlock
+      value: 
+      objectReference: {fileID: 1877739250343303460, guid: a5c4d2b83781ee04c8f695f8c7506bbc,
+        type: 3}
+    - target: {fileID: 8750579468032175524, guid: c9334f0077bb8824385d236ba93b987a,
+        type: 3}
+      propertyPath: lavaLevelBlocks.Array.data[1]
+      value: 
+      objectReference: {fileID: 5627259488357191563, guid: ed72e7d5b676e6f4a9e45086ab190091,
+        type: 3}
+    - target: {fileID: 8750579468032175524, guid: c9334f0077bb8824385d236ba93b987a,
+        type: 3}
+      propertyPath: iceLevelBlocks.Array.data[1]
+      value: 
+      objectReference: {fileID: 8130171364652683974, guid: 9034bed80272be64d929b61f04e873f9,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9334f0077bb8824385d236ba93b987a, type: 3}

@@ -9,13 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2337673678744041999}
+  - component: {fileID: 8268874956342573521}
   - component: {fileID: 2337673678744041989}
   - component: {fileID: 2337673678744041994}
   - component: {fileID: 2337673678744041995}
   - component: {fileID: 2732644779030066725}
   - component: {fileID: 4281080971144774773}
   - component: {fileID: 4503197210180362772}
-  - component: {fileID: 8268874956342573521}
   - component: {fileID: 6680834703263697402}
   - component: {fileID: 8761326605944518545}
   m_Layer: 10
@@ -39,6 +39,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!114 &8268874956342573521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2337673678744041996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d35c781e8d3e4264baa315c5225114c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  yDistance: 100
+  ySpeed: 50
+  delay: 0
 --- !u!212 &2337673678744041989
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4894,24 +4912,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &8268874956342573521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2337673678744041996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d35c781e8d3e4264baa315c5225114c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 32768
-  yDistance: 100
-  ySpeed: 50
-  delay: 0
 --- !u!50 &6680834703263697402
 Rigidbody2D:
   serializedVersion: 4

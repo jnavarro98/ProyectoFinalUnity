@@ -11,7 +11,9 @@ public class PlayerController : MonoBehaviour
 {
 
     public Rigidbody2D rigidbody;
+    public float groundThreshold = 0.5f;
     public float forceMultiplier = 1f;
+    public float speedBonusMultiplier = 3;
     public float maxVelocity;
     public float maxXAceleration = 40f;
     public float maxYAceleration = 10f;
@@ -21,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public float baseForceJump = 10;
     public float jumpForce = 100f;
     public float minVelocity = 5;
+    public float xBonus = 30;
 
     public float minFOV = 10f;
     public float maxFOV = 40f;
@@ -33,7 +36,9 @@ public class PlayerController : MonoBehaviour
 
     float lastYPosition;
     float yMovement;
-    public float buffYForce = 1.5f;
+
+
+    public float timeSinceLastFirePowerUp = 0;
 
     bool jump = false;
     bool descend = false;
@@ -86,6 +91,7 @@ public class PlayerController : MonoBehaviour
 
     void GetComponents()
     {
+        rigidbody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalSprite = GetComponent<SpriteRenderer>().sprite;
     }
@@ -94,7 +100,7 @@ public class PlayerController : MonoBehaviour
     {
         timeSinceLastJump = 0;
         ScreenWidth = Screen.width;
-        radius = GetComponent<CircleCollider2D>().radius + 0.1f;
+        radius = GetComponent<CircleCollider2D>().radius + groundThreshold;
         initialXPosition = transform.position.x;
     }
 
@@ -137,13 +143,19 @@ public class PlayerController : MonoBehaviour
 
         if (collider.gameObject.layer == LayerMask.NameToLayer("PowerUPs"))
         {
-            if (GameManager.sharedInstance.timeSinceLastPowerUP > 1f)
+            switch (collider.gameObject.tag)
             {
-                yAcceleration += buffYForce;
-                GameManager.sharedInstance.timeSinceLastPowerUP = 0;
-                spriteRenderer.sprite = spritePowerUp;
-                TrailState = true;
+                case "FirePowerUp":
+                        timeSinceLastFirePowerUp = 0;
+                        spriteRenderer.sprite = spritePowerUp;
+                        TrailState = true;
+                    break;
+                case "SpeedPowerUp":
+                    rigidbody.AddForce(new Vector2(rigidbody.velocity.normalized.x * speedBonusMultiplier,
+                        rigidbody.velocity.normalized.y * speedBonusMultiplier), ForceMode2D.Impulse);
+                    break;
             }
+            
         }
 
         if (collider.gameObject.layer == LayerMask.NameToLayer("OutOfBounds"))
@@ -180,9 +192,15 @@ public class PlayerController : MonoBehaviour
             CheckRedPowerUp();
             ManageSound();
             UpdateMeters();
+            ManageCounters();
         }
              
 
+    }
+
+    void ManageCounters()
+    {
+        timeSinceLastFirePowerUp += Time.deltaTime;
     }
 
     private void UpdateMeters()
@@ -230,19 +248,17 @@ public class PlayerController : MonoBehaviour
 
     private void CheckRedPowerUp()
     {
-
-        if (GameManager.sharedInstance.timeSinceLastPowerUP > buffDuration &&
+        if (timeSinceLastFirePowerUp > buffDuration &&
             TrailState)
         {
-            EndRedBuff();
+            EndFirePowerUp();
         }
     }
 
-    private void EndRedBuff()
+    private void EndFirePowerUp()
     {
         spriteRenderer.sprite = originalSprite;
         TrailState = false;
-        yAcceleration -= buffYForce;
     }
 
     void FixedUpdate()
@@ -284,8 +300,8 @@ public class PlayerController : MonoBehaviour
         {
             vcam.Follow = null;
             rigidbody.drag = 3;
-            ParticleSystem.MainModule ma = GetComponent<ParticleSystem>().main;
-            ma.startColor = fireColor;
+            ParticleSystem.MainModule main = GetComponent<ParticleSystem>().main;
+            main.startColor = fireColor;
             GetComponent<ParticleSystem>().Play();
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<CircleCollider2D>().enabled = false;
@@ -312,7 +328,8 @@ public class PlayerController : MonoBehaviour
         {
             vcam.Follow = null;
             rigidbody.drag = 3;
-            GetComponent<ParticleSystem>().startColor = Color.white;
+            ParticleSystem.MainModule main = GetComponent<ParticleSystem>().main;
+            main.startColor = Color.white;
             GetComponent<ParticleSystem>().Play();
             GetComponent<SpriteRenderer>().enabled = false;
             rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -326,22 +343,7 @@ public class PlayerController : MonoBehaviour
     public void MiniBoost()
     {
         float newXVelocity = Vector2.Reflect(rigidbody.velocity, Vector2.up).x;
-        rigidbody.velocity = new Vector2(newXVelocity + 10, baseForceJump);
-    }
-
-    void BoundsCheck()
-    {
-        //Checking wether the player is hit or not
-        /*var colliders = Physics2D.OverlapCircleAll(transform.position, radius, whatIsOutOfBounds);
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (colliders[i].gameObject != gameObject)
-            {
-                Debug.Log(colliders[i].gameObject.name);
-                Debug.Log("Me sali del mapa");
-                
-            }
-        }*/
+        rigidbody.velocity = new Vector2(newXVelocity + xBonus, baseForceJump);
     }
 
     void Jump()
@@ -401,6 +403,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             if (vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y <= minYOffset)
+                                                                                                         // se multiplica por 2.5 para que se recupere antes hacia arriba que hacia abajo
                 vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y += offsetYSensivity * 2.5f;
             if (vcam.m_Lens.OrthographicSize > minFOV)
                 vcam.m_Lens.OrthographicSize -= camSensivity;
