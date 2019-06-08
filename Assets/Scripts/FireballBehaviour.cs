@@ -36,7 +36,7 @@ public class FireballBehaviour : MonoBehaviour
     {
         if(GameManager.sharedInstance.currentGameState == GameState.inGame)
         {
-            if(IsReady())
+            if(IsReady() || ySpeed != 0)
                 Move();
         }
     }
@@ -61,7 +61,8 @@ public class FireballBehaviour : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        Despawn();
+        if(col.gameObject.layer == LayerMask.NameToLayer("Player"))
+            Despawn();
     }
 
     private void Despawn()

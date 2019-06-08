@@ -178,6 +178,18 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1184549965 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8721353224049797409, guid: b01a3a8e748de3b49828e1e812356c41,
+    type: 3}
+  m_PrefabInstance: {fileID: 4894269873290760142}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1184549966 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3926872608957878554, guid: b01a3a8e748de3b49828e1e812356c41,
+    type: 3}
+  m_PrefabInstance: {fileID: 4894269873290760142}
+  m_PrefabAsset: {fileID: 0}
 --- !u!82 &1318178252 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 1388020919050734267, guid: ccb17657af47721459131ec82cdd07fc,
@@ -348,10 +360,20 @@ PrefabInstance:
         type: 3}
       propertyPath: Elements.Array.data[8].GameObjects.Array.data[0]
       value: 
-      objectReference: {fileID: 2969305479228087656}
+      objectReference: {fileID: 1184549965}
     - target: {fileID: 621963999997732523, guid: 7f587d34f519b354da4dedebcd9d5dbe,
         type: 3}
       propertyPath: WrapOverlap
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 621963999997732520, guid: 7f587d34f519b354da4dedebcd9d5dbe,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9790996bf86fd8c4d8833f6278fa9cb8, type: 3}
+    - target: {fileID: 621963999997732520, guid: 7f587d34f519b354da4dedebcd9d5dbe,
+        type: 3}
+      propertyPath: m_Volume
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -426,7 +448,7 @@ PrefabInstance:
     - target: {fileID: 1388020919050734267, guid: ccb17657af47721459131ec82cdd07fc,
         type: 3}
       propertyPath: m_PlayOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1388020919050734267, guid: ccb17657af47721459131ec82cdd07fc,
         type: 3}
@@ -473,6 +495,16 @@ PrefabInstance:
       propertyPath: descensionThreshold
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 1388020918878784276, guid: ccb17657af47721459131ec82cdd07fc,
+        type: 3}
+      propertyPath: maxYAceleration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388020918878784276, guid: ccb17657af47721459131ec82cdd07fc,
+        type: 3}
+      propertyPath: yAcceleration
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1388020918878784280, guid: ccb17657af47721459131ec82cdd07fc,
         type: 3}
       propertyPath: m_Materials.Array.size
@@ -505,12 +537,6 @@ GameObject:
 --- !u!1 &2503675770058213616 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7013555278766851902, guid: b01a3a8e748de3b49828e1e812356c41,
-    type: 3}
-  m_PrefabInstance: {fileID: 4894269873290760142}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2969305479228087656 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7700846525653881510, guid: b01a3a8e748de3b49828e1e812356c41,
     type: 3}
   m_PrefabInstance: {fileID: 4894269873290760142}
   m_PrefabAsset: {fileID: 0}
@@ -554,6 +580,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 12800000, guid: 0d33e09f37c6bfc40b6461adb296ce83,
         type: 3}
+    - target: {fileID: 7700846525653881510, guid: b01a3a8e748de3b49828e1e812356c41,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4894269873260197710, guid: b01a3a8e748de3b49828e1e812356c41,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -644,6 +675,11 @@ PrefabInstance:
       propertyPath: m_inputSource
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9031556581460500296, guid: b01a3a8e748de3b49828e1e812356c41,
+        type: 3}
+      propertyPath: starsBackground
+      value: 
+      objectReference: {fileID: 1184549966}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b01a3a8e748de3b49828e1e812356c41, type: 3}
 --- !u!1 &4913897576871936572 stripped
@@ -957,13 +993,13 @@ PrefabInstance:
     - target: {fileID: 8750579468032175524, guid: c9334f0077bb8824385d236ba93b987a,
         type: 3}
       propertyPath: testBlockEnabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8750579468032175524, guid: c9334f0077bb8824385d236ba93b987a,
         type: 3}
       propertyPath: testBlock
       value: 
-      objectReference: {fileID: 1877739250343303460, guid: a5c4d2b83781ee04c8f695f8c7506bbc,
+      objectReference: {fileID: 1639273560547594505, guid: ee2a0af40f5f0a74e9bee3c6c7fecef8,
         type: 3}
     - target: {fileID: 8750579468032175524, guid: c9334f0077bb8824385d236ba93b987a,
         type: 3}

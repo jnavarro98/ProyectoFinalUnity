@@ -10,7 +10,7 @@ public class LevelGenerator : MonoBehaviour
     private enum Phase { Rock = 0, Lava = 1, Ice = 2 }
     private Phase currentPhase;
 
-    const int PHASE_SWITCH_AMOUNT = 3;
+    const int PHASE_SWITCH_AMOUNT = 2;
 
     public bool testBlockEnabled;
     public LevelBlock testBlock;
@@ -48,7 +48,11 @@ public class LevelGenerator : MonoBehaviour
     {
         if (phaseTracker == PHASE_SWITCH_AMOUNT)
         {
-            while (currentPhase == (currentPhase = (Phase)Random.Range(0, 3))) ;
+            if (currentPhase == Phase.Ice)
+                currentPhase = Phase.Rock;
+            else
+                currentPhase++;
+            
             phaseTracker = 0;
         }
     }
@@ -155,7 +159,6 @@ public class LevelGenerator : MonoBehaviour
             }
         } else
         {
-            Debug.LogWarning("Freeze is disabled");
         }
     }
 

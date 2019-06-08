@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
 
     public float timeScale;
     private float timeSinceStarPickup;
+    private bool invertedController = false;
 
     void Awake()
     {
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         ApplyGraphicsSettings();
         InitMusic();
         StartGame();
@@ -88,6 +90,7 @@ public class GameManager : MonoBehaviour
 
     private void LoadPreferences()
     {
+        invertedController = PlayerPrefs.GetInt("invertedControlls", 0) != 0;
         volumeMultiplicator = PlayerPrefs.GetFloat("volume", 100);
         ApplySettings();
     }
@@ -131,7 +134,6 @@ public class GameManager : MonoBehaviour
         if(timeSinceStarPickup <= 3)
             timeSinceStarPickup += Time.deltaTime;
 
-        Debug.Log(timeSinceStarPickup);
     }
 
     void DisableStarsCounter()
@@ -164,7 +166,8 @@ public class GameManager : MonoBehaviour
     {
         foreach(AudioSource a in Resources.FindObjectsOfTypeAll(typeof(AudioSource)))
         {
-             a.volume = volumeMultiplicator;
+            if(a != backgroundMusic)
+                a.volume = volumeMultiplicator;
         }
     }
 

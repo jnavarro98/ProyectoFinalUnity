@@ -26,7 +26,7 @@ public class BackgroundManagement : MonoBehaviour
     public static BackgroundManagement sharedInstance;
 
     float transitionTimeElapsed = TRANSITION_TIME;
-    public const float TRANSITION_TIME = 30;
+    public const float TRANSITION_TIME = 33;
     public Color[] backgroundColors;
     public int color;
     public int nextColor;
@@ -114,6 +114,7 @@ public class BackgroundManagement : MonoBehaviour
                         sprite.color = new Color(opaqueStars.r, opaqueStars.g, opaqueStars.b, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME)));
                     }
                 }
+                RenderSettings.skybox.SetFloat("_Rotation", Mathf.Lerp(300, 180, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME))));
             }
 
             if (currentBackgroundPhase == BackgroundPhase.Morning)
@@ -129,6 +130,17 @@ public class BackgroundManagement : MonoBehaviour
                         sprite.color = new Color(opaqueStars.r, opaqueStars.g, opaqueStars.b, transitionTimeElapsed / TRANSITION_TIME);
                     }
                 }
+                RenderSettings.skybox.SetFloat("_Rotation", Mathf.Lerp(180, 60, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME))));
+            }
+
+            if (currentBackgroundPhase == BackgroundPhase.MidDay)
+            {
+                RenderSettings.skybox.SetFloat("_Rotation", Mathf.Lerp(60, 0, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME))));
+            }
+
+            if (currentBackgroundPhase == BackgroundPhase.Evening)
+            {
+                RenderSettings.skybox.SetFloat("_Rotation", Mathf.Lerp(360, 300, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME))));
             }
 
             // update the timer
