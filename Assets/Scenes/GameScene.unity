@@ -993,13 +993,13 @@ PrefabInstance:
     - target: {fileID: 8750579468032175524, guid: c9334f0077bb8824385d236ba93b987a,
         type: 3}
       propertyPath: testBlockEnabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8750579468032175524, guid: c9334f0077bb8824385d236ba93b987a,
         type: 3}
       propertyPath: testBlock
       value: 
-      objectReference: {fileID: 1639273560547594505, guid: ee2a0af40f5f0a74e9bee3c6c7fecef8,
+      objectReference: {fileID: 8130171364652683974, guid: 9034bed80272be64d929b61f04e873f9,
         type: 3}
     - target: {fileID: 8750579468032175524, guid: c9334f0077bb8824385d236ba93b987a,
         type: 3}
@@ -1011,7 +1011,7 @@ PrefabInstance:
         type: 3}
       propertyPath: iceLevelBlocks.Array.data[1]
       value: 
-      objectReference: {fileID: 8130171364652683974, guid: 9034bed80272be64d929b61f04e873f9,
+      objectReference: {fileID: 1639273560547594505, guid: ee2a0af40f5f0a74e9bee3c6c7fecef8,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9334f0077bb8824385d236ba93b987a, type: 3}

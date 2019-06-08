@@ -80,6 +80,7 @@ public class LevelGenerator : MonoBehaviour
                         newBlock = Instantiate(firstBlockLava);
                         break;
                 }
+                phaseTracker--;
             }
             else
             {
