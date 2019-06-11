@@ -73,16 +73,19 @@ public class GameManager : MonoBehaviour
     public void InitMusic()
     {
 
-        switch (BackgroundManagement.sharedInstance.currentBackgroundPhase)
+        switch (PlayerPrefs.GetString("currentSong","song_0_0"))
         {
-            case BackgroundManagement.BackgroundPhase.MidDay:
-                backgroundMusic.time = 548;
+            case "song_0_0":
+                backgroundMusic.time = 0;
                 break;
-            case BackgroundManagement.BackgroundPhase.Evening:
+            case "song_0_1":
+                backgroundMusic.time = 64;
+                break;
+            case "song_1_0":
                 backgroundMusic.time = 373;
                 break;
-            case BackgroundManagement.BackgroundPhase.Night:
-                backgroundMusic.time = 64;
+            case "song_1_1":
+                backgroundMusic.time = 548;
                 break;
         }
 

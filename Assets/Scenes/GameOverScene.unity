@@ -532,7 +532,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -433, y: -89}
+  m_AnchoredPosition: {x: -433, y: -100}
   m_SizeDelta: {x: -699.4, y: -388.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1505606027
@@ -666,11 +666,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 826640768}
     m_Modifications:
-    - target: {fileID: 8073566166630825840, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
-        type: 3}
-      propertyPath: m_Name
-      value: QuitButton
-      objectReference: {fileID: 0}
     - target: {fileID: 8073566166630825843, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -734,7 +729,7 @@ PrefabInstance:
     - target: {fileID: 8073566166630825843, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -170
+      value: -141
       objectReference: {fileID: 0}
     - target: {fileID: 8073566166630825843, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
         type: 3}
@@ -776,10 +771,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8073566166760324496, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
+    - target: {fileID: 8073566166630825840, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
         type: 3}
       propertyPath: m_Name
-      value: Text
+      value: QuitButton
       objectReference: {fileID: 0}
     - target: {fileID: 8073566166630825842, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
         type: 3}
@@ -810,21 +805,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 8073566166630825845, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.18039216
-      objectReference: {fileID: 0}
-    - target: {fileID: 8073566166630825845, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.28627452
-      objectReference: {fileID: 0}
-    - target: {fileID: 8073566166630825845, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.5411765
       objectReference: {fileID: 0}
     - target: {fileID: 8073566166760324498, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
         type: 3}
@@ -861,6 +841,26 @@ PrefabInstance:
       propertyPath: m_firstOverflowCharacterIndex
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 8073566166630825845, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.18039216
+      objectReference: {fileID: 0}
+    - target: {fileID: 8073566166630825845, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.28627452
+      objectReference: {fileID: 0}
+    - target: {fileID: 8073566166630825845, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.5411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 8073566166760324496, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
+        type: 3}
+      propertyPath: m_Name
+      value: Text
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 286c8dc9bea14b74a8932a44d3bcc1bb, type: 3}
 --- !u!1001 &8073566166674618361
@@ -870,11 +870,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 826640768}
     m_Modifications:
-    - target: {fileID: 8073566166630825840, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
-        type: 3}
-      propertyPath: m_Name
-      value: ResumeButton
-      objectReference: {fileID: 0}
     - target: {fileID: 8073566166630825843, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -938,7 +933,7 @@ PrefabInstance:
     - target: {fileID: 8073566166630825843, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -167
+      value: -139
       objectReference: {fileID: 0}
     - target: {fileID: 8073566166630825843, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
         type: 3}
@@ -980,10 +975,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8073566166760324496, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
+    - target: {fileID: 8073566166630825840, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
         type: 3}
       propertyPath: m_Name
-      value: Text
+      value: ResumeButton
       objectReference: {fileID: 0}
     - target: {fileID: 8073566166630825842, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
         type: 3}
@@ -1040,21 +1035,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    - target: {fileID: 8073566166630825845, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.18039216
-      objectReference: {fileID: 0}
-    - target: {fileID: 8073566166630825845, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.28627452
-      objectReference: {fileID: 0}
-    - target: {fileID: 8073566166630825845, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.5411765
-      objectReference: {fileID: 0}
     - target: {fileID: 8073566166760324498, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
         type: 3}
       propertyPath: m_havePropertiesChanged
@@ -1104,6 +1084,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_firstOverflowCharacterIndex
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8073566166630825845, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.18039216
+      objectReference: {fileID: 0}
+    - target: {fileID: 8073566166630825845, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.28627452
+      objectReference: {fileID: 0}
+    - target: {fileID: 8073566166630825845, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.5411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 8073566166760324496, guid: 286c8dc9bea14b74a8932a44d3bcc1bb,
+        type: 3}
+      propertyPath: m_Name
+      value: Text
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 286c8dc9bea14b74a8932a44d3bcc1bb, type: 3}
