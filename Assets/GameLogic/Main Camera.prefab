@@ -763,6 +763,7 @@ MonoBehaviour:
   backgroundColors: []
   color: 0
   nextColor: 0
+  rainmaker: {fileID: 0}
 --- !u!114 &4894269873216276500
 MonoBehaviour:
   m_ObjectHideFlags: 0

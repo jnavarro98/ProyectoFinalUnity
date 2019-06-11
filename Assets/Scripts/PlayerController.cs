@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
     float timeSinceLastJump;
     public float cameraDelay;
 
+    float trailCap;
+
     float lastYPosition;
     float yMovement;
 
@@ -57,6 +59,8 @@ public class PlayerController : MonoBehaviour
     float ScreenWidth;
     List<TrailRenderer> trails;
 
+ 
+
     bool TrailState {
         get
         {
@@ -64,16 +68,31 @@ public class PlayerController : MonoBehaviour
         }
         set
         {
-            foreach(TrailRenderer t in trails)
+            for(int i = 0; i < trails.Count; i++)
             {
-                t.enabled = value;
+                trails[i].enabled = value;
+            }
+        }
+    }
+
+    float TrailTime
+    {
+        get
+        {
+            return trails[0].time;
+        }
+        set
+        {
+            for (int i = 0; i < trails.Count; i++)
+            {
+                trails[i].time = value;
             }
         }
     }
 
     public TrailRenderer redPowerUpTrail;
 
-    public AudioSource grassEffect;
+    public AudioSource rockEffect;
     public AudioSource hitGroundSound;
 
     public LayerMask whatIsGround;
@@ -113,6 +132,7 @@ public class PlayerController : MonoBehaviour
         {
             trails.Add(t);
         }
+        trailCap = TrailTime;
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -123,12 +143,12 @@ public class PlayerController : MonoBehaviour
             {
                 Color fireColor = Color.white;
 
-                if(collider.gameObject.tag == "Red")
+                if(collider.gameObject.CompareTag("Red"))
                 {
                     fireColor = Color.red;
                 }
 
-                if (collider.gameObject.tag == "Blue")
+                if (collider.gameObject.CompareTag("Blue"))
                 {
                     fireColor = new Color(0.2235294f, 0.9333334f, 1f);
                 }
@@ -147,9 +167,7 @@ public class PlayerController : MonoBehaviour
             switch (collider.gameObject.tag)
             {
                 case "FirePowerUp":
-                        timeSinceLastFirePowerUp = 0;
-                        spriteRenderer.sprite = spritePowerUp;
-                        TrailState = true;
+                    ActivateFirePowerUp();
                     break;
                 case "SpeedPowerUp":
                     rigidbody.AddForce(new Vector2(rigidbody.velocity.normalized.x * speedBonusMultiplier,
@@ -190,7 +208,7 @@ public class PlayerController : MonoBehaviour
             AcceleratePlayer();
             UpdateAscension();
             GroundCheck();
-            CheckRedPowerUp();
+            CheckFirePowerUp();
             ManageSound();
             UpdateMeters();
             ManageCounters();
@@ -207,11 +225,11 @@ public class PlayerController : MonoBehaviour
     private void UpdateMeters()
     {
         GameManager.sharedInstance.metersTraveled =
-            Math.Abs((int)((0.3)*(transform.position.x - initialXPosition)));
+            Math.Abs((int)((0.3)*(transform.position.x - initialXPosition))) / 2;
     }
     private void ManageSound()
     {
-        grassEffect.mute = !onGround;
+        rockEffect.mute = !onGround;
     }
 
     private void InputManagement()
@@ -247,16 +265,27 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void CheckRedPowerUp()
+    private void CheckFirePowerUp()
     {
         if (timeSinceLastFirePowerUp > buffDuration &&
             TrailState)
         {
-            EndFirePowerUp();
+            DeactivateFirePowerUp();
         }
-    }
+        if (TrailState)
+        {
+            TrailTime = Mathf.Lerp(trailCap, 0, timeSinceLastFirePowerUp / buffDuration);
+        }
 
-    private void EndFirePowerUp()
+    }
+    void ActivateFirePowerUp()
+    {
+        timeSinceLastFirePowerUp = 0;
+        spriteRenderer.sprite = spritePowerUp;
+        TrailState = true;
+        TrailTime = 1.2f;
+    }
+    private void DeactivateFirePowerUp()
     {
         spriteRenderer.sprite = originalSprite;
         TrailState = false;
@@ -382,6 +411,8 @@ public class PlayerController : MonoBehaviour
         }
         rigidbody.velocity = Vector2.ClampMagnitude(rigidbody.velocity, maxVelocity);
     }
+
+    
     void Descend()
     {
         

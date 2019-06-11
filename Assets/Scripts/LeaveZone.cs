@@ -7,7 +7,7 @@ public class LeaveZone : MonoBehaviour
     static float timeSinceLastDestruction = 0.0f;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(timeSinceLastDestruction > 0.5f && collision.tag == "Player")
+        if(timeSinceLastDestruction > 0.5f && collision.CompareTag("Player"))
         {
             
             LevelGenerator.sharedInstance.AddBlock();

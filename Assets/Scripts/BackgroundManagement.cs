@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DigitalRuby.RainMaker;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class BackgroundManagement : MonoBehaviour
     {
         Night = 0, Morning = 1, MidDay = 2, Evening = 3
     }
-
+    
 
     public BackgroundPhase currentBackgroundPhase;
     public BackgroundPhase lastBackgroundPhase;
@@ -17,6 +18,8 @@ public class BackgroundManagement : MonoBehaviour
     public Color colorMorning;
     public Color colorMidDay;
     public Color colorEvening;
+
+    public int rainChance = 2;
 
     public SpriteRenderer cloudBackground;
     public SpriteRenderer starsBackground;
@@ -30,18 +33,27 @@ public class BackgroundManagement : MonoBehaviour
     public Color[] backgroundColors;
     public int color;
     public int nextColor;
+
+    public RainScript2D rainmaker;
+    float lastRainCap = 0;
+    float rainCap = 0;
     // Start is called before the first frame update
     void Awake()
     {
+        CheckRain();
         PrepareBackgroundColors();
         PrepareBackgroundLayers();
+        PrepareComponents();
         sharedInstance = this;
     }
     void Start()
     {
         
     }
+    void PrepareComponents()
+    {
 
+    }
     // Update is called once per frame
     void Update()
     {
@@ -78,6 +90,7 @@ public class BackgroundManagement : MonoBehaviour
     private void UpdateBackground()
     {
 
+
         if (transitionTimeElapsed <= Time.deltaTime)
         {
             // start a new transition
@@ -89,7 +102,9 @@ public class BackgroundManagement : MonoBehaviour
             else
                 currentBackgroundPhase++;
 
-
+            CheckRain();
+            
+            
         }
         else
         {
@@ -101,17 +116,19 @@ public class BackgroundManagement : MonoBehaviour
                 Color.Lerp(backgroundColors[(int)currentBackgroundPhase], 
                 backgroundColors[(int)lastBackgroundPhase], transitionTimeElapsed / TRANSITION_TIME));
 
-            if(currentBackgroundPhase == BackgroundPhase.Night)
+            var sprites = GetComponentsInChildren<SpriteRenderer>();
+            if (currentBackgroundPhase == BackgroundPhase.Night)
             {
-                foreach(SpriteRenderer sprite in GetComponentsInChildren<SpriteRenderer>())
+                
+                for (int i = 0; i < sprites.Length; i++)
                 {
-                    if (sprite.name.Contains("Cloud"))
+                    if (sprites[i].name.Contains("Cloud"))
                     {
-                        sprite.color = new Color(opaqueCloud.r, opaqueCloud.g, opaqueCloud.b, transitionTimeElapsed / TRANSITION_TIME);
+                        sprites[i].color = new Color(opaqueCloud.r, opaqueCloud.g, opaqueCloud.b, transitionTimeElapsed / TRANSITION_TIME);
                     }
-                    if (sprite.name.Contains("Starfield"))
+                    if (sprites[i].name.Contains("Starfield"))
                     {
-                        sprite.color = new Color(opaqueStars.r, opaqueStars.g, opaqueStars.b, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME)));
+                        sprites[i].color = new Color(opaqueStars.r, opaqueStars.g, opaqueStars.b, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME)));
                     }
                 }
                 RenderSettings.skybox.SetFloat("_Rotation", Mathf.Lerp(300, 180, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME))));
@@ -119,15 +136,15 @@ public class BackgroundManagement : MonoBehaviour
 
             if (currentBackgroundPhase == BackgroundPhase.Morning)
             {
-                foreach (SpriteRenderer sprite in GetComponentsInChildren<SpriteRenderer>())
+                for (int i = 0; i < sprites.Length; i++)
                 {
-                    if (sprite.name.Contains("Cloud"))
+                    if (sprites[i].name.Contains("Cloud"))
                     {
-                        sprite.color = new Color(opaqueCloud.r, opaqueCloud.g, opaqueCloud.b, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME)));
+                        sprites[i].color = new Color(opaqueCloud.r, opaqueCloud.g, opaqueCloud.b, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME)));
                     }
-                    if (sprite.name.Contains("Starfield"))
+                    if (sprites[i].name.Contains("Starfield"))
                     {
-                        sprite.color = new Color(opaqueStars.r, opaqueStars.g, opaqueStars.b, transitionTimeElapsed / TRANSITION_TIME);
+                        sprites[i].color = new Color(opaqueStars.r, opaqueStars.g, opaqueStars.b, transitionTimeElapsed / TRANSITION_TIME);
                     }
                 }
                 RenderSettings.skybox.SetFloat("_Rotation", Mathf.Lerp(180, 60, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME))));
@@ -142,10 +159,60 @@ public class BackgroundManagement : MonoBehaviour
             {
                 RenderSettings.skybox.SetFloat("_Rotation", Mathf.Lerp(360, 300, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME))));
             }
+            
+            
 
+            ManageRain();
             // update the timer
             transitionTimeElapsed -= Time.deltaTime;
         }
 
+        
+
+    }
+
+    void CheckRain()
+    {
+        if (rainCap == 0)
+        {
+            rainmaker.RainIntensity = 0;
+        }
+
+        if (UnityEngine.Random.Range(0, rainChance) == 0)
+        {
+            if (rainmaker.RainIntensity > 0)
+            {
+                DeactivateRain();
+            }
+            else
+            {
+                ActivateRain();
+            }
+        }
+        else
+        {
+            lastRainCap = rainCap;
+        }
+    }
+
+    private void ManageRain()
+    {
+        if (lastRainCap != rainCap)
+            rainmaker.RainIntensity = Mathf.Lerp(lastRainCap, rainCap,
+                Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME)));
+    }
+
+    void ActivateRain()
+    {
+        lastRainCap = rainCap;
+        rainCap = UnityEngine.Random.Range(0.4f, 1f);
+        Debug.Log(rainCap);
+    }
+
+    void DeactivateRain()
+    {
+        lastRainCap = rainCap;
+        rainCap = 0;
+        Debug.Log("RainStop");
     }
 }

@@ -84,7 +84,11 @@ Properties {
 
 SubShader {
 
-	Tags
+	
+		
+		
+		
+
   {
 		"Queue"="Overlay"
 		"IgnoreProjector"="True"

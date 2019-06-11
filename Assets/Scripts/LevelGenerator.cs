@@ -138,10 +138,11 @@ public class LevelGenerator : MonoBehaviour
     {
         if(currentBlocks.Count == 3 && freezeEnemiesOutOfCurrentBlock)
         {
-            int currentLevelBlockIndex = ((currentBlocks.Count - 1) / 2);
-            foreach (FireballBehaviour enemy in currentBlocks[currentLevelBlockIndex].GetComponentsInChildren<FireballBehaviour>())
+            int currentLevelBlockIndex = (currentBlocks.Count/ 2);
+            var enemies = currentBlocks[currentLevelBlockIndex].GetComponentsInChildren<FireballBehaviour>();
+            for (int i = 0; i < enemies.Length; i++)
             {
-                enemy.ySpeed = FireballBehaviour.BASE_SPEED;
+                enemies[i].enabled = true;
             }
         } else
         {
@@ -154,9 +155,10 @@ public class LevelGenerator : MonoBehaviour
     {
         if (currentBlocks.Count == 3 && freezeEnemiesOutOfCurrentBlock)
         {
-            foreach (FireballBehaviour enemy in currentBlocks[index].GetComponentsInChildren<FireballBehaviour>())
+            var enemies = currentBlocks[index].GetComponentsInChildren<FireballBehaviour>();
+            for (int i = 0; i < enemies.Length; i++)
             {
-                enemy.ySpeed = 0;
+                enemies[i].enabled = false;
             }
         } else
         {

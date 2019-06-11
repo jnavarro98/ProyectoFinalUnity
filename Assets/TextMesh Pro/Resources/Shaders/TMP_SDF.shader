@@ -84,7 +84,10 @@ Properties {
 
 SubShader {
 
-	Tags
+	
+		
+		
+		
 	{
 		"Queue"="Transparent"
 		"IgnoreProjector"="True"

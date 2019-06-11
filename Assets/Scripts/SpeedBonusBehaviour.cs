@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class SpeedBonusBehaviour : MonoBehaviour
 {
+    void OnBecameVisible()
+    {
+        enabled = true;
+    }
+    void OnBecameInvisible()
+    {
+        enabled = false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

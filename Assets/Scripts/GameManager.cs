@@ -76,10 +76,10 @@ public class GameManager : MonoBehaviour
         switch (BackgroundManagement.sharedInstance.currentBackgroundPhase)
         {
             case BackgroundManagement.BackgroundPhase.MidDay:
-                backgroundMusic.time = 15;
+                backgroundMusic.time = 548;
                 break;
             case BackgroundManagement.BackgroundPhase.Evening:
-                backgroundMusic.time = 31;
+                backgroundMusic.time = 373;
                 break;
             case BackgroundManagement.BackgroundPhase.Night:
                 backgroundMusic.time = 64;
@@ -88,11 +88,25 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void LoadPreferences()
+    private void SetSound(bool newState)
     {
-        invertedController = PlayerPrefs.GetInt("invertedControlls", 0) != 0;
-        volumeMultiplicator = PlayerPrefs.GetFloat("volume", 100);
-        ApplySettings();
+        if (newState)
+        {
+            var audiosources = Resources.FindObjectsOfTypeAll<AudioSource>();
+            for (int i = 0; i < audiosources.Length; i++)
+            {
+                audiosources[i].UnPause();
+            }
+        }
+        else
+        {
+            var audiosources = Resources.FindObjectsOfTypeAll<AudioSource>();
+            for (int i = 0; i < audiosources.Length; i++)
+            {
+                audiosources[i].Pause();
+            }
+        }
+        
     }
     public void PauseGame()
     {
@@ -113,7 +127,7 @@ public class GameManager : MonoBehaviour
     private void UpdateUI()
     {
         ManageStarsCounter();
-        textMetersTraveled.text = metersTraveled / 2 + " m";
+        textMetersTraveled.text = metersTraveled + " m";
     }
 
     void ManageStarsCounter()
@@ -164,10 +178,11 @@ public class GameManager : MonoBehaviour
 
     private void ApplySettings()
     {
-        foreach(AudioSource a in Resources.FindObjectsOfTypeAll(typeof(AudioSource)))
+        UnityEngine.Object[] audiosources = Resources.FindObjectsOfTypeAll(typeof(AudioSource));
+        for(int i = 0; i < audiosources.Length; i++)
         {
-            if(a != backgroundMusic)
-                a.volume = volumeMultiplicator;
+            if(audiosources[i] != backgroundMusic)
+                ((AudioSource)audiosources[i]).volume = volumeMultiplicator;
         }
     }
 
@@ -187,30 +202,35 @@ public class GameManager : MonoBehaviour
     {
         if(newGameState == GameState.paused)
         {
-            foreach (AudioSource a in Resources.FindObjectsOfTypeAll(typeof(AudioSource)))
-            {
-                a.Pause();
-            }
+            SetSound(false);
         }
         if (newGameState == GameState.inGame)
         {
             UnfreezeGame();
-            LoadPreferences();
+            SetSound(true);
             backgroundMusic.Play();
         }
         if (newGameState == GameState.gameOver)
         {
-            foreach (AudioSource a in Resources.FindObjectsOfTypeAll(typeof(AudioSource)))
-            {
-                a.Stop();
-            }
+            SetSound(false);
             gameOverEffect.Play();
             Invoke("EndGame", gameOverEffect.clip.length);
+            
         }
         currentGameState = newGameState;
     }
     private void EndGame()
     {
+        SaveStats();
         SceneManager.LoadScene("GameOverScene");
+    }
+
+    private void SaveStats()
+    {
+        PlayerPrefs.SetInt("starsCollected", starsAmount);
+        PlayerPrefs.SetInt("starsTotal", PlayerPrefs.GetInt("starsTotal", 0) + starsAmount);
+        PlayerPrefs.SetInt("metersTraveled", metersTraveled);
+        if(PlayerPrefs.GetInt("metersRecord",0) < metersTraveled)
+            PlayerPrefs.SetInt("metersRecord", metersTraveled);
     }
 }

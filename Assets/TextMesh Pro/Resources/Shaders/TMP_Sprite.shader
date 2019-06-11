@@ -19,7 +19,8 @@ Shader "TextMeshPro/Sprite"
 
 	SubShader
 	{
-		Tags
+		
+
 		{ 
 			"Queue"="Transparent" 
 			"IgnoreProjector"="True" 
