@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
 {
 
 
+    public Canvas gameOverCanvas;
+    public Canvas gameCanvas;
     public MeshRenderer skyBox;
     public Color colorNight;
     public Color colorMorning;
@@ -51,8 +53,6 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         sharedInstance = this;
-        
-        
     }
     // Start is called before the first frame update
     void Start()
@@ -114,8 +114,8 @@ public class GameManager : MonoBehaviour
     public void PauseGame()
     {
         FreezeGame();
-        SceneManager.LoadScene("PauseScene", LoadSceneMode.Additive);
-        BackToMenu();
+        //SceneManager.LoadScene("PauseScene", LoadSceneMode.Additive);
+        SetGamePaused();
     }
     // Update is called once per frame
     void Update()
@@ -197,7 +197,7 @@ public class GameManager : MonoBehaviour
     {
         SetGameState(GameState.gameOver);
     }
-    public void BackToMenu()
+    public void SetGamePaused()
     {
         SetGameState(GameState.paused);
     }
@@ -218,14 +218,15 @@ public class GameManager : MonoBehaviour
             SetSound(false);
             gameOverEffect.Play();
             Invoke("EndGame", gameOverEffect.clip.length);
-            
         }
         currentGameState = newGameState;
     }
     private void EndGame()
     {
         SaveStats();
-        SceneManager.LoadScene("GameOverScene");
+        //SceneManager.LoadScene("GameOverScene");
+        gameCanvas.gameObject.SetActive(false);
+        gameOverCanvas.gameObject.SetActive(true);
     }
 
     private void SaveStats()

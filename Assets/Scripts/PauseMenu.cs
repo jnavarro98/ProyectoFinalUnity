@@ -8,8 +8,6 @@ using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
-    public Slider volumeSlider;
-    float volumeLevel;
 
     void Awake()
     {
@@ -20,7 +18,7 @@ public class PauseMenu : MonoBehaviour
     public void PlayGame()
     {
         GameManager.sharedInstance.StartGame();
-        SceneManager.UnloadSceneAsync("PauseScene");
+        //SceneManager.UnloadSceneAsync("PauseScene");
     }
 
     public void GoToMenu()
@@ -30,12 +28,12 @@ public class PauseMenu : MonoBehaviour
 
     private void LoadPreferences()
     {
-        volumeSlider.value = PlayerPrefs.GetFloat("volume",100);
+
     }
 
     public void SaveSettings()
     {
-        PlayerPrefs.SetFloat("volume", volumeSlider.value);
+
     }
 
 

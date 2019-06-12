@@ -9,8 +9,6 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public Slider volumeSlider;
-    float volumeLevel;
 
     void Awake()
     {
@@ -18,7 +16,6 @@ public class MainMenu : MonoBehaviour
     }
     private void LoadPreferences()
     {
-        volumeLevel = PlayerPrefs.GetFloat("volume", 100);
     }
     public void PlayGame ()
     {
@@ -31,6 +28,6 @@ public class MainMenu : MonoBehaviour
     }
     public void SaveSettings()
     {
-        PlayerPrefs.SetFloat("volume", volumeSlider.value);
+
     }
 }

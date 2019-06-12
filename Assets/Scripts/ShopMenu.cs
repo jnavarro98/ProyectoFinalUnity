@@ -167,6 +167,7 @@ public class ShopMenu : MonoBehaviour
         }
         if(!soundtrack.isPlaying)
             soundtrack.Play();
+        
     }
 
     public void StopSong()
