@@ -23,6 +23,7 @@ public class PauseMenu : MonoBehaviour
 
     public void GoToMenu()
     {
+        PlayerPrefs.SetInt("restart", 0);
         SceneManager.LoadScene("GameScene");
     }
 

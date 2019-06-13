@@ -20,7 +20,7 @@ public class ShopMenu : MonoBehaviour
     public Button purchaseButton10;
     public Button purchaseButton11;
 
-    AudioSource soundtrack;
+    public AudioSource soundtrack;
 
 
     // Start is called before the first frame update
@@ -33,8 +33,7 @@ public class ShopMenu : MonoBehaviour
     {
         if(infiniteStars)
             PlayerPrefs.DeleteAll();
-
-        soundtrack = GetComponent<AudioSource>();
+        
         UpdateButtons();
         UpdateStars(true);
     }

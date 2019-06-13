@@ -19,11 +19,13 @@ public class GameOverMenu : MonoBehaviour
 
     public void GoToMenu()
     {
-        SceneManager.LoadScene("MenuScene");
+        SceneManager.LoadScene("GameScene");
+        PlayerPrefs.SetInt("restart", 0);
     }
     public void PlayGame()
     {
         SceneManager.LoadScene("GameScene");
+        PlayerPrefs.SetInt("restart", 1);
     }
 
     // Update is called once per frame

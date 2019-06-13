@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     public Canvas gameOverCanvas;
     public Canvas gameCanvas;
+    public Canvas menuCanvas;
     public MeshRenderer skyBox;
     public Color colorNight;
     public Color colorMorning;
@@ -57,13 +58,23 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         sharedInstance = this;
-        currentGameState = GameState.paused;
-        SetSound(false);
     }
     // Start is called before the first frame update
     void Start()
     {
-        SetGameStateNoTimeScale(false);
+
+        if (PlayerPrefs.GetInt("restart", 0) != 0)
+        {
+            menuCanvas.gameObject.SetActive(false);
+            gameCanvas.gameObject.SetActive(true);
+            StartGame();
+        }
+        else
+        {
+            SetGameStateNoTimeScale(false);
+            currentGameState = GameState.paused;
+        }
+
         ApplyGraphicsSettings();
     }
 
