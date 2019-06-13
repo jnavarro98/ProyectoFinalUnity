@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController sharedInstance;
 
     public Rigidbody2D rigidbody;
     public float groundThreshold = 0.5f;
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public float minVelocity = 5;
     public float xBonus = 30;
     public float descensionThreshold;
+
 
     public float minFOV = 10f;
     public float maxFOV = 40f;
@@ -97,8 +99,9 @@ public class PlayerController : MonoBehaviour
 
     public LayerMask whatIsGround;
 
-    public CinemachineVirtualCamera vcam;
-    
+    public CinemachineVirtualCamera gameVCam;
+    public CinemachineVirtualCamera staticVCam;
+
 
 
     // Start is called before the first frame update
@@ -107,6 +110,16 @@ public class PlayerController : MonoBehaviour
         GetComponents();
         InitValues();
         InitTrails();
+    }
+
+    public void InvokeCamera()
+    {
+        Invoke("GetFollowedByCamera", 2f);
+    }
+
+    public void GetFollowedByCamera()
+    {
+        gameVCam.gameObject.SetActive(true);
     }
 
     void GetComponents()
@@ -193,7 +206,7 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        rigidbody.velocity = new Vector2(120, 120);
+        sharedInstance = this;
     }
 
     // Update is called once per frame
@@ -202,9 +215,11 @@ public class PlayerController : MonoBehaviour
         
         if (GameManager.sharedInstance.currentGameState == GameState.inGame)
         {
+
             InputManagement();
             Jump();
-            Descend();
+            if (GameManager.sharedInstance.currentGameTime > 3)
+                Descend();
             AcceleratePlayer();
             UpdateAscension();
             GroundCheck();
@@ -213,9 +228,12 @@ public class PlayerController : MonoBehaviour
             UpdateMeters();
             ManageCounters();
         }
-             
-
-    }
+        if (GameManager.sharedInstance.currentGameState == GameState.paused)
+        {
+            if(!rockEffect.mute)
+                rockEffect.mute = true;
+        }
+        }
 
     void ManageCounters()
     {
@@ -295,7 +313,8 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.sharedInstance.currentGameState == GameState.inGame)
         {
-            DirectCamera();
+            if(GameManager.sharedInstance.currentGameTime > 3)
+                DirectCamera();
         }
     }
     void UpdateAscension()
@@ -328,7 +347,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isDead)
         {
-            vcam.Follow = null;
+            gameVCam.Follow = null;
             rigidbody.drag = 3;
             ParticleSystem.MainModule main = GetComponent<ParticleSystem>().main;
             main.startColor = fireColor;
@@ -346,7 +365,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isDead)
         {
-            vcam.Follow = null;
+            gameVCam.Follow = null;
             GameManager.sharedInstance.SetGameState(GameState.gameOver);
             isDead = true;
         }
@@ -356,7 +375,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isDead)
         {
-            vcam.Follow = null;
+            gameVCam.Follow = null;
             rigidbody.drag = 3;
             ParticleSystem.MainModule main = GetComponent<ParticleSystem>().main;
             main.startColor = Color.white;
@@ -428,37 +447,37 @@ public class PlayerController : MonoBehaviour
         if (!onGround && timeSinceLastJump > cameraDelay)
         {
 
-            if (vcam.m_Lens.OrthographicSize < maxFOV)
-                vcam.m_Lens.OrthographicSize += camSensivity;
+            if (gameVCam.m_Lens.OrthographicSize < maxFOV)
+                gameVCam.m_Lens.OrthographicSize += camSensivity;
 
             if (rigidbody.velocity.y < - descensionThreshold)
             {
-                if (vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y >= maxYOffset)
-                    vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y -= offsetYSensivity;
+                if (gameVCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y >= maxYOffset)
+                    gameVCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y -= offsetYSensivity;
             }
             else
             {
-                if (vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y <= minYOffset)
-                    vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y += offsetYSensivity;
+                if (gameVCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y <= minYOffset)
+                    gameVCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y += offsetYSensivity;
             }
             
         }
         else
         {
-            if (vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y <= minYOffset)
+            if (gameVCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y <= minYOffset)
                                                                                                          // se multiplica por 2.5 para que se recupere antes hacia arriba que hacia abajo
-                vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y += offsetYSensivity * 2.5f;
-            if (vcam.m_Lens.OrthographicSize > minFOV)
-                vcam.m_Lens.OrthographicSize -= camSensivity;
+                gameVCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y += offsetYSensivity * 2.5f;
+            if (gameVCam.m_Lens.OrthographicSize > minFOV)
+                gameVCam.m_Lens.OrthographicSize -= camSensivity;
         }
 
         if(rigidbody.velocity.y < -descensionThreshold && timeSinceLastJump > cameraDelay)
         {
-            if (vcam.GetCinemachineComponent<
+            if (gameVCam.GetCinemachineComponent<
                 CinemachineTransposer>().m_FollowOffset.y >= maxYOffset)
-                vcam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y -= offsetYSensivity;
-            if (vcam.m_Lens.OrthographicSize < maxFOV)
-                vcam.m_Lens.OrthographicSize += camSensivity;
+                gameVCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y -= offsetYSensivity;
+            if (gameVCam.m_Lens.OrthographicSize < maxFOV)
+                gameVCam.m_Lens.OrthographicSize += camSensivity;
         }
     }
 }

@@ -266,7 +266,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!114 &1388020918878784276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,6 +292,8 @@ MonoBehaviour:
   baseForceJump: 250
   jumpForce: 2.5
   minVelocity: 25
+  xBonus: 30
+  descensionThreshold: 0
   minFOV: 120
   maxFOV: 180
   maxYOffset: -120
@@ -303,7 +305,7 @@ MonoBehaviour:
   spritePowerUp: {fileID: 21300000, guid: c49e94c9bdc7a4d44ae23dc415d2243c, type: 3}
   buffDuration: 10
   redPowerUpTrail: {fileID: 1388020918878784280}
-  grassEffect: {fileID: 1388020919050734267}
+  rockEffect: {fileID: 0}
   hitGroundSound: {fileID: 1388020918878784277}
   whatIsGround:
     serializedVersion: 2

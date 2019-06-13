@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     public Color colorMidDay;
     public Color colorEvening;
 
+    public float currentGameTime = 0;
+
     public GameState currentGameState = GameState.paused;
     //Singleton
     public AudioSource playerSoundGrass;
@@ -50,17 +52,19 @@ public class GameManager : MonoBehaviour
     private float timeSinceStarPickup;
     private bool invertedController = false;
 
+    bool hasStarted = false;
+
     void Awake()
     {
         sharedInstance = this;
+        currentGameState = GameState.paused;
+        SetSound(false);
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+        SetGameStateNoTimeScale(false);
         ApplyGraphicsSettings();
-        InitMusic();
-        StartGame();
     }
 
     void ApplyGraphicsSettings()
@@ -72,7 +76,6 @@ public class GameManager : MonoBehaviour
 
     public void InitMusic()
     {
-
         switch (PlayerPrefs.GetString("currentSong","song_0_0"))
         {
             case "song_0_0":
@@ -100,6 +103,7 @@ public class GameManager : MonoBehaviour
             {
                 audiosources[i].UnPause();
             }
+            
         }
         else
         {
@@ -122,9 +126,9 @@ public class GameManager : MonoBehaviour
     {
         if (currentGameState == GameState.inGame)
         {
-            
+            UpdateUI();
+            currentGameTime += Time.deltaTime;
         }
-        UpdateUI();
     }
 
     private void UpdateUI()
@@ -174,19 +178,20 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
     }
 
+    public void SetGameStateNoTimeScale(bool active)
+    {
+        foreach(Rigidbody2D rigidbody in Resources.FindObjectsOfTypeAll<Rigidbody2D>())
+        {
+            if (!active)
+                PlayerController.sharedInstance.rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+            else
+                PlayerController.sharedInstance.rigidbody.constraints = RigidbodyConstraints2D.None;
+        }
+    }
+
     public void UnfreezeGame()
     {
         Time.timeScale = 1f;
-    }
-
-    private void ApplySettings()
-    {
-        UnityEngine.Object[] audiosources = Resources.FindObjectsOfTypeAll(typeof(AudioSource));
-        for(int i = 0; i < audiosources.Length; i++)
-        {
-            if(audiosources[i] != backgroundMusic)
-                ((AudioSource)audiosources[i]).volume = volumeMultiplicator;
-        }
     }
 
     public void StartGame()
@@ -205,13 +210,23 @@ public class GameManager : MonoBehaviour
     {
         if(newGameState == GameState.paused)
         {
+            FreezeGame();
             SetSound(false);
         }
         if (newGameState == GameState.inGame)
         {
+            if (!hasStarted)
+            {
+                InitMusic();
+                PlayerController.sharedInstance.rigidbody.velocity = new Vector2(120, 120);
+                PlayerController.sharedInstance.InvokeCamera();
+                hasStarted = true;
+                SetGameStateNoTimeScale(true);
+            }
+            if(!backgroundMusic.isPlaying)
+                backgroundMusic.Play();
             UnfreezeGame();
             SetSound(true);
-            backgroundMusic.Play();
         }
         if (newGameState == GameState.gameOver)
         {

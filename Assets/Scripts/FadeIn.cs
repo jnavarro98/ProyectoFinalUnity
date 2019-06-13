@@ -16,14 +16,18 @@ public class FadeIn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.sharedInstance.backgroundMusic.volume < 1)
+        if(GameManager.sharedInstance.currentGameState == GameState.inGame)
         {
-            GameManager.sharedInstance.backgroundMusic.volume =
-                GameManager.sharedInstance.backgroundMusic.volume + (Time.deltaTime / (m_FadeInTime + 1));
+            if (GameManager.sharedInstance.backgroundMusic.volume < 1)
+            {
+                GameManager.sharedInstance.backgroundMusic.volume =
+                    GameManager.sharedInstance.backgroundMusic.volume + (Time.deltaTime / (m_FadeInTime + 1));
+            }
+            else
+            {
+                Destroy(this);
+            }
         }
-        else
-        {
-            Destroy(this);
-        }
+        
     }
 }

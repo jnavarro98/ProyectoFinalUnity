@@ -160,6 +160,14 @@ public class Parallax : MonoBehaviour
                 e.Update(this, t, parallaxCamera);
             }
         }
+        if(GameManager.sharedInstance.currentGameState == GameState.paused)
+        {
+            float t = Time.deltaTime * -20;
+            foreach (FreeParallaxElement e in Elements)
+            {
+                e.Update(this, t, parallaxCamera);
+            }
+        }
         
     }
 }
