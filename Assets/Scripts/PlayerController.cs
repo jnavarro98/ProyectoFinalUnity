@@ -10,7 +10,12 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController sharedInstance;
+    
 
+    ParticleSystem explosion;
+
+    public float maxChargeForce = 2;
+    public float minChargeForce = 0.5f;
     public Rigidbody2D rigidbody;
     public float groundThreshold = 0.5f;
     public float forceMultiplier = 1f;
@@ -44,14 +49,19 @@ public class PlayerController : MonoBehaviour
 
 
     public float timeSinceLastFirePowerUp = 0;
+    public Color fireSpriteColor;
+
+    Color originalTrailColor;
+    public Color chargeFireColor;
 
     bool jump = false;
+    bool willBounce = false;
     bool descend = false;
     bool isDead = false;
     private float initialXPosition;
 
     TrailRenderer trailRenderer;
-    public Sprite spritePowerUp;
+    public Sprite spriteFirePower;
     Sprite originalSprite;
     SpriteRenderer spriteRenderer;
     private bool onGround;
@@ -61,7 +71,7 @@ public class PlayerController : MonoBehaviour
     float ScreenWidth;
     List<TrailRenderer> trails;
 
- 
+    bool switchedControls; 
 
     bool TrailState {
         get
@@ -92,6 +102,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    Color TrailColor
+    {
+        get
+        {
+            return trails[0].endColor;
+        }
+        set
+        {
+            for (int i = 0; i < trails.Count; i++)
+            {
+                trails[i].endColor = value;
+                trails[i].startColor = value;
+            }
+        }
+    }
+
     public TrailRenderer redPowerUpTrail;
 
     public AudioSource rockEffect;
@@ -102,19 +128,29 @@ public class PlayerController : MonoBehaviour
     public CinemachineVirtualCamera gameVCam;
     public CinemachineVirtualCamera staticVCam;
 
+    float chargeForce = 0f;
+    private bool hasKilledFire;
+    public Transform particleSystemTransform;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        GetComponents();
         InitValues();
         InitTrails();
+        GetComponents();
     }
 
-    public void InvokeCamera()
+    public void FollowPlayer()
     {
         Invoke("GetFollowedByCamera", 2f);
+        switchedControls = PlayerPrefs.GetInt("switchedControls", 0) != 0;
+    }
+
+    public void CheckOptions()
+    {
+        switchedControls = PlayerPrefs.GetInt("switchedControls", 0) != 0;
     }
 
     public void GetFollowedByCamera()
@@ -124,9 +160,15 @@ public class PlayerController : MonoBehaviour
 
     void GetComponents()
     {
+        explosion = GetComponent<ParticleSystem>();
+        ParticleSystem.MainModule main = explosion.main;
+        main.startRotationZMultiplier = 0;
+        main.customSimulationSpace = particleSystemTransform;
         rigidbody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalSprite = GetComponent<SpriteRenderer>().sprite;
+        originalTrailColor = TrailColor;
+
     }
 
     void InitValues()
@@ -171,7 +213,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 Debug.Log("Bola de fuego");
-                MiniBoost();
+                Rebound();
             }
         }
 
@@ -227,6 +269,7 @@ public class PlayerController : MonoBehaviour
             ManageSound();
             UpdateMeters();
             ManageCounters();
+            CheckBounce();
         }
         if (GameManager.sharedInstance.currentGameState == GameState.paused)
         {
@@ -256,15 +299,42 @@ public class PlayerController : MonoBehaviour
         int i = 0;
         while(i < Input.touchCount)
         {
-            if(Input.GetTouch(i).position.x > ScreenWidth / 2 && 
-                Input.GetTouch(i).phase == TouchPhase.Began)
+            if (switchedControls)
             {
-                jump = true;
-            }
-            if (Input.GetTouch(i).position.x < ScreenWidth / 2)
+                if (Input.GetTouch(i).position.x > ScreenWidth / 2)
+                {
+                    descend = true;
+                }
+                if (Input.GetTouch(i).position.x < ScreenWidth / 2 &&
+                Input.GetTouch(i).phase == TouchPhase.Began && onGround)
+                {
+
+                    jump = true;
+                }
+                if (Input.GetTouch(i).position.x < ScreenWidth / 2 &&
+                Input.GetTouch(i).phase == TouchPhase.Stationary)
+                {
+                    ChargeBounce();
+                }
+
+            } else
             {
-                descend = true;
+                if (Input.GetTouch(i).position.x > ScreenWidth / 2 &&
+                Input.GetTouch(i).phase == TouchPhase.Began && onGround)
+                {
+                    jump = true;
+                }
+                if (Input.GetTouch(i).position.x < ScreenWidth / 2)
+                {
+                    descend = true;
+                }
+                if (Input.GetTouch(i).position.x > ScreenWidth / 2 &&
+                Input.GetTouch(i).phase == TouchPhase.Stationary)
+                {
+                    ChargeBounce();
+                }
             }
+            
             i++;
         }
         if (Input.GetButtonDown("Jump") && onGround)
@@ -274,6 +344,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.Z))
         {
             descend = true;
+        }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            ChargeBounce();
         }
         if (Input.GetKey(KeyCode.R))
         {
@@ -299,14 +373,15 @@ public class PlayerController : MonoBehaviour
     void ActivateFirePowerUp()
     {
         timeSinceLastFirePowerUp = 0;
-        spriteRenderer.sprite = spritePowerUp;
+        spriteRenderer.color = fireSpriteColor;
         TrailState = true;
         TrailTime = 1.2f;
     }
     private void DeactivateFirePowerUp()
     {
-        spriteRenderer.sprite = originalSprite;
+        spriteRenderer.color = Color.white;
         TrailState = false;
+        TrailColor = originalTrailColor;
     }
 
     void FixedUpdate()
@@ -337,6 +412,9 @@ public class PlayerController : MonoBehaviour
                 onGround = true;
                 if (!wasGrounded)
                 {
+
+                    CheckBounce();
+                    willBounce = false;
                     hitGroundSound.Play();
                 }
             }
@@ -349,10 +427,10 @@ public class PlayerController : MonoBehaviour
         {
             gameVCam.Follow = null;
             rigidbody.drag = 3;
-            ParticleSystem.MainModule main = GetComponent<ParticleSystem>().main;
+            ParticleSystem.MainModule main = explosion.main;
             main.startColor = fireColor;
-            GetComponent<ParticleSystem>().Play();
-            GetComponent<SpriteRenderer>().enabled = false;
+            explosion.Play();
+            spriteRenderer.enabled = false;
             GetComponent<CircleCollider2D>().enabled = false;
             rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
             TrailState = false;
@@ -380,7 +458,7 @@ public class PlayerController : MonoBehaviour
             ParticleSystem.MainModule main = GetComponent<ParticleSystem>().main;
             main.startColor = Color.white;
             GetComponent<ParticleSystem>().Play();
-            GetComponent<SpriteRenderer>().enabled = false;
+            spriteRenderer.enabled = false;
             rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
             TrailState = false;
             GameManager.sharedInstance.SetGameState(GameState.gameOver);
@@ -389,10 +467,22 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    public void MiniBoost()
+    public void Rebound()
     {
-        float newXVelocity = Vector2.Reflect(rigidbody.velocity, Vector2.up).x;
-        rigidbody.velocity = new Vector2(newXVelocity + xBonus, baseForceJump);
+        TrailColor = originalTrailColor;
+        spriteRenderer.color = fireSpriteColor;
+        float newXVelocity = Math.Abs(Vector2.Reflect(rigidbody.velocity, Vector2.up).x);
+        float newYVelocity = Math.Abs(Vector2.Reflect(rigidbody.velocity, Vector2.up).y);
+        rigidbody.velocity = new Vector2(newXVelocity + (chargeForce * newXVelocity),
+            newYVelocity + (chargeForce * newYVelocity));
+        chargeForce = 0;
+        hasKilledFire = true;
+        Invoke("RestoredKilledFire", Time.deltaTime);
+    }
+
+    void RestoredKilledFire()
+    {
+        hasKilledFire = false;
     }
 
     void Jump()
@@ -404,9 +494,53 @@ public class PlayerController : MonoBehaviour
             rigidbody.AddForce(new Vector2(0, (jumpForce * forceMultiplier * rigidbody.velocity.x) + baseForceJump), ForceMode2D.Impulse);
             jump = false;
             timeSinceLastJump = 0;
+            
         }
+        
         timeSinceLastJump += Time.deltaTime;
 
+    }
+
+    void CheckBounce()
+    {
+        if(TrailState && onGround && willBounce)
+        {
+            Bounce();
+        }
+    }
+
+    void ChargeBounce()
+    {
+
+        if (TrailState && !onGround && chargeForce < maxChargeForce)
+        {
+            spriteRenderer.color = Color.Lerp(fireSpriteColor, chargeFireColor, chargeForce / maxChargeForce);
+            TrailColor = Color.Lerp(fireSpriteColor, chargeFireColor, chargeForce / maxChargeForce);
+            chargeForce += Time.deltaTime;
+            willBounce = true;
+        }
+
+    }
+
+    void Bounce()
+    {
+        if (!hasKilledFire)
+        {
+            if (chargeForce > minChargeForce)
+            {
+                float newXVelocity = Math.Abs(Vector2.Reflect(rigidbody.velocity, Vector2.up).x);
+                float newYVelocity = Math.Abs(Vector2.Reflect(rigidbody.velocity, Vector2.up).y);
+                rigidbody.velocity = new Vector2(newXVelocity * chargeForce,
+                    newYVelocity * chargeForce);
+
+                timeSinceLastJump = 0;
+            }
+
+            TrailColor = originalTrailColor;
+            spriteRenderer.color = fireSpriteColor;
+            chargeForce = 0;
+        }
+        
     }
     void AcceleratePlayer()
     {

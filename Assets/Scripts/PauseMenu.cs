@@ -11,7 +11,7 @@ public class PauseMenu : MonoBehaviour
 
     void Awake()
     {
-        LoadPreferences();
+
     }
 
     // Start is called before the first frame update
@@ -25,16 +25,6 @@ public class PauseMenu : MonoBehaviour
     {
         PlayerPrefs.SetInt("restart", 0);
         SceneManager.LoadScene("GameScene");
-    }
-
-    private void LoadPreferences()
-    {
-
-    }
-
-    public void SaveSettings()
-    {
-
     }
 
 

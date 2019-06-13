@@ -229,8 +229,8 @@ public class GameManager : MonoBehaviour
             if (!hasStarted)
             {
                 InitMusic();
-                PlayerController.sharedInstance.rigidbody.velocity = new Vector2(120, 120);
-                PlayerController.sharedInstance.InvokeCamera();
+                PlayerController.sharedInstance.rigidbody.velocity = new Vector2(200, 0);
+                PlayerController.sharedInstance.FollowPlayer();
                 hasStarted = true;
                 SetGameStateNoTimeScale(true);
             }
