@@ -5,11 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - VolumeSlider
-  - Blue
-  - Red
   - FirePowerUp
   - SpeedPowerUp
   - RedPowerUp
+  - FireballRed
+  - FireballBlue
+  - Red
+  - Lava
   layers:
   - Default
   - TransparentFX

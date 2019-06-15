@@ -41,10 +41,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 4.3374023, y: 0.5}
+  m_Offset: {x: -11.2778015, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -55,7 +55,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 290.92383, y: 0.000100016594}
+  m_Size: {x: 322.15436, y: 0.000100016594}
   m_EdgeRadius: 0
 --- !u!1 &855425023661708031
 GameObject:
@@ -113,6 +113,7 @@ Transform:
   - {fileID: 605100219148215453}
   - {fileID: 6481062345971624854}
   - {fileID: 4007341443001355335}
+  - {fileID: 3404461277146987348}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -260,6 +261,63 @@ Transform:
   m_Father: {fileID: 6567159336730442376}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7595359047891631059
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3404461277146987348}
+  - component: {fileID: 6610459330249246395}
+  m_Layer: 12
+  m_Name: OutOfBounds (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3404461277146987348
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7595359047891631059}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1005, y: -303, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6567159336730442376}
+  m_RootOrder: 28
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &6610459330249246395
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7595359047891631059}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -80.18674, y: 0.5}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 459.97223, y: 0.000100016594}
+  m_EdgeRadius: 0
 --- !u!1001 &84573246620242925
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5011,7 +5069,7 @@ PrefabInstance:
     - target: {fileID: 4250024387415015218, guid: a5c5fd7d9ea6d1a43a740b30b42e7325,
         type: 3}
       propertyPath: m_LocalAABB.m_Center.y
-      value: 21.469315
+      value: 22.71431
       objectReference: {fileID: 0}
     - target: {fileID: 4250024387415015218, guid: a5c5fd7d9ea6d1a43a740b30b42e7325,
         type: 3}
@@ -5026,7 +5084,7 @@ PrefabInstance:
     - target: {fileID: 4250024387415015218, guid: a5c5fd7d9ea6d1a43a740b30b42e7325,
         type: 3}
       propertyPath: m_LocalAABB.m_Extent.y
-      value: 172.3494
+      value: 171.1044
       objectReference: {fileID: 0}
     - target: {fileID: 4250024387415015218, guid: a5c5fd7d9ea6d1a43a740b30b42e7325,
         type: 3}
@@ -5038,6 +5096,12 @@ PrefabInstance:
       propertyPath: m_SelectedEditorRenderState
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4250024387415015218, guid: a5c5fd7d9ea6d1a43a740b30b42e7325,
+        type: 3}
+      propertyPath: m_Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8713a4f7d3036c540a097bda38141c23,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5c5fd7d9ea6d1a43a740b30b42e7325, type: 3}
 --- !u!4 &7932219596390224906 stripped
@@ -11008,22 +11072,22 @@ PrefabInstance:
     - target: {fileID: 3268217878963205206, guid: 655c26a6dc9b2014e9a446220b8e8561,
         type: 3}
       propertyPath: m_LocalAABB.m_Center.x
-      value: 2873.249
+      value: 2871.8887
       objectReference: {fileID: 0}
     - target: {fileID: 3268217878963205206, guid: 655c26a6dc9b2014e9a446220b8e8561,
         type: 3}
       propertyPath: m_LocalAABB.m_Center.y
-      value: -190.11713
+      value: -188.87233
       objectReference: {fileID: 0}
     - target: {fileID: 3268217878963205206, guid: 655c26a6dc9b2014e9a446220b8e8561,
         type: 3}
       propertyPath: m_LocalAABB.m_Extent.x
-      value: 2297.751
+      value: 2299.1113
       objectReference: {fileID: 0}
     - target: {fileID: 3268217878963205206, guid: 655c26a6dc9b2014e9a446220b8e8561,
         type: 3}
       propertyPath: m_LocalAABB.m_Extent.y
-      value: 265.79184
+      value: 267.03665
       objectReference: {fileID: 0}
     - target: {fileID: 3268217878963205206, guid: 655c26a6dc9b2014e9a446220b8e8561,
         type: 3}
@@ -14611,7 +14675,7 @@ PrefabInstance:
     - target: {fileID: 4250024387415015218, guid: 9f3af718bf6432748970e1ea47c7058f,
         type: 3}
       propertyPath: m_LocalAABB.m_Center.y
-      value: -497.6182
+      value: -496.2568
       objectReference: {fileID: 0}
     - target: {fileID: 4250024387415015218, guid: 9f3af718bf6432748970e1ea47c7058f,
         type: 3}
@@ -14621,7 +14685,7 @@ PrefabInstance:
     - target: {fileID: 4250024387415015218, guid: 9f3af718bf6432748970e1ea47c7058f,
         type: 3}
       propertyPath: m_LocalAABB.m_Extent.y
-      value: 472.77475
+      value: 471.41336
       objectReference: {fileID: 0}
     - target: {fileID: 4250024387415015218, guid: 9f3af718bf6432748970e1ea47c7058f,
         type: 3}
@@ -14638,6 +14702,12 @@ PrefabInstance:
       propertyPath: m_SelectedEditorRenderState
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4250024387415015218, guid: 9f3af718bf6432748970e1ea47c7058f,
+        type: 3}
+      propertyPath: m_Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 33988961d9b9d694db01ab2cc0d10f3e,
+        type: 3}
     - target: {fileID: 160118102250478595, guid: 9f3af718bf6432748970e1ea47c7058f,
         type: 3}
       propertyPath: m_Spline.m_ControlPoints.Array.size
@@ -17181,7 +17251,7 @@ PrefabInstance:
     - target: {fileID: 4250024387415015218, guid: 9f3af718bf6432748970e1ea47c7058f,
         type: 3}
       propertyPath: m_LocalAABB.m_Center.y
-      value: 15.493576
+      value: 16.858566
       objectReference: {fileID: 0}
     - target: {fileID: 4250024387415015218, guid: 9f3af718bf6432748970e1ea47c7058f,
         type: 3}
@@ -17191,7 +17261,7 @@ PrefabInstance:
     - target: {fileID: 4250024387415015218, guid: 9f3af718bf6432748970e1ea47c7058f,
         type: 3}
       propertyPath: m_LocalAABB.m_Extent.y
-      value: 501.96136
+      value: 500.59637
       objectReference: {fileID: 0}
     - target: {fileID: 4250024387415015218, guid: 9f3af718bf6432748970e1ea47c7058f,
         type: 3}
@@ -17203,6 +17273,12 @@ PrefabInstance:
       propertyPath: m_LocalAABB.m_Extent.z
       value: 0.003
       objectReference: {fileID: 0}
+    - target: {fileID: 4250024387415015218, guid: 9f3af718bf6432748970e1ea47c7058f,
+        type: 3}
+      propertyPath: m_Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 33988961d9b9d694db01ab2cc0d10f3e,
+        type: 3}
     - target: {fileID: 160118102250478595, guid: 9f3af718bf6432748970e1ea47c7058f,
         type: 3}
       propertyPath: m_Spline.m_ControlPoints.Array.size

@@ -32,8 +32,15 @@ public class GiveBuff : MonoBehaviour
     
     void OnTriggerEnter2D(Collider2D collision)
     {
-        GetComponent<AudioSource>().Play();
+        AudioSource soundEffect = GetComponent<AudioSource>();
+        soundEffect.Play();
         GetComponent<CircleCollider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;
+        Invoke("Destroy", soundEffect.clip.length);
+    }
+
+    void Destroy()
+    {
+        gameObject.SetActive(false);
     }
 }

@@ -154,17 +154,33 @@ public class Parallax : MonoBehaviour
     {
         if(GameManager.sharedInstance.currentGameState == GameState.inGame)
         {
-            float t = Time.deltaTime * Speed * playerRigidbody.velocity.x;
-            foreach (FreeParallaxElement e in Elements)
+
+            if (PlayerController.sharedInstance.isPlaying)
             {
-                e.Update(this, t, parallaxCamera);
+                float t = Time.deltaTime * Speed * playerRigidbody.velocity.x;
+                foreach (FreeParallaxElement e in Elements)
+                {
+                    e.Update(this, t, parallaxCamera);
+                }
+            } else
+            {
+                float t = Time.deltaTime * -30;
+                foreach (FreeParallaxElement e in Elements)
+                {
+                    if (e.GameObjects[0].gameObject.name.Contains("Clouds") ||
+                        e.GameObjects[0].gameObject.name.Contains("Fog"))
+                        e.Update(this, t, parallaxCamera);
+                }
             }
+            
         }
         if(GameManager.sharedInstance.currentGameState == GameState.paused)
         {
-            float t = Time.deltaTime * -20;
+            float t = Time.deltaTime * -30;
             foreach (FreeParallaxElement e in Elements)
             {
+                if(e.GameObjects[0].gameObject.name.Contains("Clouds") ||
+                    e.GameObjects[0].gameObject.name.Contains("Fog"))
                 e.Update(this, t, parallaxCamera);
             }
         }

@@ -20,7 +20,8 @@ public class ShopMenu : MonoBehaviour
     public Button purchaseButton10;
     public Button purchaseButton11;
 
-    public AudioSource soundtrack;
+    AudioSource soundtrack;
+    AudioSource backgroundNoise;
 
 
     // Start is called before the first frame update
@@ -31,6 +32,14 @@ public class ShopMenu : MonoBehaviour
 
     void Awake()
     {
+        foreach(AudioSource a in FindObjectsOfType<AudioSource>())
+        {
+            if (a.clip.name == "BackgroundNoise")
+                backgroundNoise = a;
+            if (a.clip.name == "GameSoundtrack")
+                soundtrack = a;
+        }
+
         if(infiniteStars)
             PlayerPrefs.DeleteAll();
         
@@ -164,6 +173,10 @@ public class ShopMenu : MonoBehaviour
                 soundtrack.time = 550;
                 break;
         }
+
+        if (backgroundNoise.isPlaying)
+            backgroundNoise.Stop();
+
         if(!soundtrack.isPlaying)
             soundtrack.Play();
         
@@ -171,6 +184,9 @@ public class ShopMenu : MonoBehaviour
 
     public void StopSong()
     {
+        if (!backgroundNoise.isPlaying)
+            backgroundNoise.Play();
+
         soundtrack.Stop();
     }
 }

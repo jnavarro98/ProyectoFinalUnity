@@ -206,7 +206,6 @@ public class BackgroundManagement : MonoBehaviour
     {
         lastRainCap = rainCap;
         rainCap = UnityEngine.Random.Range(0.4f, 1f);
-        Debug.Log(rainCap);
     }
 
     void DeactivateRain()

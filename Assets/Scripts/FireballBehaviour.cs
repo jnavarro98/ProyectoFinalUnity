@@ -67,7 +67,6 @@ public class FireballBehaviour : MonoBehaviour
 
     private void Despawn()
     {
-        GetComponent<ParticleSystem>().Play();
         GetComponent<AudioSource>().Play();
         GetComponent<BoxCollider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;

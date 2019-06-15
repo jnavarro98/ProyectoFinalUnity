@@ -10,10 +10,13 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController sharedInstance;
-    
 
-    ParticleSystem explosion;
+    [Header("Physics")]
+    [Space(10)]
 
+    const int RGBMAX = 255;
+
+    public float bounceForce;
     public float maxChargeForce = 2;
     public float minChargeForce = 0.5f;
     public Rigidbody2D rigidbody;
@@ -31,47 +34,64 @@ public class PlayerController : MonoBehaviour
     public float minVelocity = 5;
     public float xBonus = 30;
     public float descensionThreshold;
+    public float secondsToCharge = 4;
 
+    [Header("Logic")]
+    [Space(10)]
 
+    public float minDeltaTime = 0.8f;
+    public int buffDuration;
+    public LayerMask whatIsGround;
+
+    [Header("Camera")]
+    [Space(10)]
+    public CinemachineVirtualCamera gameVCam;
+    public CinemachineVirtualCamera staticVCam;
     public float minFOV = 10f;
     public float maxFOV = 40f;
     public float maxYOffset = 40f;
     public float minYOffset = 40f;
     public float camSensivity = 0.01f;
     public float offsetYSensivity = 0.01f;
-    float timeSinceLastJump;
     public float cameraDelay;
 
-    float trailCap;
-
-    float lastYPosition;
-    float yMovement;
-
-
-    public float timeSinceLastFirePowerUp = 0;
+    [Header("Graphics")]
+    [Space(10)]
     public Color fireSpriteColor;
-
     Color originalTrailColor;
     public Color chargeFireColor;
-
-    bool jump = false;
-    bool willBounce = false;
-    bool descend = false;
-    bool isDead = false;
-    private float initialXPosition;
-
     TrailRenderer trailRenderer;
-    public Sprite spriteFirePower;
     Sprite originalSprite;
     SpriteRenderer spriteRenderer;
-    private bool onGround;
-    float radius;
-    bool ascending;
-    public int buffDuration;
-    float ScreenWidth;
+    ParticleSystem explosion;
+    public ParticleSystem bounceEffect;
     List<TrailRenderer> trails;
 
-    bool switchedControls; 
+    [Header("Audio")]
+    [Space(10)]
+    public AudioSource rockEffect;
+    public AudioSource bounceSoundEffect;
+    public AudioSource hitGroundSound;
+
+    float timeSinceLastJump = 0;
+    float trailCap;
+    float lastYPosition;
+    float yMovement;
+    float radius;
+    float timeSinceLastFirePowerUp;
+
+    float screenWidth;
+    float initialXPosition;
+    bool onGround;
+    bool ascending;
+    bool jump = false;
+    bool descend = false;
+    bool isDead = false;
+    bool switchedControls;
+    public bool isPlaying = false;
+    
+    float chargeForce = 0f;
+    private bool hasKilledFire;
 
     bool TrailState {
         get
@@ -113,24 +133,11 @@ public class PlayerController : MonoBehaviour
             for (int i = 0; i < trails.Count; i++)
             {
                 trails[i].endColor = value;
-                trails[i].startColor = value;
             }
         }
     }
 
-    public TrailRenderer redPowerUpTrail;
-
-    public AudioSource rockEffect;
-    public AudioSource hitGroundSound;
-
-    public LayerMask whatIsGround;
-
-    public CinemachineVirtualCamera gameVCam;
-    public CinemachineVirtualCamera staticVCam;
-
-    float chargeForce = 0f;
-    private bool hasKilledFire;
-    public Transform particleSystemTransform;
+    
 
 
 
@@ -155,6 +162,8 @@ public class PlayerController : MonoBehaviour
 
     public void GetFollowedByCamera()
     {
+        initialXPosition = transform.position.x;
+        isPlaying = true;
         gameVCam.gameObject.SetActive(true);
     }
 
@@ -162,21 +171,19 @@ public class PlayerController : MonoBehaviour
     {
         explosion = GetComponent<ParticleSystem>();
         ParticleSystem.MainModule main = explosion.main;
-        main.startRotationZMultiplier = 0;
-        main.customSimulationSpace = particleSystemTransform;
         rigidbody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalSprite = GetComponent<SpriteRenderer>().sprite;
         originalTrailColor = TrailColor;
+        TrailColor = originalTrailColor;
 
     }
 
     void InitValues()
     {
-        timeSinceLastJump = 0;
-        ScreenWidth = Screen.width;
+        timeSinceLastFirePowerUp = buffDuration;
+        screenWidth = Screen.width;
         radius = GetComponent<CircleCollider2D>().radius + groundThreshold;
-        initialXPosition = transform.position.x;
     }
 
     void InitTrails()
@@ -192,30 +199,6 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.layer == LayerMask.NameToLayer("FireEnemy"))
-        {
-            if (!TrailState)
-            {
-                Color fireColor = Color.white;
-
-                if(collider.gameObject.CompareTag("Red"))
-                {
-                    fireColor = Color.red;
-                }
-
-                if (collider.gameObject.CompareTag("Blue"))
-                {
-                    fireColor = new Color(0.2235294f, 0.9333334f, 1f);
-                }
-
-                GameOverFire(fireColor);
-            }
-            else
-            {
-                Debug.Log("Bola de fuego");
-                Rebound();
-            }
-        }
 
         if (collider.gameObject.layer == LayerMask.NameToLayer("PowerUPs"))
         {
@@ -236,14 +219,52 @@ public class PlayerController : MonoBehaviour
         {
             GameOverOut();
         }
-    }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Spikes"))
+        if (collider.gameObject.layer == LayerMask.NameToLayer("FireEnemy"))
+        {
+            if (!TrailState)
+            {
+                Color deathColor = Color.white;
+
+                if (collider.gameObject.tag.Contains("Red"))
+                {
+                    deathColor = Color.red;
+                }
+
+                if (collider.gameObject.tag.Contains("Blue"))
+                {
+                    deathColor = new Color(0.2235294f, 0.9333334f, 1f);
+                }
+
+                GameOverFire(deathColor);
+            }
+            else
+            {
+                if (collider.gameObject.CompareTag("FireballBlue") || collider.gameObject.CompareTag("FireballRed"))
+                {
+                    Bounce(Vector2.up);
+                } else
+                {
+                    Bounce(ClosestPointToCollider(collider) - new Vector2(transform.position.x, transform.position.y));
+                }
+            }
+
+        }
+        if (collider.gameObject.layer == LayerMask.NameToLayer("Spikes"))
         {
             GameOverSpikes();
         }
+    }
+
+    Vector2 ClosestPointToCollider(Collider2D col)
+    {
+        GameObject go = new GameObject("tempCollider");
+        go.transform.position = transform.position;
+        CircleCollider2D c = go.AddComponent<CircleCollider2D>();
+        c.radius = 0.1f;
+        ColliderDistance2D dist = col.Distance(c);
+        Destroy(go);
+        return dist.pointA;
     }
 
     void Awake()
@@ -257,19 +278,19 @@ public class PlayerController : MonoBehaviour
         
         if (GameManager.sharedInstance.currentGameState == GameState.inGame)
         {
+            GroundCheck();
+            UpdateAscension();
+            CheckFirePowerUp();
 
             InputManagement();
+            AcceleratePlayer();
             Jump();
             if (GameManager.sharedInstance.currentGameTime > 3)
                 Descend();
-            AcceleratePlayer();
-            UpdateAscension();
-            GroundCheck();
-            CheckFirePowerUp();
+
             ManageSound();
             UpdateMeters();
             ManageCounters();
-            CheckBounce();
         }
         if (GameManager.sharedInstance.currentGameState == GameState.paused)
         {
@@ -285,8 +306,12 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateMeters()
     {
-        GameManager.sharedInstance.metersTraveled =
-            Math.Abs((int)((0.3)*(transform.position.x - initialXPosition))) / 2;
+        if (isPlaying)
+        {
+            GameManager.sharedInstance.metersTraveled =
+            Math.Abs((int)((0.3) * (transform.position.x - initialXPosition))) / 3;
+        }
+        
     }
     private void ManageSound()
     {
@@ -301,17 +326,17 @@ public class PlayerController : MonoBehaviour
         {
             if (switchedControls)
             {
-                if (Input.GetTouch(i).position.x > ScreenWidth / 2)
+                if (Input.GetTouch(i).position.x > screenWidth / 2)
                 {
                     descend = true;
                 }
-                if (Input.GetTouch(i).position.x < ScreenWidth / 2 &&
+                if (Input.GetTouch(i).position.x < screenWidth / 2 &&
                 Input.GetTouch(i).phase == TouchPhase.Began && onGround)
                 {
 
                     jump = true;
                 }
-                if (Input.GetTouch(i).position.x < ScreenWidth / 2 &&
+                if (Input.GetTouch(i).position.x < screenWidth / 2 &&
                 Input.GetTouch(i).phase == TouchPhase.Stationary)
                 {
                     ChargeBounce();
@@ -319,16 +344,16 @@ public class PlayerController : MonoBehaviour
 
             } else
             {
-                if (Input.GetTouch(i).position.x > ScreenWidth / 2 &&
+                if (Input.GetTouch(i).position.x > screenWidth / 2 &&
                 Input.GetTouch(i).phase == TouchPhase.Began && onGround)
                 {
                     jump = true;
                 }
-                if (Input.GetTouch(i).position.x < ScreenWidth / 2)
+                if (Input.GetTouch(i).position.x < screenWidth / 2)
                 {
                     descend = true;
                 }
-                if (Input.GetTouch(i).position.x > ScreenWidth / 2 &&
+                if (Input.GetTouch(i).position.x > screenWidth / 2 &&
                 Input.GetTouch(i).phase == TouchPhase.Stationary)
                 {
                     ChargeBounce();
@@ -362,9 +387,9 @@ public class PlayerController : MonoBehaviour
         if (timeSinceLastFirePowerUp > buffDuration &&
             TrailState)
         {
-            DeactivateFirePowerUp();
+                DeactivateFirePowerUp();
         }
-        if (TrailState)
+        if (timeSinceLastFirePowerUp < buffDuration)
         {
             TrailTime = Mathf.Lerp(trailCap, 0, timeSinceLastFirePowerUp / buffDuration);
         }
@@ -372,16 +397,17 @@ public class PlayerController : MonoBehaviour
     }
     void ActivateFirePowerUp()
     {
+        chargeForce = 0;
         timeSinceLastFirePowerUp = 0;
-        spriteRenderer.color = fireSpriteColor;
+        UpdateChargeState();
         TrailState = true;
-        TrailTime = 1.2f;
     }
     private void DeactivateFirePowerUp()
     {
-        spriteRenderer.color = Color.white;
         TrailState = false;
-        TrailColor = originalTrailColor;
+        chargeForce = 0;
+        UpdateChargeState();
+        spriteRenderer.color = Color.white;
     }
 
     void FixedUpdate()
@@ -412,10 +438,13 @@ public class PlayerController : MonoBehaviour
                 onGround = true;
                 if (!wasGrounded)
                 {
-
-                    CheckBounce();
-                    willBounce = false;
+                    
                     hitGroundSound.Play();
+                    if(Time.timeScale != 1)
+                    {
+                        Time.timeScale = 1;
+                        GameManager.sharedInstance.backgroundMusic.pitch = 1;
+                    }
                 }
             }
         }
@@ -467,19 +496,6 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    public void Rebound()
-    {
-        TrailColor = originalTrailColor;
-        spriteRenderer.color = fireSpriteColor;
-        float newXVelocity = Math.Abs(Vector2.Reflect(rigidbody.velocity, Vector2.up).x);
-        float newYVelocity = Math.Abs(Vector2.Reflect(rigidbody.velocity, Vector2.up).y);
-        rigidbody.velocity = new Vector2(newXVelocity + (chargeForce * newXVelocity),
-            newYVelocity + (chargeForce * newYVelocity));
-        chargeForce = 0;
-        hasKilledFire = true;
-        Invoke("RestoredKilledFire", Time.deltaTime);
-    }
-
     void RestoredKilledFire()
     {
         hasKilledFire = false;
@@ -494,54 +510,80 @@ public class PlayerController : MonoBehaviour
             rigidbody.AddForce(new Vector2(0, (jumpForce * forceMultiplier * rigidbody.velocity.x) + baseForceJump), ForceMode2D.Impulse);
             jump = false;
             timeSinceLastJump = 0;
-            
+            if(TrailState)
+                UpdateChargeState();
         }
         
         timeSinceLastJump += Time.deltaTime;
 
     }
 
-    void CheckBounce()
-    {
-        if(TrailState && onGround && willBounce)
-        {
-            Bounce();
-        }
-    }
 
     void ChargeBounce()
     {
 
-        if (TrailState && !onGround && chargeForce < maxChargeForce)
+        if (timeSinceLastFirePowerUp < buffDuration && !onGround && chargeForce < maxChargeForce && timeSinceLastJump > 0.2f)
         {
-            spriteRenderer.color = Color.Lerp(fireSpriteColor, chargeFireColor, chargeForce / maxChargeForce);
-            TrailColor = Color.Lerp(fireSpriteColor, chargeFireColor, chargeForce / maxChargeForce);
-            chargeForce += Time.deltaTime;
-            willBounce = true;
-        }
 
-    }
-
-    void Bounce()
-    {
-        if (!hasKilledFire)
-        {
-            if (chargeForce > minChargeForce)
-            {
-                float newXVelocity = Math.Abs(Vector2.Reflect(rigidbody.velocity, Vector2.up).x);
-                float newYVelocity = Math.Abs(Vector2.Reflect(rigidbody.velocity, Vector2.up).y);
-                rigidbody.velocity = new Vector2(newXVelocity * chargeForce,
-                    newYVelocity * chargeForce);
-
-                timeSinceLastJump = 0;
-            }
-
-            TrailColor = originalTrailColor;
-            spriteRenderer.color = fireSpriteColor;
-            chargeForce = 0;
+            UpdateChargeState();
+            
+            Debug.Log(Time.timeScale);
+            chargeForce += Time.deltaTime / secondsToCharge;
         }
         
+
     }
+
+    private void UpdateChargeState()
+    {
+
+        spriteRenderer.color = Color.Lerp(fireSpriteColor, chargeFireColor, chargeForce / maxChargeForce);
+        TrailColor = Color.Lerp(originalTrailColor, chargeFireColor, chargeForce / maxChargeForce);
+
+        if (Time.timeScale > minDeltaTime)
+        {
+            Time.timeScale = Mathf.Lerp(1, minDeltaTime, chargeForce / maxChargeForce);
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            GameManager.sharedInstance.backgroundMusic.pitch = Time.timeScale;
+        }
+    }
+
+    void Bounce(Vector2 direction)
+    {
+        if (chargeForce > minChargeForce)
+        {
+            Vector2 newVelocity = Vector2.Reflect(rigidbody.velocity, direction.normalized);
+            rigidbody.velocity = new Vector2(baseForceJump * newVelocity.normalized.x + newVelocity.x * chargeForce * bounceForce,
+                baseForceJump * Math.Abs(newVelocity.normalized.y) + Math.Abs(newVelocity.y) * chargeForce * bounceForce);
+
+            timeSinceLastJump = 0;
+        }
+        else
+        {
+            Vector2 newVelocity = Vector2.Reflect(rigidbody.velocity, direction.normalized);
+            rigidbody.velocity = new Vector2(baseForceJump * newVelocity.normalized.x + newVelocity.x * minChargeForce * bounceForce,
+               baseForceJump * Math.Abs(newVelocity.normalized.y) + Math.Abs(newVelocity.y) * minChargeForce * bounceForce);
+
+            timeSinceLastJump = 0;
+        }
+
+        AnimateBounce();
+        chargeForce = 0;
+        UpdateChargeState();
+
+    }
+    void AnimateBounce()
+    {
+        ParticleSystem currentEffect = Instantiate(bounceEffect);
+        currentEffect.transform.position = new Vector3(transform.position.x, transform.position.y - radius, transform.position.z);
+        currentEffect.transform.rotation = new Quaternion(0, 0, 0, Vector2.Angle(Vector2.zero, rigidbody.velocity));
+
+        ParticleSystem.MainModule main = currentEffect.main;
+        main.startColor = spriteRenderer.color;
+        currentEffect.Play();
+        bounceSoundEffect.Play();
+    }
+
     void AcceleratePlayer()
     {
         //Land accelleration (has my custom formula to fit my level design)
@@ -614,4 +656,12 @@ public class PlayerController : MonoBehaviour
                 gameVCam.m_Lens.OrthographicSize += camSensivity;
         }
     }
+
+    Color InverseColor(Color ColourToInvert)
+    {
+        return new Color(RGBMAX - ColourToInvert.r,
+          RGBMAX - ColourToInvert.g, RGBMAX - ColourToInvert.b);
+    }
+
+
 }

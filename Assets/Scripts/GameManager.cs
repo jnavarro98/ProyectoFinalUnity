@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     const string settings = "preferences.txt";
     public AudioSource gameOverEffect;
     public AudioSource backgroundMusic;
+    public AudioSource backgroundNoise;
 
     public int target = 60;
     public int starsAmount = 0;
@@ -51,13 +52,13 @@ public class GameManager : MonoBehaviour
 
     public float timeScale;
     private float timeSinceStarPickup;
-    private bool invertedController = false;
 
     bool hasStarted = false;
 
     void Awake()
     {
         sharedInstance = this;
+        ApplyGraphicsSettings();
     }
     // Start is called before the first frame update
     void Start()
@@ -74,8 +75,7 @@ public class GameManager : MonoBehaviour
             SetGameStateNoTimeScale(false);
             currentGameState = GameState.paused;
         }
-
-        ApplyGraphicsSettings();
+        
     }
 
     void ApplyGraphicsSettings()
@@ -112,7 +112,8 @@ public class GameManager : MonoBehaviour
             var audiosources = Resources.FindObjectsOfTypeAll<AudioSource>();
             for (int i = 0; i < audiosources.Length; i++)
             {
-                audiosources[i].UnPause();
+                if(audiosources[i] != backgroundNoise)
+                    audiosources[i].UnPause();
             }
             
         }
@@ -121,7 +122,8 @@ public class GameManager : MonoBehaviour
             var audiosources = Resources.FindObjectsOfTypeAll<AudioSource>();
             for (int i = 0; i < audiosources.Length; i++)
             {
-                audiosources[i].Pause();
+                if (audiosources[i] != backgroundNoise)
+                    audiosources[i].Pause();
             }
         }
         
@@ -221,6 +223,9 @@ public class GameManager : MonoBehaviour
     {
         if(newGameState == GameState.paused)
         {
+            if (backgroundNoise.isPlaying)
+                backgroundNoise.Pause();
+
             FreezeGame();
             SetSound(false);
         }
@@ -228,16 +233,24 @@ public class GameManager : MonoBehaviour
         {
             if (!hasStarted)
             {
+                if (backgroundNoise.isPlaying)
+                    backgroundNoise.Pause();
+
                 InitMusic();
+                
                 PlayerController.sharedInstance.rigidbody.velocity = new Vector2(200, 0);
                 PlayerController.sharedInstance.FollowPlayer();
+
                 hasStarted = true;
                 SetGameStateNoTimeScale(true);
             }
+
             if(!backgroundMusic.isPlaying)
                 backgroundMusic.Play();
+            
             UnfreezeGame();
             SetSound(true);
+
         }
         if (newGameState == GameState.gameOver)
         {
@@ -250,7 +263,8 @@ public class GameManager : MonoBehaviour
     private void EndGame()
     {
         SaveStats();
-        //SceneManager.LoadScene("GameOverScene");
+        if (!backgroundNoise.isPlaying)
+            backgroundNoise.Play();
         gameCanvas.gameObject.SetActive(false);
         gameOverCanvas.gameObject.SetActive(true);
     }
