@@ -40,9 +40,6 @@ public class ShopMenu : MonoBehaviour
                 soundtrack = a;
         }
 
-        if(infiniteStars)
-            PlayerPrefs.DeleteAll();
-        
         UpdateButtons();
         UpdateStars(true);
     }

@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public Canvas gameOverCanvas;
     public Canvas gameCanvas;
     public Canvas menuCanvas;
+    public Canvas UICanvas;
     public MeshRenderer skyBox;
     public Color colorNight;
     public Color colorMorning;
@@ -52,7 +53,7 @@ public class GameManager : MonoBehaviour
 
     public float timeScale;
     private float timeSinceStarPickup;
-
+    public bool slowDownMusic = true;
     bool hasStarted = false;
 
     void Awake()
@@ -127,12 +128,6 @@ public class GameManager : MonoBehaviour
             }
         }
         
-    }
-    public void PauseGame()
-    {
-        FreezeGame();
-        //SceneManager.LoadScene("PauseScene", LoadSceneMode.Additive);
-        SetGamePaused();
     }
     // Update is called once per frame
     void Update()
@@ -244,10 +239,14 @@ public class GameManager : MonoBehaviour
                 hasStarted = true;
                 SetGameStateNoTimeScale(true);
             }
-
-            if(!backgroundMusic.isPlaying)
-                backgroundMusic.Play();
             
+            if (!backgroundMusic.isPlaying)
+                backgroundMusic.Play();
+
+            slowDownMusic = PlayerPrefs.GetInt("slowDownMusic", 1) != 0;
+            if (!slowDownMusic)
+                backgroundMusic.pitch = 1;
+
             UnfreezeGame();
             SetSound(true);
 
@@ -255,6 +254,7 @@ public class GameManager : MonoBehaviour
         if (newGameState == GameState.gameOver)
         {
             SetSound(false);
+            UICanvas.gameObject.SetActive(false);
             gameOverEffect.Play();
             Invoke("EndGame", gameOverEffect.clip.length);
         }

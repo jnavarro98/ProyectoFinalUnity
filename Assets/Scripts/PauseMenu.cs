@@ -17,7 +17,7 @@ public class PauseMenu : MonoBehaviour
     // Start is called before the first frame update
     public void PlayGame()
     {
-        GameManager.sharedInstance.StartGame();
+            GameManager.sharedInstance.StartGame();
         //SceneManager.UnloadSceneAsync("PauseScene");
     }
 

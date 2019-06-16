@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class BackgroundManagement : MonoBehaviour
@@ -10,7 +11,8 @@ public class BackgroundManagement : MonoBehaviour
     {
         Night = 0, Morning = 1, MidDay = 2, Evening = 3
     }
-    
+
+    SpriteRenderer[] sprites;
 
     public BackgroundPhase currentBackgroundPhase;
     public BackgroundPhase lastBackgroundPhase;
@@ -29,7 +31,7 @@ public class BackgroundManagement : MonoBehaviour
     public static BackgroundManagement sharedInstance;
 
     float transitionTimeElapsed = TRANSITION_TIME;
-    public const float TRANSITION_TIME = 33;
+    public const float TRANSITION_TIME = 60;
     public Color[] backgroundColors;
     public int color;
     public int nextColor;
@@ -48,7 +50,8 @@ public class BackgroundManagement : MonoBehaviour
     }
     void Start()
     {
-        
+        StartCoroutine(UpdateBackground());
+        StartCoroutine(CheckRain());
     }
     void PrepareComponents()
     {
@@ -57,7 +60,8 @@ public class BackgroundManagement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateBackground();
+        transitionTimeElapsed -= Time.deltaTime;
+
     }
 
     void PrepareBackgroundLayers()
@@ -87,112 +91,124 @@ public class BackgroundManagement : MonoBehaviour
 
     }
 
-    private void UpdateBackground()
+    IEnumerator UpdateBackground()
     {
 
-
-        if (transitionTimeElapsed <= Time.deltaTime)
+        while (true)
         {
-            // start a new transition
-            transitionTimeElapsed = TRANSITION_TIME;
-            lastBackgroundPhase = currentBackgroundPhase;
+            if (transitionTimeElapsed <= Time.deltaTime)
+            {
+                // start a new transition
+                transitionTimeElapsed = TRANSITION_TIME;
+                lastBackgroundPhase = currentBackgroundPhase;
 
-            if (currentBackgroundPhase == BackgroundPhase.Evening)
-                currentBackgroundPhase = BackgroundPhase.Night;
+                if (currentBackgroundPhase == BackgroundPhase.Evening)
+                    currentBackgroundPhase = BackgroundPhase.Night;
+                else
+                    currentBackgroundPhase++;
+
+            }
             else
-                currentBackgroundPhase++;
-
-            CheckRain();
-            
-            
-        }
-        else
-        {
-
-
-            // transition in progress
-            // calculate interpolated color
-            RenderSettings.skybox.SetColor("_Tint",
-                Color.Lerp(backgroundColors[(int)currentBackgroundPhase], 
-                backgroundColors[(int)lastBackgroundPhase], transitionTimeElapsed / TRANSITION_TIME));
-
-            var sprites = GetComponentsInChildren<SpriteRenderer>();
-            if (currentBackgroundPhase == BackgroundPhase.Night)
             {
-                
-                for (int i = 0; i < sprites.Length; i++)
+
+
+                // transition in progress
+                // calculate interpolated color
+                RenderSettings.skybox.SetColor("_Tint",
+                    Color.Lerp(backgroundColors[(int)currentBackgroundPhase],
+                    backgroundColors[(int)lastBackgroundPhase], transitionTimeElapsed / TRANSITION_TIME));
+
+                sprites = GetComponentsInChildren<SpriteRenderer>();
+                if (currentBackgroundPhase == BackgroundPhase.Night)
                 {
-                    if (sprites[i].name.Contains("Cloud"))
-                    {
-                        sprites[i].color = new Color(opaqueCloud.r, opaqueCloud.g, opaqueCloud.b, transitionTimeElapsed / TRANSITION_TIME);
-                    }
-                    if (sprites[i].name.Contains("Starfield"))
-                    {
-                        sprites[i].color = new Color(opaqueStars.r, opaqueStars.g, opaqueStars.b, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME)));
-                    }
+                    StartCoroutine(UpdateNight());
                 }
-                RenderSettings.skybox.SetFloat("_Rotation", Mathf.Lerp(300, 180, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME))));
-            }
 
-            if (currentBackgroundPhase == BackgroundPhase.Morning)
-            {
-                for (int i = 0; i < sprites.Length; i++)
+                if (currentBackgroundPhase == BackgroundPhase.Morning)
                 {
-                    if (sprites[i].name.Contains("Cloud"))
-                    {
-                        sprites[i].color = new Color(opaqueCloud.r, opaqueCloud.g, opaqueCloud.b, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME)));
-                    }
-                    if (sprites[i].name.Contains("Starfield"))
-                    {
-                        sprites[i].color = new Color(opaqueStars.r, opaqueStars.g, opaqueStars.b, transitionTimeElapsed / TRANSITION_TIME);
-                    }
+                    StartCoroutine(UpdateMorning());
                 }
-                RenderSettings.skybox.SetFloat("_Rotation", Mathf.Lerp(180, 60, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME))));
-            }
 
-            if (currentBackgroundPhase == BackgroundPhase.MidDay)
-            {
-                RenderSettings.skybox.SetFloat("_Rotation", Mathf.Lerp(60, 0, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME))));
-            }
+                if (currentBackgroundPhase == BackgroundPhase.MidDay)
+                {
+                    RenderSettings.skybox.SetFloat("_Rotation", Mathf.Lerp(60, 0, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME))));
+                }
 
-            if (currentBackgroundPhase == BackgroundPhase.Evening)
-            {
-                RenderSettings.skybox.SetFloat("_Rotation", Mathf.Lerp(360, 300, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME))));
-            }
-            
-            
+                if (currentBackgroundPhase == BackgroundPhase.Evening)
+                {
+                    RenderSettings.skybox.SetFloat("_Rotation", Mathf.Lerp(360, 300, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME))));
+                }
 
-            ManageRain();
-            // update the timer
-            transitionTimeElapsed -= Time.deltaTime;
+
+
+                ManageRain();
+                // update the timer
+            }
+            yield return new WaitForSeconds(0.2f);
         }
-
-        
 
     }
 
-    void CheckRain()
+    IEnumerator UpdateNight()
     {
-        if (rainCap == 0)
+        for (int i = 0; i < sprites.Length; i++)
         {
-            rainmaker.RainIntensity = 0;
-        }
-
-        if (UnityEngine.Random.Range(0, rainChance) == 0)
-        {
-            if (rainmaker.RainIntensity > 0)
+            if (sprites[i].name.Contains("Cloud"))
             {
-                DeactivateRain();
+                sprites[i].color = new Color(opaqueCloud.r, opaqueCloud.g, opaqueCloud.b, transitionTimeElapsed / TRANSITION_TIME);
+            }
+            if (sprites[i].name.Contains("Starfield"))
+            {
+                sprites[i].color = new Color(opaqueStars.r, opaqueStars.g, opaqueStars.b, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME)));
+            }
+        }
+        RenderSettings.skybox.SetFloat("_Rotation", Mathf.Lerp(300, 180, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME))));
+        yield return null;
+    }
+    IEnumerator UpdateMorning()
+    {
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            if (sprites[i].name.Contains("Cloud"))
+            {
+                sprites[i].color = new Color(opaqueCloud.r, opaqueCloud.g, opaqueCloud.b, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME)));
+            }
+            if (sprites[i].name.Contains("Starfield"))
+            {
+                sprites[i].color = new Color(opaqueStars.r, opaqueStars.g, opaqueStars.b, transitionTimeElapsed / TRANSITION_TIME);
+            }
+        }
+        RenderSettings.skybox.SetFloat("_Rotation", Mathf.Lerp(180, 60, Math.Abs(1 - (transitionTimeElapsed / TRANSITION_TIME))));
+        yield return null;
+    }
+
+    IEnumerator CheckRain()
+    {
+        while (true)
+        {
+            if (rainCap == 0)
+            {
+                rainmaker.RainIntensity = 0;
+            }
+
+            if (UnityEngine.Random.Range(0, rainChance) == 0)
+            {
+                if (rainmaker.RainIntensity > 0)
+                {
+                    DeactivateRain();
+                }
+                else
+                {
+                    ActivateRain();
+                }
             }
             else
             {
-                ActivateRain();
+                lastRainCap = rainCap;
             }
+            yield return new WaitForSeconds(30);
         }
-        else
-        {
-            lastRainCap = rainCap;
-        }
+        
     }
 
     private void ManageRain()

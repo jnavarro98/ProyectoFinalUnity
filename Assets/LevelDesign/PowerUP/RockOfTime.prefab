@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2309141818386154550}
   - component: {fileID: 528296566840021398}
   m_Layer: 11
-  m_Name: FirePower
+  m_Name: RockOfTime
   m_TagString: FirePowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -398,7 +398,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.9921569, g: 0.16862746, b: 0.57254905, a: 1}
+      maxColor: {r: 0.990566, g: 0.39716092, b: 0.8179941, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}

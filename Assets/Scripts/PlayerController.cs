@@ -32,8 +32,6 @@ public class PlayerController : MonoBehaviour
     public float baseForceJump = 10;
     public float jumpForce = 100f;
     public float minVelocity = 5;
-    public float xBonus = 30;
-    public float descensionThreshold;
     public float secondsToCharge = 4;
 
     [Header("Logic")]
@@ -54,6 +52,7 @@ public class PlayerController : MonoBehaviour
     public float camSensivity = 0.01f;
     public float offsetYSensivity = 0.01f;
     public float cameraDelay;
+    public float descensionThreshold;
 
     [Header("Graphics")]
     [Space(10)]
@@ -91,7 +90,6 @@ public class PlayerController : MonoBehaviour
     public bool isPlaying = false;
     
     float chargeForce = 0f;
-    private bool hasKilledFire;
 
     bool TrailState {
         get
@@ -197,6 +195,26 @@ public class PlayerController : MonoBehaviour
         trailCap = TrailTime;
     }
 
+    void OnTriggerStay2D(Collider2D collider)
+    {
+        if(GameManager.sharedInstance.currentGameState == GameState.inGame)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("FireEnemy"))
+            {
+
+                if (collider.gameObject.CompareTag("FireballBlue") || collider.gameObject.CompareTag("FireballRed"))
+                {
+                    Bounce(Vector2.up);
+                }
+                else
+                {
+                    Bounce(ClosestPointToCollider(collider) - new Vector2(transform.position.x, transform.position.y));
+                }
+
+            }
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D collider)
     {
 
@@ -278,7 +296,7 @@ public class PlayerController : MonoBehaviour
         
         if (GameManager.sharedInstance.currentGameState == GameState.inGame)
         {
-            GroundCheck();
+            StartCoroutine(GroundCheck());
             UpdateAscension();
             CheckFirePowerUp();
 
@@ -425,7 +443,7 @@ public class PlayerController : MonoBehaviour
         lastYPosition = transform.position.y;
         ascending = yMovement > 0;
     }
-    void GroundCheck()
+    IEnumerator GroundCheck()
     {
         //Checking wether the player is on ground or not
         bool wasGrounded = onGround;
@@ -442,12 +460,15 @@ public class PlayerController : MonoBehaviour
                     hitGroundSound.Play();
                     if(Time.timeScale != 1)
                     {
-                        Time.timeScale = 1;
-                        GameManager.sharedInstance.backgroundMusic.pitch = 1;
+                        chargeForce = 0;
+                        UpdateChargeState();
+                        if(GameManager.sharedInstance.slowDownMusic)
+                            GameManager.sharedInstance.backgroundMusic.pitch = 1;
                     }
                 }
             }
         }
+        yield return null;
     }
 
     private void GameOverFire(Color fireColor)
@@ -495,12 +516,6 @@ public class PlayerController : MonoBehaviour
         }
         
     }
-
-    void RestoredKilledFire()
-    {
-        hasKilledFire = false;
-    }
-
     void Jump()
     {
 
@@ -526,15 +541,13 @@ public class PlayerController : MonoBehaviour
         {
 
             UpdateChargeState();
-            
-            Debug.Log(Time.timeScale);
             chargeForce += Time.deltaTime / secondsToCharge;
         }
         
 
     }
 
-    private void UpdateChargeState()
+    public void UpdateChargeState()
     {
 
         spriteRenderer.color = Color.Lerp(fireSpriteColor, chargeFireColor, chargeForce / maxChargeForce);
@@ -544,7 +557,8 @@ public class PlayerController : MonoBehaviour
         {
             Time.timeScale = Mathf.Lerp(1, minDeltaTime, chargeForce / maxChargeForce);
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            GameManager.sharedInstance.backgroundMusic.pitch = Time.timeScale;
+            if(GameManager.sharedInstance.slowDownMusic)
+                GameManager.sharedInstance.backgroundMusic.pitch = Time.timeScale;
         }
     }
 
